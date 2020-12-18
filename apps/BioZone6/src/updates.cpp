@@ -35,6 +35,8 @@ void BioZone6_GUI::updateGUI() {
 		updateDrawing(m_ds_perc);
 		//updateDrawing(ui->lcdNumber_dropletSize_percentage->value());
 	}
+
+	showSolutionsColor(m_simulationOnly || m_ppc1->isRunning());
 }
 
 void BioZone6_GUI::updatePressureVacuum()
@@ -625,6 +627,45 @@ void BioZone6_GUI::updateFlows()
 void BioZone6_GUI::updateDrawing(int _value) {
 
 
+#pragma message ("this overwrite the settings about the droplet size, it should be solved once we have the precise calculation ")
+	if (ui->pushButton_standardAndRegular->isChecked() == true)
+		_value = 85;
+	if (ui->pushButton_largeAndRegular->isChecked() == true)
+		_value = 190;
+	if (ui->pushButton_standardAndSlow->isChecked() == true)
+		_value = 85;
+	if (ui->pushButton_largeAndSlow->isChecked() == true)
+		_value = 190;
+
+	QColor sol1_color;
+	QColor sol2_color;
+	QColor sol3_color;
+	QColor sol4_color;
+	QColor sol5_color;
+	QColor sol6_color;
+	if (ui->groupBox_3->isEnabled() == false)
+	{
+		sol1_color = QColor::fromRgba(0xFFFFFFFF);
+		sol2_color = QColor::fromRgba(0xFFFFFFFF);
+		sol3_color = QColor::fromRgba(0xFFFFFFFF);
+		sol4_color = QColor::fromRgba(0xFFFFFFFF);
+		sol5_color = QColor::fromRgba(0xFFFFFFFF);
+		sol6_color = QColor::fromRgba(0xFFFFFFFF);
+
+
+	}
+	else
+	{
+		sol1_color = m_sol1_color;
+		sol2_color = m_sol2_color;
+		sol3_color = m_sol3_color;
+		sol4_color = m_sol4_color;
+		sol5_color = m_sol5_color;
+		sol6_color = m_sol6_color;
+	}
+
+
+
 	if (_value <= 0) { // _value = -1 cleans the scene and make the flow disappear 
 
 		m_scene_solution->clear();
@@ -645,7 +686,7 @@ void BioZone6_GUI::updateDrawing(int _value) {
 
 	QPen border_pen;
 	border_pen.setColor(Qt::transparent);
-	border_pen.setWidth(1);
+	border_pen.setWidth(2);
 
 	double droplet_modifier = (10.0 - _value / 10.0);
 
@@ -675,10 +716,10 @@ void BioZone6_GUI::updateDrawing(int _value) {
 	circle.setFillRule(Qt::FillRule::WindingFill);
 	m_scene_solution->addPath(circle, border_pen, brush);
 
-	int border_pen_pipe_width = 4; 
+	int border_pen_pipe_width = 5; 
 	QBrush brush_pipes(Qt::transparent, Qt::NoBrush);
 	QPen border_pen_pipe1;
-	border_pen_pipe1.setColor(m_sol4_color);
+	border_pen_pipe1.setColor(sol4_color);
 	border_pen_pipe1.setWidth(border_pen_pipe_width);
 	QPainterPath path_pipe1;
 	// void arcTo(qreal x, qreal y, qreal w, qreal h, qreal startAngle, qreal arcLength);
@@ -696,7 +737,7 @@ void BioZone6_GUI::updateDrawing(int _value) {
 	m_scene_solution->addPath(path_pipe1, border_pen_pipe1, brush_pipes);
 
 	QPen border_pen_pipe2;
-	border_pen_pipe2.setColor(m_sol2_color);
+	border_pen_pipe2.setColor(sol2_color);
 	border_pen_pipe2.setWidth(border_pen_pipe_width);
 	QPainterPath path_pipe2;
 	// void arcTo(qreal x, qreal y, qreal w, qreal h, qreal startAngle, qreal arcLength);
@@ -714,7 +755,7 @@ void BioZone6_GUI::updateDrawing(int _value) {
 
 	
 	QPen border_pen_pipe3;
-	border_pen_pipe3.setColor(m_sol1_color); 
+	border_pen_pipe3.setColor(sol1_color); 
 	border_pen_pipe3.setWidth(border_pen_pipe_width);
 	QPainterPath path_pipe3; 
 	// void arcTo(qreal x, qreal y, qreal w, qreal h, qreal startAngle, qreal arcLength);
@@ -729,7 +770,7 @@ void BioZone6_GUI::updateDrawing(int _value) {
 
 	
 	QPen border_pen_pipe4;
-	border_pen_pipe4.setColor(m_sol3_color);
+	border_pen_pipe4.setColor(sol3_color);
 	border_pen_pipe4.setWidth(border_pen_pipe_width);
 	QPainterPath path_pipe4;
 	// void arcTo(qreal x, qreal y, qreal w, qreal h, qreal startAngle, qreal arcLength);
@@ -745,7 +786,7 @@ void BioZone6_GUI::updateDrawing(int _value) {
 	m_scene_solution->addPath(path_pipe4, border_pen_pipe4, brush_pipes);
 
 	QPen border_pen_pipe5;
-	border_pen_pipe5.setColor(m_sol5_color);
+	border_pen_pipe5.setColor(sol5_color);
 	border_pen_pipe5.setWidth(border_pen_pipe_width);
 	QPainterPath path_pipe5;
 	// void arcTo(qreal x, qreal y, qreal w, qreal h, qreal startAngle, qreal arcLength);
@@ -761,7 +802,7 @@ void BioZone6_GUI::updateDrawing(int _value) {
 	m_scene_solution->addPath(path_pipe5, border_pen_pipe5, brush_pipes);
 
 	QPen border_pen_pipe6;
-	border_pen_pipe6.setColor(m_sol6_color);
+	border_pen_pipe6.setColor(sol6_color);
 	border_pen_pipe6.setWidth(border_pen_pipe_width);
 	QPainterPath path_pipe6;
 	// void arcTo(qreal x, qreal y, qreal w, qreal h, qreal startAngle, qreal arcLength);
@@ -1137,5 +1178,35 @@ void BioZone6_GUI::updateFlowControlPercentages()
 		m_v_perc = 100.0 * m_pipette_status->v_recirc_set_point / (-m_pr_params->v_recirc_default);
 		//ui->lcdNumber_vacuum_percentage->display(m_v_perc);
 
+	}
+}
+
+
+void BioZone6_GUI::showSolutionsColor(bool _enable)
+{
+	if (_enable)
+	{
+		QColor c1 = m_solutionParams->sol1_color;
+		this->colSolution1Changed(c1.red(), c1.green(), c1.blue());
+		QColor c2 = m_solutionParams->sol2_color;
+		this->colSolution2Changed(c2.red(), c2.green(), c2.blue());
+		QColor c3 = m_solutionParams->sol3_color;
+		this->colSolution3Changed(c3.red(), c3.green(), c3.blue());
+		QColor c4 = m_solutionParams->sol4_color;
+		this->colSolution4Changed(c4.red(), c4.green(), c4.blue());
+		QColor c5 = m_solutionParams->sol5_color;
+		this->colSolution5Changed(c5.red(), c5.green(), c5.blue());
+		QColor c6 = m_solutionParams->sol6_color;
+		this->colSolution6Changed(c6.red(), c6.green(), c6.blue());
+	}
+	else
+	{
+		QColor c = QColor::fromRgba(0xAAAAAAAA);
+		this->colSolution1Changed(c.red(), c.green(), c.blue());
+		this->colSolution2Changed(c.red(), c.green(), c.blue());
+		this->colSolution3Changed(c.red(), c.green(), c.blue());
+		this->colSolution4Changed(c.red(), c.green(), c.blue());
+		this->colSolution5Changed(c.red(), c.green(), c.blue());
+		this->colSolution6Changed(c.red(), c.green(), c.blue());
 	}
 }

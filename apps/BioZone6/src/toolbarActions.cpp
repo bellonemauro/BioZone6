@@ -235,6 +235,9 @@ void BioZone6_GUI::simulationOnly()
 	//ui->tab_2->setEnabled(m_simulationOnly || ui->actionConnectDisconnect->isChecked());
 	enableTab2(m_simulationOnly || ui->actionConnectDisconnect->isChecked());
 
+
+	showSolutionsColor(m_simulationOnly);
+
 }
 
 void BioZone6_GUI::shutdown() {

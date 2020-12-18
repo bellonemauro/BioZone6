@@ -754,6 +754,8 @@ private:
 	*/
 	void updateFlowControlPercentages();
 
+	void showSolutionsColor(bool _enable);
+
 	/** \brief Allow to reset the redirect buffer to history field or terminal
 	*
 	*/

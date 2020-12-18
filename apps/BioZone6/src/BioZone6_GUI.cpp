@@ -254,19 +254,6 @@ BioZone6_GUI::BioZone6_GUI(QMainWindow *parent) :
   s.append(m_dialog_tools->getUserName());
   ui->label_user->setText(s);
 
-  //get the solution colors from the setting file
-  QColor c1 = m_solutionParams->sol1_color;
-  this->colSolution1Changed(c1.red(), c1.green(), c1.blue());
-  QColor c2 = m_solutionParams->sol2_color;
-  this->colSolution2Changed(c2.red(), c2.green(), c2.blue());
-  QColor c3 = m_solutionParams->sol3_color;
-  this->colSolution3Changed(c3.red(), c3.green(), c3.blue());
-  QColor c4 = m_solutionParams->sol4_color;
-  this->colSolution4Changed(c4.red(), c4.green(), c4.blue()); 
-  QColor c5 = m_solutionParams->sol5_color;
-  this->colSolution5Changed(c5.red(), c5.green(), c5.blue()); 
-  QColor c6 = m_solutionParams->sol6_color;
-  this->colSolution6Changed(c6.red(), c6.green(), c6.blue()); 
 //  m_labonatip_chart_view->setGUIchart();
 
 
@@ -314,6 +301,14 @@ BioZone6_GUI::BioZone6_GUI(QMainWindow *parent) :
   qApp->installEventFilter(this);
 
   toolApply(); // this is to be sure that the settings are brought into the app at startup
+
+  QColor c = QColor::fromRgba(0xAAAAAAAA);
+  this->colSolution1Changed(c.red(), c.green(), c.blue());
+  this->colSolution2Changed(c.red(), c.green(), c.blue());
+  this->colSolution3Changed(c.red(), c.green(), c.blue());
+  this->colSolution4Changed(c.red(), c.green(), c.blue());
+  this->colSolution5Changed(c.red(), c.green(), c.blue());
+  this->colSolution6Changed(c.red(), c.green(), c.blue());
 
   // all the connects to signal/slots are in this function
   initConnects();

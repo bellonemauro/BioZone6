@@ -3672,7 +3672,7 @@ QCheckBox::indicator:unchecked {
             <enum>QTabWidget::Triangular</enum>
            </property>
            <property name="currentIndex">
-            <number>1</number>
+            <number>3</number>
            </property>
            <property name="elideMode">
             <enum>Qt::ElideNone</enum>
@@ -6356,7 +6356,7 @@ p, li { white-space: pre-wrap; }
                 <property name="geometry">
                  <rect>
                   <x>0</x>
-                  <y>0</y>
+                  <y>-668</y>
                   <width>361</width>
                   <height>3667</height>
                  </rect>
@@ -7327,7 +7327,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>51.000000000000000</double>
+                       <double>50.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -7387,6 +7387,9 @@ p, li { white-space: pre-wrap; }
                       </property>
                       <property name="maximum">
                        <double>500.000000000000000</double>
+                      </property>
+                      <property name="value">
+                       <double>-3.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -7574,7 +7577,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>16.000000000000000</double>
+                       <double>18.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -7658,7 +7661,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>99.000000000000000</double>
+                       <double>111.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -7681,7 +7684,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>58.000000000000000</double>
+                       <double>50.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -7734,7 +7737,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>15.000000000000000</double>
+                       <double>24.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -8445,7 +8448,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>42.000000000000000</double>
+                       <double>45.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -8461,7 +8464,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>32.000000000000000</double>
+                       <double>41.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -8491,7 +8494,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>158.000000000000000</double>
+                       <double>162.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -8507,7 +8510,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>26.000000000000000</double>
+                       <double>30.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -8528,6 +8531,9 @@ p, li { white-space: pre-wrap; }
                       </property>
                       <property name="maximum">
                        <double>500.000000000000000</double>
+                      </property>
+                      <property name="value">
+                       <double>-1.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -8568,7 +8574,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>78.000000000000000</double>
+                       <double>76.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -8584,7 +8590,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>-1.000000000000000</double>
+                       <double>-2.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -8614,7 +8620,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>91.000000000000000</double>
+                       <double>119.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -8630,7 +8636,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>69.000000000000000</double>
+                       <double>75.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -8660,7 +8666,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>-35.000000000000000</double>
+                       <double>-22.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -8676,7 +8682,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>226.000000000000000</double>
+                       <double>204.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -8738,7 +8744,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>73.000000000000000</double>
+                       <double>118.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -8754,7 +8760,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>97.000000000000000</double>
+                       <double>99.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -8784,7 +8790,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>45.000000000000000</double>
+                       <double>-5.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -8800,7 +8806,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>5.000000000000000</double>
+                       <double>23.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -8823,7 +8829,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>-29.000000000000000</double>
+                       <double>-292.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -8864,7 +8870,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>122.000000000000000</double>
+                       <double>120.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -8880,7 +8886,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>49.000000000000000</double>
+                       <double>24.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -8910,7 +8916,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>-43.000000000000000</double>
+                       <double>-44.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -8926,7 +8932,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>41.000000000000000</double>
+                       <double>66.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -8956,7 +8962,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>-38.000000000000000</double>
+                       <double>-72.000000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -8972,7 +8978,7 @@ p, li { white-space: pre-wrap; }
                        <double>500.000000000000000</double>
                       </property>
                       <property name="value">
-                       <double>65.000000000000000</double>
+                       <double>70.000000000000000</double>
                       </property>
                      </widget>
                     </item>

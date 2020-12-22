@@ -23,7 +23,7 @@
 // extract the version string
 #define STR_HELPER(x) #x
 #define STR(x) STR_HELPER(x)
-#define VER STR(LABONATIP_VERSION)
+#define VER STR(BIOZONE6_VERSION)
 
 #include "BioZone6_GUI.h"
 #include <QApplication>

@@ -15,6 +15,23 @@ void BioZone6_GUI::newTip()
 {
 	std::cout << HERE << std::endl;
 
+	QString currentProtocolFileName = QDir::homePath();
+	currentProtocolFileName.append("/Documents/BioZone6/presetProtocols/internal/");
+	currentProtocolFileName.append("initialize.prt");
+	if (QFile::exists(currentProtocolFileName)) {
+		this->runProtocolFile(currentProtocolFileName);
+	}
+	else
+	{
+		QMessageBox::warning(this, m_str_warning,
+			m_str_file_not_loaded + tr("<br>%1")
+			.arg(QDir::toNativeSeparators(currentProtocolFileName)));
+	}
+
+	return; 
+	/*
+	std::cout << HERE << std::endl;
+
 	setEnableMainWindow(false);
 
 	//Ask: Place the pipette into the holder and tighten.THEN PRESS OK.
@@ -107,7 +124,7 @@ void BioZone6_GUI::newTip()
 	QApplication::restoreOverrideCursor();    //close transform the cursor for waiting mode
 	this->askMessage(m_str_newtip_msg10);
 	
-	setEnableMainWindow(true);
+	setEnableMainWindow(true);*/
 
 }
 
@@ -454,6 +471,7 @@ void BioZone6_GUI::operationalMode() {
 
 void BioZone6_GUI::stopFlow()
 {
+
 	closeAllValves();
 	updatePoffSetPoint(0.0);
 	updatePonSetPoint(0.0);
@@ -468,6 +486,26 @@ void BioZone6_GUI::stopFlow()
 
 void BioZone6_GUI::standby()
 {
+	std::cout << HERE << std::endl;
+
+	QString currentProtocolFileName = QDir::homePath();
+	currentProtocolFileName.append("/Documents/BioZone6/presetProtocols/internal/");
+	currentProtocolFileName.append("standby.prt");
+	if (QFile::exists(currentProtocolFileName)) {
+		this->runProtocolFile(currentProtocolFileName);
+	}
+	else
+	{
+		QMessageBox::warning(this, m_str_warning,
+			m_str_file_not_loaded + tr("<br>%1")
+			.arg(QDir::toNativeSeparators(currentProtocolFileName)));
+	}
+
+	return;
+
+	/*
+
+
 	std::cout << HERE << std::endl;
 
 	setEnableMainWindow(false);
@@ -505,7 +543,7 @@ void BioZone6_GUI::standby()
 	updateVrecircSetPoint(vr);
 
 	setEnableMainWindow(true);
-	QApplication::restoreOverrideCursor(); 
+	QApplication::restoreOverrideCursor(); */
 }
 
 

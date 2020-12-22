@@ -1277,8 +1277,8 @@ void BioZone6_GUI::about() {
 	std::cout << HERE << std::endl;
 
 	QMessageBox messageBox;
-	QString msg_title = "About Fluicell Lab-on-a-tip ";
-	QString msg_content = tr("<b>Lab-on-a-tip</b> is a "
+	QString msg_title = "About Fluicell BioZone6 ";
+	QString msg_content = tr("<b>BioZone6</b> is a "
 		"<a href='http://fluicell.com/'>Fluicell</a> AB software <br>"
 		"Copyright Fluicell AB, Sweden 2020 <br> <br>"
 		"Arvid Wallgrens Backe 20<br>"

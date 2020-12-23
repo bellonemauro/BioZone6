@@ -1271,7 +1271,7 @@ void BioZone6_GUI::cleanHistory()
 	}
 
 }
-
+ 
 void BioZone6_GUI::about() {
 
 	std::cout << HERE << std::endl;

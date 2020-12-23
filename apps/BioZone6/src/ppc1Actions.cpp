@@ -471,7 +471,23 @@ void BioZone6_GUI::operationalMode() {
 
 void BioZone6_GUI::stopFlow()
 {
+	std::cout << HERE << std::endl;
+	QString currentProtocolFileName = QDir::homePath();
+	currentProtocolFileName.append("/Documents/BioZone6/presetProtocols/internal/");
+	currentProtocolFileName.append("stopFlow.prt");
+	if (QFile::exists(currentProtocolFileName)) {
+		this->runProtocolFile(currentProtocolFileName);
+	}
+	else
+	{
+		QMessageBox::warning(this, m_str_warning,
+			m_str_file_not_loaded + tr("<br>%1")
+			.arg(QDir::toNativeSeparators(currentProtocolFileName)));
+	}
 
+	return;
+
+	/*
 	closeAllValves();
 	updatePoffSetPoint(0.0);
 	updatePonSetPoint(0.0);
@@ -480,7 +496,7 @@ void BioZone6_GUI::stopFlow()
 	updateVrecircSetPoint(0.0);
 	if (!visualizeProgressMessage(3, m_str_stop_2)) return;
 
-	return;
+	return;*/
 }
 
 

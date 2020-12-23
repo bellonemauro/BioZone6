@@ -91,7 +91,7 @@ bool initPaths(BioZone6_GUI &_l, QString &_protocols_user_path,
 		std::cout << " Found directory " <<
             protocols_path.toStdString() << std::endl;
 	}
-
+	
 	// check if the settings directory exists in the program files path, 
 	// if it doesn't the installation may be broken
 	QDir settings_dir;

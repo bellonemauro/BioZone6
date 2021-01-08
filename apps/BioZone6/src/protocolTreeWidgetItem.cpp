@@ -78,60 +78,21 @@ protocolTreeWidgetItem::protocolTreeWidgetItem(protocolTreeWidgetItem *_parent) 
 
 bool protocolTreeWidgetItem::checkValidity( int _column)
 {
-	// check validity for the element
+	// get the command index 
+	int idx = this->text(editorParams::c_command).toInt();
 
+	// check validity for the element
 	if (this->childCount() > 0)
 	{
 		// If we have children than the item IS a loop
 		// so we force the item column to the loop function 
-
-		//this->setText(m_cmd_command_c, QString::number(ppc1Cmd::loop));
-
-		// 16 is loop and 28 is function
-		std::string ss = this->text(editorParams::c_command).toStdString();
-		if (ss != "16" && ss != "28")
+		if (protocolCommands::loop != idx)
 		{
-#pragma message (" TODO: check validity for loop ")
 			this->setText(editorParams::c_command, QString::number(ppc1Cmd::loop));
 		}
 	}
-
-	// get the command index 
-	int idx = this->text(editorParams::c_command).toInt();
     
-	// if the change comes from the command column
-	// the range field needs to be reset
-	//TODO: this was deprecated, remove if everything works
-	//if (_column == m_cmd_command_c) {
-	//	this->blockSignals(true);
-	//	this->setText(m_cmd_range_c, this->getRangeColumn(idx));
-	//	this->blockSignals(false);
-		// so it also automatically check the other column
-	//	_column = m_cmd_value_c;
-	//}
 
-
-	// TODO: this can also be removed when the old protocol version will be forgotten
-	//check for prohibited characters  # and §
-	if (_column == editorParams::c_msg) {
-		// here we browse the string looking for prohibited characters  # and §
-		QString s = this->text(_column);
-		QChar prohibited_char_1 = QChar::fromLatin1(*"#");
-		QChar prohibited_char_2 = QChar::fromLatin1(*"\n");
-		if (s.contains(prohibited_char_1, Qt::CaseSensitive) ||
-			s.contains(prohibited_char_2, Qt::CaseSensitive))
-		{
-			s.remove(prohibited_char_1, Qt::CaseSensitive);
-			s.remove(prohibited_char_2, Qt::CaseSensitive);
-			// we need to remove the string
-			this->setText(_column, s);
-			return true;
-		}
-	}
-
-
-	// perform the check on column 3 only
-	//if (_column != editorParams::c_value) return true;
 	// get the number to be checked
 	int number = this->text(editorParams::c_value).toInt();
 	switch (idx)
@@ -369,7 +330,6 @@ bool protocolTreeWidgetItem::checkValidity( int _column)
 QString protocolTreeWidgetItem::getRangeColumn( int _idx)
 {
 
-#pragma message (" TODO: getRangeColumn ")
 	ComboBoxDelegate cb;
 
 	switch (_idx) {
@@ -434,19 +394,6 @@ QString protocolTreeWidgetItem::getRangeColumn( int _idx)
 	case protocolCommands::button6: {// Button6	
 		return QString("1/0 pump/stop");
 	}
-	//case protocolCommands::ramp:	// RampPon	
-	/*case protocolCommands::rampPoff: {
-		// RampPoff	
-		return QString("(mbar) [" + QString::number(MIN_CHAN_C) +
-			", " + QString::number(MAX_CHAN_C) + "] ");
-	}
-	case protocolCommands::rampVr: // RampPVr	
-	case protocolCommands::rampVs: {
-		// RampVs	
-		return QString("(mbar) [" + QString::number(MIN_CHAN_A) +
-			", " + QString::number(MAX_CHAN_A) + "]");
-	}*/
-#pragma message (" TODO: here instructions were removed setFlowSpeed, setVacuum and setSize, others should be added")
 	case protocolCommands::operational: {
 		// function
 		return QString("-");
@@ -456,12 +403,6 @@ QString protocolTreeWidgetItem::getRangeColumn( int _idx)
 		return QString("-");
 	}
 	case protocolCommands::standby: {
-		// function
-		return QString("-");
-	}
-	case 565656: //protocolCommands::function: 
-	{
-#pragma message (" TODO: here instructions were removed ")
 		// function
 		return QString("-");
 	}

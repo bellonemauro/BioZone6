@@ -627,7 +627,7 @@ void BioZone6_GUI::updateFlows()
 void BioZone6_GUI::updateDrawing(int _value) {
 
 
-#pragma message ("this overwrite the settings about the droplet size, it should be solved once we have the precise calculation ")
+#pragma message ("this overwrites the settings about the droplet size, it should be solved once we have the precise calculation ")
 	if (ui->pushButton_standardAndRegular->isChecked() == true)
 		_value = 85;
 	if (ui->pushButton_largeAndRegular->isChecked() == true)

@@ -320,7 +320,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 	case protocolCommands::syncOut:
 	case protocolCommands::wait:
 	case protocolCommands::ask:
-	case protocolCommands::pumpsOff: // TODO: check pump off as this is also a set of commands
+	case protocolCommands::pumpsOff:
 	{
 		_command_vector->push_back(
 		dynamic_cast<protocolTreeWidgetItem*> (_item)); 
@@ -607,7 +607,9 @@ void BioZone6_GUI::onTabEditorChanged(int _idx)
 {
 	std::cout << HERE << std::endl;
 	
-#pragma message ("TODO: this is not correct, we are first writing to a file and then reloading it")
+    //"TODO: this is not correct, we are first writing to a file and then reloading it
+	// this could be done in principle using a stringBuffer instead of a file to increase generality
+	// but the save/open functions take files as input so this is still the easiest solution
 	QString save_tmp_file = QDir::tempPath();
 	save_tmp_file.append("/tmp_biozone_xml.prt");
 
@@ -740,7 +742,6 @@ void BioZone6_GUI::deleteProtocol()
 {
 	std::cout << HERE << std::endl;
 
-	// TODO: this is not safe as the member could be modified somewhere else
 	int row = m_triggered_protocol_item;
 
 	QString file_path = m_protocol_path;

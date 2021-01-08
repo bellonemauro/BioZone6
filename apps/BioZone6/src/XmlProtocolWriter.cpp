@@ -26,8 +26,10 @@ bool XmlProtocolWriter::writeFile(QIODevice *device)
 
     xml.writeStartDocument();
     xml.writeDTD(QStringLiteral("<!DOCTYPE prt>"));
-    xml.writeComment("Fluicell protocol xml");
-#pragma message ("TODO: write a full header")
+    xml.writeComment("Fluicell xml protocol file for BioZone 6 - https://www.fluicell.com/");
+    QString toPrint = "File created on " + QDate::currentDate().toString() + "  "
+        + QTime::currentTime().toString() + " ";
+    xml.writeComment(toPrint);
     xml.writeStartElement(QStringLiteral("Protocol"));
     xml.writeAttribute(versionAttribute(), QStringLiteral("1.0"));
     for (int i = 0; i < treeWidget->topLevelItemCount(); ++i)

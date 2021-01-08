@@ -1203,7 +1203,7 @@ QPushButton:disabled{ background-color: #CCCCCC; }
                          </font>
                         </property>
                         <property name="toolTip">
-                         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-family:'Arial','Helvetica','sans-serif'; font-size:small; color:#222222;&quot;&gt;Large delivery zone &amp;amp; slow flow rat&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-family:'Arial','Helvetica','sans-serif'; font-size:small; color:#222222;&quot;&gt;Large delivery zone &amp;amp; slow flow rate&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                         </property>
                         <property name="text">
                          <string/>
@@ -6356,7 +6356,7 @@ p, li { white-space: pre-wrap; }
                 <property name="geometry">
                  <rect>
                   <x>0</x>
-                  <y>-668</y>
+                  <y>0</y>
                   <width>361</width>
                   <height>3667</height>
                  </rect>

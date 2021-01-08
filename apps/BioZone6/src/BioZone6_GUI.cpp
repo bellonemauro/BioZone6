@@ -1449,7 +1449,7 @@ void BioZone6_GUI::setSettingsUserPath(QString _path) {
 void BioZone6_GUI::setVersion(std::string _version) {
 	// set the version in the main window
 	m_version = QString::fromStdString(_version);
-	this->setWindowTitle(QString("Lab-on-a-tip v.") + m_version);
+	this->setWindowTitle(QString("BioZone v.") + m_version);
 }
 
 void BioZone6_GUI::closeSoftware()

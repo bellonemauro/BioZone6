@@ -55,8 +55,6 @@ void BioZone6_protocolRunner::switchLanguage(QString _translation_file)
 
 void BioZone6_protocolRunner::simulateCommand(fluicell::PPC1api6dataStructures::command _cmd)
 {
-	//TODO: this function should not have the fluicell::PPC1api6dataStructures::command data 
-	//      but rather a new command type better defined at the high level 
 
 	int ist = _cmd.getInstruction();
 

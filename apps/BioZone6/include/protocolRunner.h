@@ -107,11 +107,6 @@ private:
 	QString m_str_failed;
 	QString m_str_stopped;
 	QString m_str_not_connected;
-	QString m_str_cancel;
-	QString m_str_progress_msg1;
-	QString m_str_progress_msg2;
-	QString m_str_warning;
-	QString m_str_operation_cancelled;
 
 	QMainWindow* m_parent;
 	QTranslator m_translator_runner;

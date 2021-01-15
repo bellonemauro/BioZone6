@@ -151,7 +151,7 @@ void BioZone6_GUI::solution1(bool _enable)
 	m_solutionParams->continuous_flowing_sol1 = true;
 	// this settings need to be restored at the end of the protocol
 
-
+	
 	// close all the valves
 	this->closeAllValves();
 	this->setEnableSolutionButtons(false);
@@ -159,6 +159,7 @@ void BioZone6_GUI::solution1(bool _enable)
 	// if enable is false just turn off and exit
 	if (!_enable)
 	{
+		ui->pushButton_solution1->setChecked(_enable);
 		m_update_flowing_sliders->stop();
 		ui->widget_solutionArrow->setVisible(false);
 		//updateDrawing(-1);
@@ -263,6 +264,7 @@ void BioZone6_GUI::solution2(bool _enable)
 	// if enable is false just turn off and exit
 	if (!_enable)//ui->pushButton_solution6->isChecked())
 	{
+		ui->pushButton_solution2->setChecked(_enable);
 		m_update_flowing_sliders->stop();
 		ui->widget_solutionArrow->setVisible(false);
 		//updateDrawing(-1);
@@ -367,6 +369,7 @@ void BioZone6_GUI::solution3(bool _enable)
 	// if enable is false just turn off and exit
 	if (!_enable)//ui->pushButton_solution6->isChecked())
 	{
+		ui->pushButton_solution3->setChecked(_enable); 
 		m_update_flowing_sliders->stop();
 		ui->widget_solutionArrow->setVisible(false);
 		//updateDrawing(-1);
@@ -471,6 +474,7 @@ void BioZone6_GUI::solution4(bool _enable)
 	// if enable is false just turn off and exit
 	if (!_enable)//ui->pushButton_solution6->isChecked())
 	{
+		ui->pushButton_solution4->setChecked(_enable); 
 		m_update_flowing_sliders->stop();
 		ui->widget_solutionArrow->setVisible(false);
 		//updateDrawing(-1);
@@ -577,6 +581,7 @@ void BioZone6_GUI::solution5(bool _enable)
 	// if enable is false just turn off and exit
 	if (!_enable)//ui->pushButton_solution6->isChecked())
 	{
+		ui->pushButton_solution5->setChecked(_enable); 
 		m_update_flowing_sliders->stop();
 		ui->widget_solutionArrow->setVisible(false);
 		//updateDrawing(-1);
@@ -680,6 +685,7 @@ void BioZone6_GUI::solution6(bool _enable)
 	// if enable is false just turn off and exit
 	if (!_enable)//ui->pushButton_solution6->isChecked())
 	{
+		ui->pushButton_solution6->setChecked(_enable); 
 		m_update_flowing_sliders->stop();
 		ui->widget_solutionArrow->setVisible(false);
 		//updateDrawing(-1);

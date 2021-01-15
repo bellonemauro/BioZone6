@@ -21,6 +21,8 @@
 #include <QDateTime>
 #include <QTranslator>
 #include <QApplication>
+#include <QProgressDialog>
+#include <QMessageBox>
 
 // QT threads
 #include <qthread.h>
@@ -59,7 +61,8 @@ public:
 signals:
 	void resultReady(const QString &_s);                //!< emit a string when the result is ready
 	void sendStatusMessage(const QString &_message);    //!< send a status message
-	void sendAskMessage(const QString &_message);       //!< send a message to ask to the user 
+	void sendAskMessage(const QString& _message);       //!< send a message to ask to the user 
+	void sendWaitAsk(int _sec, const QString &_message);       //!< send a message to ask to the user 
 	void timeStatus(const double &_time);               //!< send the time status
 
 	void setPon(const double &_v);               //!< setPon
@@ -104,7 +107,13 @@ private:
 	QString m_str_failed;
 	QString m_str_stopped;
 	QString m_str_not_connected;
+	QString m_str_cancel;
+	QString m_str_progress_msg1;
+	QString m_str_progress_msg2;
+	QString m_str_warning;
+	QString m_str_operation_cancelled;
 
+	QMainWindow* m_parent;
 	QTranslator m_translator_runner;
 };
 

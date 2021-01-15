@@ -279,7 +279,9 @@ private slots:
 
 	/** \brief Update macro status message
 	*/
-	void updateMacroStatusMessage(const QString &_message);
+	void updateMacroStatusMessage(const QString& _message);
+
+	void updateWaitAsk(const int _sec, const QString &_message);
 
 	/** \brief Update macro time status for the chart
 	*/	
@@ -1151,6 +1153,8 @@ private:
   // spacers for the toolbar to create the basic->advanced effect
   QGroupBox * m_g_spacer;
   QAction *m_a_spacer;
+
+  int m_shitty_multiple_call_detector;
 
   const QString display_e = "E";
 };

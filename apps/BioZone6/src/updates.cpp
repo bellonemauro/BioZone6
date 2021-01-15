@@ -1087,6 +1087,26 @@ void BioZone6_GUI::updateMacroStatusMessage(const QString &_message) {
 }
 
 
+void BioZone6_GUI::updateWaitAsk(const int _sec, const QString& _message) {
+
+	std::cout << HERE << " wait " << _sec << " seconds, with message " << _message.toStdString() << std::endl;
+	if (m_shitty_multiple_call_detector == 0) {
+		m_shitty_multiple_call_detector = 1;
+		if (!visualizeProgressMessage(_sec, _message)) {
+			this->runProtocol(); //this will actually stop the protocol (if the process is running)
+			m_shitty_multiple_call_detector = 0;
+			return;
+		}
+		m_shitty_multiple_call_detector = 0;
+		return;
+	}
+	else
+	{
+		std::cout << HERE << " multiple shitty call "  << std::endl;
+
+	}
+}
+
 void BioZone6_GUI::updateMacroTimeStatus(const double &_status) 
 {
 	// update the vertical line for the time status on the chart

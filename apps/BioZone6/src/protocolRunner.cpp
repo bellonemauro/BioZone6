@@ -117,13 +117,13 @@ void BioZone6_protocolRunner::simulateCommand(fluicell::PPC1api6dataStructures::
 	case ppc1Cmd::wait: {//sleep
 		int val = static_cast<int>(_cmd.getValue());
 		QString msg = QString::fromStdString(_cmd.getStatusMessage());
-		if (msg == " " || msg.size()<1)
-			simulateWait(val);
-		else
-		{
-			emit(sendWaitAsk(val, msg));
-			simulateWait(val);
-		}
+		simulateWait(val);
+		return;
+	}
+	case ppc1Cmd::showPopUp: {//sleep
+		int val = static_cast<int>(_cmd.getValue());
+		QString msg = QString::fromStdString(_cmd.getStatusMessage());
+		emit(sendWaitAsk(val, msg));
 		return;
 	}
 	case ppc1Cmd::ask: {//ask_msg
@@ -262,17 +262,15 @@ void BioZone6_protocolRunner::run()
 						if (m_protocol->at(i).getInstruction() == ppc1Cmd::wait) 
 						{	
 							int val = static_cast<int>(m_protocol->at(i).getValue());
-
+							simulateWait(val);
+						}
+						if (m_protocol->at(i).getInstruction() == ppc1Cmd::showPopUp)
+						{
+							int val = static_cast<int>(m_protocol->at(i).getValue());
 							QString msg = QString::fromStdString(m_protocol->at(i).getStatusMessage());
-							if (msg == " " || msg.size() < 1)
-								simulateWait(val);
-							else
-							{
-								emit(sendWaitAsk(val, msg));
-								simulateWait(val);
-							}
-								
-						}//TODO: the waitSync works properly in the ppc1api, however, when the command is run
+							emit(sendWaitAsk(val, msg));
+						}
+						//TODO: the waitSync works properly in the ppc1api, however, when the command is run
 						 //      the ppc1api stops waiting for the signal and the GUI looks freezing without any message
 						//if (m_protocol->at(i).getInstruction() == // If the command is to wait, we do it here
 						//	pCmd::waitSync) {

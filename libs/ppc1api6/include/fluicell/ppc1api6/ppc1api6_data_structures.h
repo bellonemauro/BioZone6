@@ -680,9 +680,10 @@ namespace fluicell { namespace PPC1api6dataStructures
 				waitSync = 11,
 				syncOut = 12,
 				wait = 13,
-				ask = 14,
-				pumpsOff = 15,
-				loop = 16,
+				showPopUp = 14,
+				ask = 15,
+				pumpsOff = 16,
+				loop = 17,
 				END
 			};
 
@@ -755,6 +756,12 @@ namespace fluicell { namespace PPC1api6dataStructures
 					else
 						return true;
 				}
+				case instructions::showPopUp: {//showPopUp
+					if (this->value < 0)
+						return false;
+					else
+						return true;
+				}
 				case instructions::ask: {//ask 
 				 //not checked for now
 					return true;
@@ -811,7 +818,7 @@ namespace fluicell { namespace PPC1api6dataStructures
 					"allOff",
 					"solution1", "solution2","solution3","solution4","solution5","solution6",
 					"setPon", "setPoff",  "setVrecirc", "setVswitch",
-					"waitSync", "syncOut", "wait",
+					"waitSync", "syncOut", "wait", "showPopUp"
 					"ask", "pumpsOff", 
 					 "loop" };
 				return  text[int(this->instruction)]; // cast to integer

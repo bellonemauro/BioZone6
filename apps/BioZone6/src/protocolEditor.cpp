@@ -319,6 +319,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 	case protocolCommands::waitSync:
 	case protocolCommands::syncOut:
 	case protocolCommands::wait:
+	case protocolCommands::showPopUp:
 	case protocolCommands::ask:
 	case protocolCommands::pumpsOff:
 	{

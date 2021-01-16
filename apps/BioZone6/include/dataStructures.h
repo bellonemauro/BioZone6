@@ -425,6 +425,7 @@ struct protocolCommands {
 		waitSync,
 		syncOut,
 		wait,
+		showPopUp,
 		ask,
 		pumpsOff,
 		loop,
@@ -463,6 +464,7 @@ struct protocolCommands {
 		case waitSync: return "waitSync";
 		case syncOut: return "syncOut";
 		case wait: return "wait";
+		case showPopUp: return "showPopUp";
 		case ask: return "ask";
 		case pumpsOff: return "pumpsOff";
 		case loop: return "loop";

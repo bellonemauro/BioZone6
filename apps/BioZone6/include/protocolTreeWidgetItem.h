@@ -114,6 +114,7 @@ private:
 	QString m_tt_cmd_waitSync;
 	QString m_tt_cmd_syncOut;
 	QString m_tt_cmd_wait;
+	QString m_tt_cmd_showPopUp;
 	QString m_tt_cmd_ask;
 	QString m_tt_cmd_pumpsOff;
 	QString m_tt_cmd_loop;

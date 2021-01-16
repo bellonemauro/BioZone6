@@ -48,6 +48,7 @@ protocolTreeWidgetItem::protocolTreeWidgetItem(protocolTreeWidgetItem *_parent) 
 	m_tt_cmd_waitSync = tr("");
 	m_tt_cmd_syncOut = tr("");
 	m_tt_cmd_wait = tr("Set a waiting time in seconds");
+	m_tt_cmd_showPopUp = tr("Show a progress pop up for the specified value and showing the status message as command");
 	m_tt_cmd_ask = tr("Stop the protocol and ask a confirmation message");
 	m_tt_cmd_pumpsOff = tr("Switch off all the pressure pumps");
 	m_tt_cmd_loop = tr("Create a loop of commands");
@@ -203,6 +204,15 @@ bool protocolTreeWidgetItem::checkValidity( int _column)
 	case protocolCommands::wait: {
 		// if the value is not valid, reset to one
 		dynamic_cast<QTreeWidgetItem*>(this)->setToolTip(editorParams::c_command, m_tt_cmd_wait);
+		if (number < 1) {
+			this->setText(editorParams::c_value, QString("1"));
+			return false;
+		}
+		return true;
+	}
+	case protocolCommands::showPopUp: {
+		// if the value is not valid, reset to one
+		dynamic_cast<QTreeWidgetItem*>(this)->setToolTip(editorParams::c_command, m_tt_cmd_showPopUp);
 		if (number < 1) {
 			this->setText(editorParams::c_value, QString("1"));
 			return false;
@@ -367,6 +377,10 @@ QString protocolTreeWidgetItem::getRangeColumn( int _idx)
 		return QString(">20");
 	}
 	case protocolCommands::wait: {
+		// check Wait (s)
+		return QString("(s) > 0");
+	}
+	case protocolCommands::showPopUp: {
 		// check Wait (s)
 		return QString("(s) > 0");
 	}

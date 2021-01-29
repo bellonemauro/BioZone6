@@ -851,8 +851,11 @@ void BioZone6_GUI::updateWaste()
 
 		if (m_pipette_status->rem_vol_well1 < 0) {
 			//stopSolutionFlow(); //automatic stop of solution flow on solution ended
-			QMessageBox::information(this, m_str_warning,
-				m_str_solution_ended);
+			
+			// deprecated on 29012021
+			// this generates replicating messages so there should be a better strategy to handle ending solutions
+			//QMessageBox::information(this, m_str_warning,
+			//	m_str_solution_ended);
 
 			// deprecated 06072018
 			//QMessageBox::StandardButton resBtn =
@@ -874,8 +877,8 @@ void BioZone6_GUI::updateWaste()
 
 		if (m_pipette_status->rem_vol_well2 < 0) {
 			//stopSolutionFlow(); //automatic stop of solution flow on solution ended
-			QMessageBox::information(this, m_str_warning,
-				m_str_solution_ended);
+			//QMessageBox::information(this, m_str_warning,
+			//	m_str_solution_ended);
 		}
 
 		double perc = 100.0 * m_pipette_status->rem_vol_well2 / max;
@@ -887,8 +890,9 @@ void BioZone6_GUI::updateWaste()
 
 		if (m_pipette_status->rem_vol_well3 < 0) {
 			//stopSolutionFlow();  //automatic stop of solution flow on solution ended
-			QMessageBox::information(this, m_str_warning,
-				m_str_solution_ended);
+			//QMessageBox::information(this, m_str_warning,
+			//	m_str_solution_ended);
+
 		}
 
 		double perc = 100.0 * m_pipette_status->rem_vol_well3 / max;
@@ -900,8 +904,8 @@ void BioZone6_GUI::updateWaste()
 
 		if (m_pipette_status->rem_vol_well4 < 0) {
 			//stopSolutionFlow();  //automatic stop of solution flow on solution ended
-			QMessageBox::information(this, m_str_warning,
-				m_str_solution_ended);
+			//QMessageBox::information(this, m_str_warning,
+			//	m_str_solution_ended);
 		}
 
 		double perc = 100.0 * m_pipette_status->rem_vol_well4 / max;
@@ -913,8 +917,8 @@ void BioZone6_GUI::updateWaste()
 
 		if (m_pipette_status->rem_vol_well5 < 0) {
 			//stopSolutionFlow();  //automatic stop of solution flow on solution ended
-			QMessageBox::information(this, m_str_warning,
-				m_str_solution_ended);
+			//QMessageBox::information(this, m_str_warning,
+			//	m_str_solution_ended);
 		}
 
 		double perc = 100.0 * m_pipette_status->rem_vol_well5 / max;
@@ -926,8 +930,9 @@ void BioZone6_GUI::updateWaste()
 
 		if (m_pipette_status->rem_vol_well6 < 0) {
 			//stopSolutionFlow();  //automatic stop of solution flow on solution ended
-			QMessageBox::information(this, m_str_warning,
-				m_str_solution_ended);
+			//QMessageBox::information(this, m_str_warning,
+			//	m_str_solution_ended);
+			
 		}
 
 		double perc = 100.0 * m_pipette_status->rem_vol_well6 / max;
@@ -1092,7 +1097,15 @@ void BioZone6_GUI::updateWaitAsk(const int _sec, const QString& _message) {
 	std::cout << HERE << " wait " << _sec << " seconds, with message " << _message.toStdString() << std::endl;
 	if (m_shitty_multiple_call_detector == 0) {
 		m_shitty_multiple_call_detector = 1;
-		if (!visualizeProgressMessage(_sec, _message)) {
+
+		double duration = m_ppc1->protocolDuration(*m_protocol);
+		int remaining_time_sec = duration - m_current_protocol_time_status * duration / 100;
+		int message_duration = _sec;
+		if (_sec > remaining_time_sec) {
+			message_duration = remaining_time_sec; //this avoids the pop up to be shown longer than the protocol duration
+		}
+
+		if (!visualizeProgressMessage(message_duration, _message)) {
 			this->runProtocol(); //this will actually stop the protocol (if the process is running)
 			m_shitty_multiple_call_detector = 0;
 			return;
@@ -1111,7 +1124,7 @@ void BioZone6_GUI::updateMacroTimeStatus(const double &_status)
 {
 	// update the vertical line for the time status on the chart
 	m_chart_view->updateChartTime(_status);
-
+	m_current_protocol_time_status = _status;
     QString s = m_str_update_time_macro_msg1;
 	QFileInfo fi(m_current_protocol_file_name);
 	s.append(fi.fileName());
@@ -1120,7 +1133,7 @@ void BioZone6_GUI::updateMacroTimeStatus(const double &_status)
 
 	//int remaining_time_sec = m_protocol_duration - _status * m_protocol_duration / 100;
 	double duration = m_ppc1->protocolDuration(*m_protocol);
-	int remaining_time_sec = duration - _status * duration / 100;
+	int remaining_time_sec = duration - m_current_protocol_time_status * duration / 100;
     int remaining_hours = floor(remaining_time_sec / 3600); // 3600 sec in a hour
     int remaining_mins = floor((remaining_time_sec % 3600) / 60); // 60 minutes in a hour
     int remaining_secs = remaining_time_sec - remaining_hours * 3600 - remaining_mins * 60; // 60 minutes in a hour

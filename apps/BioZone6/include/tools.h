@@ -135,6 +135,19 @@ public:
 	void setDefaultPressuresVacuums(int _p_on_default, int _p_off_default, 
 		                            int _v_recirc_default, int _v_switch_default);
 
+	void setDefaultPressuresVacuums_sAr(int _new_p_on, int _new_p_off,
+		int _new_v_recirc, int _new_v_switch);
+
+	void setDefaultPressuresVacuums_lAr(int _new_p_on, int _new_p_off,
+		int _new_v_recirc, int _new_v_switch);
+
+	void setDefaultPressuresVacuums_sAs(int _new_p_on, int _new_p_off,
+		int _new_v_recirc, int _new_v_switch);
+
+	void setDefaultPressuresVacuums_lAs(int _new_p_on, int _new_p_off,
+		int _new_v_recirc, int _new_v_switch);
+
+
 	/** \brief Set values of preset group 1
 	*
 	* \note

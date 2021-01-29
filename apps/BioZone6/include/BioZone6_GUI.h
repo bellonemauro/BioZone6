@@ -639,6 +639,9 @@ private slots:
 	void setStandardAndRegular();
 	void setLargeAndSlow();
 	void setLargeAndRegular();
+	void onPlusPonOM();
+	void onMinusPonOM();
+	void setPlusMinusPonOM(int _val);
 
 
 	/** \brief Automatic check for updates
@@ -966,6 +969,7 @@ private:
   int m_time_multipilcator;           //!< used to set the update time for the timers
   int m_timer_solution;               //!< duration of injection for solution 
   double m_protocol_duration;         //!< this is the timeline for the protocol execution
+  double m_current_protocol_time_status;
   QString m_current_protocol_file_name;
 
   //GUI stuff for drawing solution flow, remember to NEVER change this values manually, 

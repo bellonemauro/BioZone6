@@ -425,6 +425,94 @@ void BioZone6_tools::setDefaultPressuresVacuums(int _p_on_default, int _p_off_de
 	this->applyPressed();
 }
 
+void BioZone6_tools::setDefaultPressuresVacuums_sAr(int _new_p_on, int _new_p_off,
+	int _new_v_recirc, int _new_v_switch) 
+{
+	std::cout << HERE
+		<< "  _p_on_default = " << _new_p_on
+		<< "  _p_off_default = " << _new_p_off
+		<< "  _v_recirc_default = " << _new_v_recirc
+		<< "  _v_switch_default = " << _new_v_switch
+		<< std::endl;
+
+	m_pr_params->p_on_sAr = _new_p_on;
+	m_pr_params->p_off_sAr = _new_p_off;
+	m_pr_params->v_recirc_sAr = _new_v_recirc;
+	m_pr_params->v_switch_sAr = _new_v_switch;
+
+	ui_tools->spinBox_sAr_Pon_def->setValue(_new_p_on);
+	ui_tools->spinBox_sAr_Poff_def->setValue(_new_p_off);
+	ui_tools->spinBox_sAr_Vr_def->setValue(_new_v_recirc);
+	ui_tools->spinBox_sAr_Vs_def->setValue(_new_v_switch);
+
+	this->applyPressed();
+}
+
+void BioZone6_tools::setDefaultPressuresVacuums_lAr(int _new_p_on, int _new_p_off,
+		int _new_v_recirc, int _new_v_switch) {
+	std::cout << HERE
+		<< "  _p_on_default = " << _new_p_on
+		<< "  _p_off_default = " << _new_p_off
+		<< "  _v_recirc_default = " << _new_v_recirc
+		<< "  _v_switch_default = " << _new_v_switch
+		<< std::endl;
+
+	m_pr_params->p_on_lAr = _new_p_on;
+	m_pr_params->p_off_lAr = _new_p_off;
+	m_pr_params->v_recirc_lAr = _new_v_recirc;
+	m_pr_params->v_switch_lAr = _new_v_switch;
+
+	ui_tools->spinBox_lAr_Pon_def->setValue(_new_p_on);
+	ui_tools->spinBox_lAr_Poff_def->setValue(_new_p_off);
+	ui_tools->spinBox_lAr_Vr_def->setValue(_new_v_recirc);
+	ui_tools->spinBox_lAr_Vs_def->setValue(_new_v_switch);
+
+	this->applyPressed();
+}
+
+void BioZone6_tools::setDefaultPressuresVacuums_sAs(int _new_p_on, int _new_p_off,
+		int _new_v_recirc, int _new_v_switch) {
+	std::cout << HERE
+		<< "  _p_on_default = " << _new_p_on
+		<< "  _p_off_default = " << _new_p_off
+		<< "  _v_recirc_default = " << _new_v_recirc
+		<< "  _v_switch_default = " << _new_v_switch
+		<< std::endl;
+
+	m_pr_params->p_on_sAs = _new_p_on;
+	m_pr_params->p_off_sAs = _new_p_off;
+	m_pr_params->v_recirc_sAs = _new_v_recirc;
+	m_pr_params->v_switch_sAs = _new_v_switch;
+
+	ui_tools->spinBox_sAs_Pon_def->setValue(_new_p_on);
+	ui_tools->spinBox_sAs_Poff_def->setValue(_new_p_off);
+	ui_tools->spinBox_sAs_Vr_def->setValue(_new_v_recirc);
+	ui_tools->spinBox_sAs_Vs_def->setValue(_new_v_switch);
+
+	this->applyPressed();
+}
+
+void BioZone6_tools::setDefaultPressuresVacuums_lAs(int _new_p_on, int _new_p_off,
+		int _new_v_recirc, int _new_v_switch) {
+	std::cout << HERE
+		<< "  _p_on_default = " << _new_p_on
+		<< "  _p_off_default = " << _new_p_off
+		<< "  _v_recirc_default = " << _new_v_recirc
+		<< "  _v_switch_default = " << _new_v_switch
+		<< std::endl;
+
+	m_pr_params->p_on_lAs = _new_p_on;
+	m_pr_params->p_off_lAs = _new_p_off;
+	m_pr_params->v_recirc_lAs = _new_v_recirc;
+	m_pr_params->v_switch_lAs = _new_v_switch;
+
+	ui_tools->spinBox_lAs_Pon_def->setValue(_new_p_on);
+	ui_tools->spinBox_lAs_Poff_def->setValue(_new_p_off);
+	ui_tools->spinBox_lAs_Vr_def->setValue(_new_v_recirc);
+	ui_tools->spinBox_lAs_Vs_def->setValue(_new_v_switch);
+
+	this->applyPressed();
+}
 
 
 void BioZone6_tools::showPortInfo(int idx)

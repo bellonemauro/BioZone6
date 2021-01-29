@@ -181,6 +181,7 @@ void BioZone6_GUI::runProtocol()
 
 		m_ppc1->setVerbose(m_pr_params->verboseOut);
 		ui->groupBox_operMode->setEnabled(true);
+		ui->groupBox_PonOM->setEnabled(true);
 		ui->pushButton_operational->setEnabled(true);
 		ui->pushButton_newTip->setEnabled(true);
 		ui->pushButton_standby->setEnabled(true);
@@ -305,9 +306,11 @@ void BioZone6_GUI::runProtocolFile(QString _protocol_path) {
 			&BioZone6_protocolRunner::pumpOff, this,
 			&BioZone6_GUI::pumpingOff);
 
+		m_current_protocol_time_status = 0;
 		m_macroRunner_thread->start();
 
 		ui->groupBox_operMode->setEnabled(false);
+		ui->groupBox_PonOM->setEnabled(false);
 		ui->pushButton_operational->setEnabled(false);
 		ui->pushButton_newTip->setEnabled(false);
 		ui->pushButton_standby->setEnabled(false);
@@ -346,6 +349,7 @@ void BioZone6_GUI::protocolFinished(const QString &_result) {
 	// restore GUI 
 	ui->label_runMacro->setText(m_str_label_run_protocol);
 	ui->groupBox_operMode->setEnabled(true);
+	ui->groupBox_PonOM->setEnabled(true);
 	ui->pushButton_operational->setEnabled(true);
 	ui->pushButton_newTip->setEnabled(true);
 	ui->pushButton_stop->setEnabled(true);
@@ -572,137 +576,3 @@ void BioZone6_GUI::standby()
 }
 
 
-void BioZone6_GUI::setStandardAndSlow()
-{
-	std::cout << HERE << std::endl;
-	
-	// if the button is unchecked, check it and uncheck all the others
-	if (ui->pushButton_standardAndSlow->isChecked())
-	{
-		// uncheck the other buttons
-		ui->pushButton_standardAndRegular->setChecked(false);
-		ui->pushButton_largeAndSlow->setChecked(false);
-		ui->pushButton_largeAndRegular->setChecked(false);
-
-
-		// get the values 
-		int new_p_on_default = m_pr_params->p_on_sAs;// 40;
-		int new_p_off_default = m_pr_params->p_off_sAs;//8;
-		int new_v_switch_default = m_pr_params->v_switch_sAs;//-90;
-		int new_v_recirc_default = m_pr_params->v_recirc_sAs;//-45;
-		//    <setPon value="40" message=" "/>
-		//    <setPoff value = "8" message = " " / >
-		//    <setVrecirc value = "-45" message = " " / >
-		//	  <setVswitch value = "-90" message = " " / >
-
-		// apply the new values 
-		m_dialog_tools->setDefaultPressuresVacuums(new_p_on_default, new_p_off_default, 
-			-new_v_recirc_default, -new_v_switch_default);
-
-		QMessageBox::information(this, m_str_information,
-			m_new_settings_applied);
-	}
-	else {
-		ui->pushButton_standardAndSlow->setChecked(true);
-	}
-}
-
-void BioZone6_GUI::setStandardAndRegular()
-{
-	std::cout << HERE << std::endl;
-
-	if (ui->pushButton_standardAndRegular->isChecked())
-	{
-		std::cout << HERE << "CHECKED" << std::endl;
-		// uncheck the other buttons
-		ui->pushButton_standardAndSlow->setChecked(false);
-		ui->pushButton_largeAndSlow->setChecked(false);
-		ui->pushButton_largeAndRegular->setChecked(false);
-
-		// get the values 
-		int new_p_on_default = m_pr_params->p_on_sAr;// 50;
-		int new_p_off_default = m_pr_params->p_off_sAr;//11;
-		int new_v_switch_default = m_pr_params->v_switch_sAr;//-115;
-		int new_v_recirc_default = m_pr_params->v_recirc_sAr;//-75;
-		//    <setPon value="50" message=" "/>
-		//    <setPoff value = "11" message = " " / >
-		//	<setVrecirc value = "-75" message = " " / >
-		//	<setVswitch value = "-115" message = " " / >
-
-		// apply the new values 
-		m_dialog_tools->setDefaultPressuresVacuums(new_p_on_default, new_p_off_default,
-			-new_v_recirc_default, -new_v_switch_default);
-
-		QMessageBox::information(this, m_str_information,
-			m_new_settings_applied);
-	}
-	else {
-		ui->pushButton_standardAndRegular->setChecked(true);
-	}
-}
-
-void BioZone6_GUI::setLargeAndSlow()
-{
-	std::cout << HERE << std::endl;
-
-	if (ui->pushButton_largeAndSlow->isChecked())
-	{
-		// uncheck the other buttons
-		ui->pushButton_standardAndSlow->setChecked(false);
-		ui->pushButton_standardAndRegular->setChecked(false);
-		ui->pushButton_largeAndRegular->setChecked(false);
-
-		// get the values 
-		int new_p_on_default = m_pr_params->p_on_lAs;// 40;
-		int new_p_off_default = m_pr_params->p_off_lAs;//8;
-		int new_v_switch_default = m_pr_params->v_switch_lAs;//-80;
-		int new_v_recirc_default = m_pr_params->v_recirc_lAs;//45;
-		//    <setPon value="40" message=" "/>
-		//    <setPoff value = "8" message = " " / >
-		//	<setVrecirc value = "-45" message = " " / >
-		//	<setVswitch value = "-80" message = " " / >
-
-		// apply the new values 
-		m_dialog_tools->setDefaultPressuresVacuums(new_p_on_default, new_p_off_default,
-			-new_v_recirc_default, -new_v_switch_default);
-
-		QMessageBox::information(this, m_str_information,
-			m_new_settings_applied);
-	}
-	else {
-		ui->pushButton_largeAndSlow->setChecked(true);
-	}
-}
-
-void BioZone6_GUI::setLargeAndRegular()
-{
-	std::cout << HERE << std::endl;
-
-	if (ui->pushButton_largeAndRegular->isChecked())
-	{
-		// uncheck the other buttons
-		ui->pushButton_standardAndSlow->setChecked(false);
-		ui->pushButton_standardAndRegular->setChecked(false);
-		ui->pushButton_largeAndSlow->setChecked(false);
-		
-		// get the values 
-		int new_p_on_default = m_pr_params->p_on_lAr;// 50;
-		int new_p_off_default = m_pr_params->p_off_lAr;//11;
-		int new_v_switch_default = m_pr_params->v_switch_lAr;//-105;
-		int new_v_recirc_default = m_pr_params->v_recirc_lAr;//-60;
-		//    <setPon value="50" message=" "/>
-		//    <setPoff value = "11" message = " " / >
-		//	<setVrecirc value = "-60" message = " " / >
-		//	<setVswitch value = "-105" message = " " / >
-				
-		// apply the new values 
-		m_dialog_tools->setDefaultPressuresVacuums(new_p_on_default, new_p_off_default,
-			-new_v_recirc_default, -new_v_switch_default);
-
-		QMessageBox::information(this, m_str_information,
-			m_new_settings_applied);
-	}
-	else {
-		ui->pushButton_largeAndRegular->setChecked(true);
-	}
-}

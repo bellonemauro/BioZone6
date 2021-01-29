@@ -23,6 +23,7 @@ BioZone6_GUI::BioZone6_GUI(QMainWindow *parent) :
 	m_a_spacer (new QAction()),
 	m_protocol ( new std::vector<fluicell::PPC1api6dataStructures::command> ),
 	m_protocol_duration(0.0),
+	m_current_protocol_time_status(0.0),
 	m_pen_line_width(7),
 	l_x1(-16.0),
 	l_y1(49.0),
@@ -240,6 +241,7 @@ BioZone6_GUI::BioZone6_GUI(QMainWindow *parent) :
   ui->groupBox_operMode->setEnabled(false);
   ui->groupBox_3->setEnabled(false);
   ui->groupBox_operMode->setEnabled(false);
+  ui->groupBox_PonOM->setEnabled(false);
   enableTab2(false);
 
   //init the chart view
@@ -720,6 +722,14 @@ void BioZone6_GUI::initConnects()
 	connect(ui->pushButton_largeAndRegular,
 		SIGNAL(clicked()), this,
 		SLOT(setLargeAndRegular()));
+
+	connect(ui->pushButton_plusPonOM,
+		SIGNAL(clicked()), this,
+		SLOT(onPlusPonOM()));
+	
+	connect(ui->pushButton_minusPonOM,
+		SIGNAL(clicked()), this,
+		SLOT(onMinusPonOM()));
 
 	connect(ui->pushButton_stop, 
 		SIGNAL(clicked()), this, 

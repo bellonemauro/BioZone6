@@ -641,8 +641,7 @@ private slots:
 	void setLargeAndRegular();
 	void onPlusPonOM();
 	void onMinusPonOM();
-	void setPlusMinusPonOM(int _val);
-
+	
 
 	/** \brief Automatic check for updates
 	*
@@ -956,6 +955,7 @@ private:
   
   // Threding for protocols and update GUI
   BioZone6_protocolRunner *m_macroRunner_thread;
+  QString m_running_protocol_file_name;    //!< this will be empty when nothing is running and it will store the filename of the running protocol during the process
   QTimer *m_update_flowing_sliders;        //!< connected to an update visualization function relative to solutions flow
   QTimer *m_update_GUI;                    //!< update GUI to show PPC1 values
   QTimer *m_update_waste;                  //!< update GUI to show PPC1 values

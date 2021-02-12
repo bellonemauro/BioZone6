@@ -23,6 +23,7 @@ BioZone6_GUI::BioZone6_GUI(QMainWindow *parent) :
 	m_a_spacer (new QAction()),
 	m_protocol ( new std::vector<fluicell::PPC1api6dataStructures::command> ),
 	m_protocol_duration(0.0),
+	m_running_protocol_file_name(""),
 	m_current_protocol_time_status(0.0),
 	m_pen_line_width(7),
 	l_x1(-16.0),

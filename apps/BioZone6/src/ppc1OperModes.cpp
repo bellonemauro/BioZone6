@@ -168,7 +168,18 @@ void BioZone6_GUI::onPlusPonOM()
 	int val = ui->spinBox_PonOM->value() + 1;
 	ui->spinBox_PonOM->setValue(val);
 	
-	this->setPlusMinusPonOM(+1);
+	// this shoud actually modify the solution protocols
+
+	if (ui->pushButton_solution1->isChecked() ||
+		ui->pushButton_solution2->isChecked() ||
+		ui->pushButton_solution3->isChecked() ||
+		ui->pushButton_solution4->isChecked() ||
+		ui->pushButton_solution5->isChecked() ||
+		ui->pushButton_solution6->isChecked())
+	{
+		double Pon_adapted = m_pipette_status->pon_set_point + 1;
+		updatePonSetPoint(Pon_adapted);
+	}
 }
 
 
@@ -179,47 +190,17 @@ void BioZone6_GUI::onMinusPonOM()
 	int val = ui->spinBox_PonOM->value() - 1;
 	ui->spinBox_PonOM->setValue(val);
 
-	this->setPlusMinusPonOM(-1);
+	// this shoud actually modify the solution protocols
+
+	if (ui->pushButton_solution1->isChecked() ||
+		ui->pushButton_solution2->isChecked() ||
+		ui->pushButton_solution3->isChecked() ||
+		ui->pushButton_solution4->isChecked() ||
+		ui->pushButton_solution5->isChecked() ||
+		ui->pushButton_solution6->isChecked())
+	{
+		double Pon_adapted = m_pipette_status->pon_set_point - 1;
+		updatePonSetPoint(Pon_adapted);
+	}
 }
 
-void BioZone6_GUI::setPlusMinusPonOM(int _val)
-{
-
-	if (ui->pushButton_standardAndSlow->isChecked())
-	{
-		int new_p_on_default = m_pr_params->p_on_sAs + _val;
-		int new_p_off_default = m_pr_params->p_off_sAs;
-		int new_v_switch_default = m_pr_params->v_switch_sAs;
-		int new_v_recirc_default = m_pr_params->v_recirc_sAs;
-		m_dialog_tools->setDefaultPressuresVacuums_sAs(new_p_on_default, new_p_off_default,
-			new_v_recirc_default, new_v_switch_default);
-	}
-	if (ui->pushButton_standardAndRegular->isChecked())
-	{
-		int new_p_on_default = m_pr_params->p_on_sAr + _val;
-		int new_p_off_default = m_pr_params->p_off_sAr;
-		int new_v_switch_default = m_pr_params->v_switch_sAr;
-		int new_v_recirc_default = m_pr_params->v_recirc_sAr;
-		m_dialog_tools->setDefaultPressuresVacuums_sAr(new_p_on_default, new_p_off_default,
-			new_v_recirc_default, new_v_switch_default);
-
-	}
-	if (ui->pushButton_largeAndSlow->isChecked())
-	{
-		int new_p_on_default = m_pr_params->p_on_lAs + _val;
-		int new_p_off_default = m_pr_params->p_off_lAs;
-		int new_v_switch_default = m_pr_params->v_switch_lAs;
-		int new_v_recirc_default = m_pr_params->v_recirc_lAs;
-		m_dialog_tools->setDefaultPressuresVacuums_lAs(new_p_on_default, new_p_off_default,
-			new_v_recirc_default, new_v_switch_default);
-	}
-	if (ui->pushButton_largeAndRegular->isChecked())
-	{
-		int new_p_on_default = m_pr_params->p_on_lAr + _val;
-		int new_p_off_default = m_pr_params->p_off_lAr;
-		int new_v_switch_default = m_pr_params->v_switch_lAr;
-		int new_v_recirc_default = m_pr_params->v_recirc_lAr;
-		m_dialog_tools->setDefaultPressuresVacuums_lAr(new_p_on_default, new_p_off_default,
-			new_v_recirc_default, new_v_switch_default);
-	}
-}

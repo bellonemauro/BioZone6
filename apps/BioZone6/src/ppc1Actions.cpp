@@ -133,9 +133,9 @@ void BioZone6_GUI::runProtocol()
 	std::cout << HERE << std::endl;
 
 	if (!m_macroRunner_thread->isRunning()) {
-		QString macro_path = m_current_protocol_file_name;
+		QString protocol_path = m_current_protocol_file_name;
 		QString msg = m_str_loaded_protocol_is;
-		QStringList l = macro_path.split("/"); // the split is to show the name only (remove the path)
+		QStringList l = protocol_path.split("/"); // the split is to show the name only (remove the path)
 		QString name = l.last();
 		msg.append(name);
 		msg.append("<br>");
@@ -307,6 +307,7 @@ void BioZone6_GUI::runProtocolFile(QString _protocol_path) {
 			&BioZone6_GUI::pumpingOff);
 
 		m_current_protocol_time_status = 0;
+		m_running_protocol_file_name = _protocol_path;
 		m_macroRunner_thread->start();
 
 		ui->groupBox_operMode->setEnabled(false);
@@ -341,7 +342,18 @@ void BioZone6_GUI::protocolFinished(const QString &_result) {
 	// TODO: this was removed to allow solutions to run protocols properly without
 	//       annoying success messages, this can be achieved anyway by adding 
 	//       an ask command as last command of a protocol
-	//QMessageBox::information(this, m_str_information, _result);
+	QString message = m_running_protocol_file_name;
+
+	if (message.contains("pumpSolution", Qt::CaseSensitive) )
+	{
+		//QMessageBox::information(this, m_str_information, message);
+
+		int adaptation_value = ui->spinBox_PonOM->value();
+		double Pon_adapted = m_pipette_status->pon_set_point + adaptation_value;
+		updatePonSetPoint(Pon_adapted);
+	}
+
+
 
 	// restore settings that have been overlapped during the protocol running
 	this->toolApply();
@@ -458,6 +470,7 @@ void BioZone6_GUI::protocolFinished(const QString &_result) {
 	addAllCommandsToPPC1Protocol(ui->treeWidget_macroTable, m_protocol);
 
 	m_chart_view->updateChartProtocol(m_protocol);
+	m_running_protocol_file_name = "";
 }
 
 

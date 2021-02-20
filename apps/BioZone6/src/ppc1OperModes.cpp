@@ -170,6 +170,7 @@ void BioZone6_GUI::onPlusPonOM()
 	
 	// this shoud actually modify the solution protocols
 
+	ui->groupBox_PonOM->setEnabled(false);
 	if (ui->pushButton_solution1->isChecked() ||
 		ui->pushButton_solution2->isChecked() ||
 		ui->pushButton_solution3->isChecked() ||
@@ -179,7 +180,10 @@ void BioZone6_GUI::onPlusPonOM()
 	{
 		double Pon_adapted = m_pipette_status->pon_set_point + 1;
 		updatePonSetPoint(Pon_adapted);
+		if(m_pipette_active) 
+			QThread::msleep(150);
 	}
+	ui->groupBox_PonOM->setEnabled(true);
 }
 
 
@@ -191,7 +195,7 @@ void BioZone6_GUI::onMinusPonOM()
 	ui->spinBox_PonOM->setValue(val);
 
 	// this shoud actually modify the solution protocols
-
+	ui->groupBox_PonOM->setEnabled(false);
 	if (ui->pushButton_solution1->isChecked() ||
 		ui->pushButton_solution2->isChecked() ||
 		ui->pushButton_solution3->isChecked() ||
@@ -201,6 +205,10 @@ void BioZone6_GUI::onMinusPonOM()
 	{
 		double Pon_adapted = m_pipette_status->pon_set_point - 1;
 		updatePonSetPoint(Pon_adapted);
+		if (m_pipette_active) 
+			QThread::msleep(150);
 	}
+
+	ui->groupBox_PonOM->setEnabled(true);
 }
 

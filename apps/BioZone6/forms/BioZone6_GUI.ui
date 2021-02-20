@@ -960,6 +960,9 @@ QPushButton:disabled{ background-color: #CCCCCC; }
                       </property>
                       <item row="7" column="1">
                        <widget class="QPushButton" name="pushButton_standardAndSlow">
+                        <property name="enabled">
+                         <bool>false</bool>
+                        </property>
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                           <horstretch>0</horstretch>
@@ -1071,6 +1074,9 @@ QPushButton:disabled{ background-color: #CCCCCC; }
                       </item>
                       <item row="7" column="4">
                        <widget class="QPushButton" name="pushButton_largeAndSlow">
+                        <property name="enabled">
+                         <bool>false</bool>
+                        </property>
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                           <horstretch>0</horstretch>
@@ -1111,6 +1117,9 @@ QPushButton:disabled{ background-color: #CCCCCC; }
                       </item>
                       <item row="2" column="4" rowspan="2">
                        <widget class="QPushButton" name="pushButton_largeAndRegular">
+                        <property name="enabled">
+                         <bool>false</bool>
+                        </property>
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                           <horstretch>0</horstretch>

@@ -381,12 +381,7 @@ void BioZone6_GUI::protocolFinished(const QString &_result) {
 	ui->actionReboot->setEnabled(!m_simulationOnly);
 	ui->actionShudown->setEnabled(!m_simulationOnly);
 
-	if (!m_simulationOnly) {
-		updateVrecircSetPoint(-m_ppc1->getVrecircSetPoint());
-		updateVswitchSetPoint(-m_ppc1->getVswitchSetPoint());
-		updatePoffSetPoint(m_ppc1->getPoffSetPoint());
-		updatePonSetPoint(m_ppc1->getPonSetPoint());
-	}
+	
 
 	// update the slider for the GUI
 	ui->horizontalSlider_recirculation->blockSignals(true);
@@ -471,8 +466,27 @@ void BioZone6_GUI::protocolFinished(const QString &_result) {
 
 	m_chart_view->updateChartProtocol(m_protocol);
 	m_running_protocol_file_name = "";
+
+	
+	m_workaround_setValues->start();
+
+
 }
 
+void BioZone6_GUI::updateBUGGYsetValues()
+{
+	//TODO: this is truly a horrible solution, there is a mismatch between 
+	//      the set_values at the end of a protocol and the set_values a little bit after
+	//      this causes a mismatch between the updated GUI sliders and the real set points
+	if (!m_simulationOnly) {
+	updateVrecircSetPoint(-m_ppc1->getVrecircSetPoint());
+	updateVswitchSetPoint(-m_ppc1->getVswitchSetPoint());
+	updatePoffSetPoint(m_ppc1->getPoffSetPoint());
+	updatePonSetPoint(m_ppc1->getPonSetPoint());
+}
+	m_workaround_setValues->stop();
+
+}
 
 void BioZone6_GUI::operationalMode() {
 
@@ -512,17 +526,6 @@ void BioZone6_GUI::stopFlow()
 	}
 
 	return;
-
-	/*
-	closeAllValves();
-	updatePoffSetPoint(0.0);
-	updatePonSetPoint(0.0);
-	if (!visualizeProgressMessage(3, m_str_stop_1)) return;
-	updateVswitchSetPoint(0.0);
-	updateVrecircSetPoint(0.0);
-	if (!visualizeProgressMessage(3, m_str_stop_2)) return;
-
-	return;*/
 }
 
 
@@ -544,48 +547,6 @@ void BioZone6_GUI::standby()
 	}
 
 	return;
-
-	/*
-
-
-	std::cout << HERE << std::endl;
-
-	setEnableMainWindow(false);
-
-	//Set new standby values according to the tip selection
-	double pon = 0;
-	double poff = 0;
-	double vs = 0;
-	double vr = 0;
-	if (m_ppc1->getTipType() == 0)
-	{
-		pon = 45.0;
-		poff = 11.0;
-		vs = 50.0;
-		vr = 50.0;
-	}
-	if (m_ppc1->getTipType() == 1){
-		pon = 45.0;
-		poff = 11.0;
-		vs = 55.0;
-		vr = 55.0;
-	}
-
-	QApplication::setOverrideCursor(Qt::WaitCursor);  
-
-	//vf0
-	closeAllValves();
-	
-	updatePonSetPoint(pon); 
-	updatePoffSetPoint(poff);
-
-	if (!visualizeProgressMessage(5, m_str_standby_operation)) return;
-
-	updateVswitchSetPoint(vs);
-	updateVrecircSetPoint(vr);
-
-	setEnableMainWindow(true);
-	QApplication::restoreOverrideCursor(); */
 }
 
 

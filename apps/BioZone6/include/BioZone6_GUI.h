@@ -395,6 +395,8 @@ private slots:
 	*/
 	void updateWaste();
 
+	void updateBUGGYsetValues();
+
 	/** \brief This will give a remainder every 5 minutes to empty the waste
 	*/
 	void emptyWasteRemainder();
@@ -960,7 +962,8 @@ private:
   QTimer *m_update_GUI;                    //!< update GUI to show PPC1 values
   QTimer *m_update_waste;                  //!< update GUI to show PPC1 values
   QTimer *m_waste_remainder;               //!< empty waste remainder every 5 minutes
-  QTimer *m_check_updates;                 //!< timer for checking for updates
+  QTimer* m_check_updates;                 //!< timer for checking for updates
+  QTimer *m_workaround_setValues;                 //!< this is just a workaround for a bug
   const int m_base_time_step;              //!< used to set the update timers, every step is by default 1000 ms
   int m_flowing_solution;                  //!< needed for the visualization function relative to solution 1 - 2 - 3- 4
 

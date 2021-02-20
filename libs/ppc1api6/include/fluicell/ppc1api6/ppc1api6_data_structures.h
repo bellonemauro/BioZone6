@@ -818,7 +818,7 @@ namespace fluicell { namespace PPC1api6dataStructures
 					"allOff",
 					"solution1", "solution2","solution3","solution4","solution5","solution6",
 					"setPon", "setPoff",  "setVrecirc", "setVswitch",
-					"waitSync", "syncOut", "wait", "showPopUp"
+					"waitSync", "syncOut", "wait", "showPopUp",
 					"ask", "pumpsOff", 
 					 "loop" };
 				return  text[int(this->instruction)]; // cast to integer

@@ -116,7 +116,9 @@ void BioZone6_GUI::onProtocolClicked(QTreeWidgetItem *item, int column)
 		//do nothing
 	}
 	}
-	
+
+	addAllCommandsToPPC1Protocol(ui->treeWidget_macroTable,
+		m_protocol);
 }
 
 void BioZone6_GUI::updateTreeView(QTreeWidget* _tree)
@@ -305,22 +307,86 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 
 	switch (command_idx)
 	{
-	case protocolCommands::allOff:
-	case protocolCommands::solution1:
-	case protocolCommands::solution2:
-	case protocolCommands::solution3:
-	case protocolCommands::solution4:
-	case protocolCommands::solution5:
-	case protocolCommands::solution6:
-	case protocolCommands::setPon:
-	case protocolCommands::setPoff:
-	case protocolCommands::setVrecirc:
-	case protocolCommands::setVswitch:
-	case protocolCommands::waitSync:
-	case protocolCommands::syncOut:
-	case protocolCommands::wait:
-	case protocolCommands::showPopUp:
-	case protocolCommands::ask:
+	case protocolCommands::allOff: {
+		_command_vector->push_back(
+			dynamic_cast<protocolTreeWidgetItem*> (_item));
+		return;
+	}
+	case protocolCommands::solution1: {
+		_command_vector->push_back(
+			dynamic_cast<protocolTreeWidgetItem*> (_item));
+		return;
+	}
+	case protocolCommands::solution2: {
+		_command_vector->push_back(
+			dynamic_cast<protocolTreeWidgetItem*> (_item));
+		return;
+	}
+	case protocolCommands::solution3: {
+		_command_vector->push_back(
+			dynamic_cast<protocolTreeWidgetItem*> (_item));
+		return;
+	}
+	case protocolCommands::solution4: {
+		_command_vector->push_back(
+			dynamic_cast<protocolTreeWidgetItem*> (_item));
+		return;
+	}
+	case protocolCommands::solution5: {
+		_command_vector->push_back(
+			dynamic_cast<protocolTreeWidgetItem*> (_item));
+		return;
+	}
+	case protocolCommands::solution6: {
+		_command_vector->push_back(
+			dynamic_cast<protocolTreeWidgetItem*> (_item));
+		return;
+	}
+	case protocolCommands::setPon: {
+		_command_vector->push_back(
+			dynamic_cast<protocolTreeWidgetItem*> (_item));
+		return;
+	}
+	case protocolCommands::setPoff: {
+		_command_vector->push_back(
+			dynamic_cast<protocolTreeWidgetItem*> (_item));
+		return;
+	}
+	case protocolCommands::setVrecirc: {
+		_command_vector->push_back(
+			dynamic_cast<protocolTreeWidgetItem*> (_item));
+		return;
+	}
+	case protocolCommands::setVswitch: {
+		_command_vector->push_back(
+			dynamic_cast<protocolTreeWidgetItem*> (_item));
+		return;
+	}
+	case protocolCommands::waitSync: {
+		_command_vector->push_back(
+			dynamic_cast<protocolTreeWidgetItem*> (_item));
+		return;
+	}
+	case protocolCommands::syncOut: {
+		_command_vector->push_back(
+			dynamic_cast<protocolTreeWidgetItem*> (_item));
+		return;
+	}
+	case protocolCommands::wait: {
+		_command_vector->push_back(
+			dynamic_cast<protocolTreeWidgetItem*> (_item));
+		return;
+	}
+	case protocolCommands::showPopUp: {
+		_command_vector->push_back(
+			dynamic_cast<protocolTreeWidgetItem*> (_item));
+		return;
+	}
+	case protocolCommands::ask:{
+		_command_vector->push_back(
+		dynamic_cast<protocolTreeWidgetItem*> (_item)); 
+		return;
+	}
 	case protocolCommands::pumpsOff:
 	{
 		_command_vector->push_back(
@@ -509,14 +575,14 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 void BioZone6_GUI::createOperationalModeCommand(int _p_on, int _p_off, int _v_s, int _v_r,
 	std::vector<protocolTreeWidgetItem*>* _command_vector)
 {
-	protocolTreeWidgetItem* item1 = new protocolTreeWidgetItem();
+	//protocolTreeWidgetItem* item1 = new protocolTreeWidgetItem();
 	protocolTreeWidgetItem* item2 = new protocolTreeWidgetItem();
 	protocolTreeWidgetItem* item3 = new protocolTreeWidgetItem();
-	protocolTreeWidgetItem* item4 = new protocolTreeWidgetItem();
+	//protocolTreeWidgetItem* item4 = new protocolTreeWidgetItem();
 	protocolTreeWidgetItem* item5 = new protocolTreeWidgetItem();
 	protocolTreeWidgetItem* item6 = new protocolTreeWidgetItem();
 
-	item1->setText(editorParams::c_command, QString::number(protocolCommands::allOff));
+	//item1->setText(editorParams::c_command, QString::number(protocolCommands::allOff));
 
 	item2->setText(editorParams::c_command, QString::number(protocolCommands::setPon));
 	item2->setText(editorParams::c_value, QString::number(_p_on));
@@ -524,8 +590,8 @@ void BioZone6_GUI::createOperationalModeCommand(int _p_on, int _p_off, int _v_s,
 	item3->setText(editorParams::c_command, QString::number(protocolCommands::setPoff));
 	item3->setText(editorParams::c_value, QString::number(_p_off));
 
-	item4->setText(editorParams::c_command, QString::number(protocolCommands::wait));
-	item4->setText(editorParams::c_value, QString::number(5));
+	//item4->setText(editorParams::c_command, QString::number(protocolCommands::wait));
+	//item4->setText(editorParams::c_value, QString::number(5));
 
 	item5->setText(editorParams::c_command, QString::number(protocolCommands::setVrecirc));
 	item5->setText(editorParams::c_value, QString::number(_v_r));
@@ -533,10 +599,10 @@ void BioZone6_GUI::createOperationalModeCommand(int _p_on, int _p_off, int _v_s,
 	item6->setText(editorParams::c_command, QString::number(protocolCommands::setVswitch));
 	item6->setText(editorParams::c_value, QString::number(_v_s));
 
-	_command_vector->push_back(item1);
+	//_command_vector->push_back(item1);
 	_command_vector->push_back(item2);
 	_command_vector->push_back(item3);
-	_command_vector->push_back(item4);
+	//_command_vector->push_back(item4);
 	_command_vector->push_back(item5);
 	_command_vector->push_back(item6);
 

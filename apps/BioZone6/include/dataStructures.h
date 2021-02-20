@@ -33,6 +33,7 @@
 #define MAX_VOLUME_IN_WELL 30   // in ml
 #define MAX_WASTE_VOLUME 35     // value in ml
 #define MAX_WASTE_WARNING_VOLUME 27    // in ml
+//TODO: replace HERE definition
 #define HERE std::string(__FUNCTION__ )//+ std::string(" at line ") + std::to_string(__LINE__))
 
 // just re-definition of a protocol command to get a shorter name

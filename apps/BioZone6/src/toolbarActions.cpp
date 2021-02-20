@@ -372,6 +372,8 @@ bool BioZone6_GUI::disCon(bool _connect)
 					ui->actionReboot->setEnabled(true);
 					ui->actionShudown->setEnabled(true);
 					QApplication::restoreOverrideCursor();
+					//m_workaround_setValues->start(); //TODO: remove this
+
 					return true; // we are finally connected
 				}
 				else {  // otherwise something is wrong

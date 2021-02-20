@@ -156,12 +156,14 @@ BioZone6_GUI::BioZone6_GUI(QMainWindow *parent) :
   m_waste_remainder = new QTimer();
   m_check_updates = new QTimer();
   m_timer_solution = 0;
+  
 
   m_update_flowing_sliders->setInterval(m_base_time_step);
   m_update_GUI->setInterval(10);// (m_base_time_step);
   m_update_waste->setInterval(m_base_time_step);
   m_waste_remainder->setInterval(300 * m_base_time_step);
   m_check_updates->setInterval(5000);
+
   
   connect(m_update_flowing_sliders,
 	  SIGNAL(timeout()), this,
@@ -185,6 +187,12 @@ BioZone6_GUI::BioZone6_GUI(QMainWindow *parent) :
 	  SIGNAL(timeout()), this,
 	  SLOT(automaticCheckForUpdates()));
   m_check_updates->start();
+  
+  m_workaround_setValues = new QTimer();
+  m_workaround_setValues->setInterval(500);
+  connect(m_workaround_setValues,
+	  SIGNAL(timeout()), this,
+	  SLOT(updateBUGGYsetValues()));
 
   // reset the protocol table widget
   ui->treeWidget_macroTable->setColumnWidth(editorParams::c_idx, 70);
@@ -1314,7 +1322,7 @@ void BioZone6_GUI::about() {
 
 	if (messageBox.clickedButton() == pButtonQG) {
 		//Execute command
-		QString fileName = QDir::currentPath() + "./guide/BioPenWizard_v2.1_QuickStartGuide_2018.pdf";
+		QString fileName = QDir::currentPath() + "./guide/Biozone6_v0.9.12_QuickStartGuide_2021.pdf";
 		QDesktopServices::openUrl(QUrl("file:///" + fileName));
 	}
 
@@ -1335,7 +1343,7 @@ void BioZone6_GUI::enableTab2(bool _enable)
 	ui->pushButton_p_on_up->setEnabled(_enable);
 		
 	ui->pushButton_p_off_down->setEnabled(_enable);
-	ui->horizontalSlider_p_on->setEnabled(_enable);
+	ui->horizontalSlider_p_off->setEnabled(_enable);
 	ui->pushButton_p_off_up->setEnabled(_enable);
 
 	ui->pushButton_switchDown->setEnabled(_enable);

@@ -14,6 +14,7 @@
  #include <vld.h>
 #endif
 
+// this macro is used to print function name and usefull debug information 
 #define HERE std::string(__FUNCTION__ + std::string(" at line ") + std::to_string(__LINE__))
 
 fluicell::PPC1api6::PPC1api6() :
@@ -817,7 +818,7 @@ bool fluicell::PPC1api6::runCommand(fluicell::PPC1api6dataStructures::command _c
 	case fluicell::PPC1api6dataStructures::command::instructions::wait: {//sleep
 		//TODO: this is not safe as one can stop the macro without breaking the wait function
 		//however, wait function is handled at GUI level not at API level
-		std::this_thread::sleep_for(std::chrono::seconds(static_cast<int>(_cmd.getValue())));
+		//std::this_thread::sleep_for(std::chrono::seconds(static_cast<int>(_cmd.getValue())));
 		// This could solve the issue of waiting and stopping 
 		// (it has to wait for 1 second to finish though)
 		// moreover, this introduces uncertainty in the time line

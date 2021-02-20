@@ -168,7 +168,7 @@ namespace fluicell
 		  *    B|-0.000000|0.034291|0.000000|0\n
 		  *    C|0.000000|-0.103121|0.000000|0\n
 		  *    D|0.000000|0.028670|0.000000|0\n
-		  *    i0|j0|k0|l0\n
+		  *    i0|j0|k0|l0|e0|f0\n
 		  *    IN1|OUT1\n
 		  *    P\n
 		  *    R\n
@@ -589,56 +589,6 @@ namespace fluicell
 		bool setRuntimeTimeout(const int _value) const;
 
 
-		/** \brief Set the zone size to a specific _percentage, default value = 100.0 %
-		*
-		*  Set the droplet size to a specific _percentage with respect to the default values
-		*  of vacuum and pressures.
-		*  The droplet size linear increment corresponds to a cubic power of the desired values 
-		*  for pressures and vacuums
-		*
-		*  new_Pon_value = default_Pon * (_percentage^1.3);
-		*  new_Vrecirc_value = default_Vrecirc * (_percentage^1.3);
-		*
-		*         
-		*  \note: The values of pressures and vacuum for Poff and Vswitch will be 
-		*         reset to the default values
-		*  \note: This function accepts values in [MIN_ZONE_SIZE_PERC, MAX_ZONE_SIZE_PERC]
-		*         
-		*
-		*   new_Poff_value = default_Poff
-		*   new_Vrecirc_value = default_Vrecirc
-		*
-		*   \note: TODO: This function should not be handled at API level but rather at application level
-		*
-		*  @param  _percentage is the desired percentage value
-		*
-		*  \return -  false in case of errors
-		**/
-		//bool setZoneSizePerc(double _percentage = 100.0) const;
-
-		/** \brief Change the zone size by a specific amount + or - 
-		*
-		*  Change the droplet size by adding a specific _percentage with respect to the default values
-		*  of vacuum and pressures.
-		*  The droplet size linear increment corresponds to a cubic power of the desired values 
-		*  for pressures and vacuums.
-		*
-		*  new_Pon_value = Pon_set_point + default_Pon * (_percentage^1.3);
-		*  new_Vrecirc_value = Vrecirc_set_point + default_Vrecirc * (_percentage^1.3);
-		*
-		*  \note: the other pressures/values will be untouched
-		*  \note: This function accepts values in [-MAX_ZONE_SIZE_INCREMENT, MAX_ZONE_SIZE_INCREMENT]
-		*
-		*  \note: example: if _percentage = 5% ==> the size goes to 105%
-		*
-		*   \note: TODO: This function should not be handled at API level but rather at application level
-		*
-		*  @param  _percentage is the desired percentage value
-		*
-		*  \return -  false in case of errors
-		**/
-		//bool changeZoneSizePercBy(double _percentage = 0.0) const;
-
 		/** \brief Get the current droplet size as percentage
 		*
 		*  The real percentage of the droplet is the cubic root of the real value
@@ -987,7 +937,9 @@ namespace fluicell
 		*
 		*  \return double recirculation set point
 		**/
-		inline double getVrecircSetPoint() const { return m_PPC1_data->channel_A->set_point; }
+		inline double getVrecircSetPoint() const { 
+			return m_PPC1_data->channel_A->set_point; 
+		}
 
 		/** \brief get vacuum recirculation sensor reading
 		*

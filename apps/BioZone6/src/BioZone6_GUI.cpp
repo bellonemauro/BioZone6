@@ -1322,7 +1322,7 @@ void BioZone6_GUI::about() {
 
 	if (messageBox.clickedButton() == pButtonQG) {
 		//Execute command
-		QString fileName = QDir::currentPath() + "./guide/Biozone6_v0.9.12_QuickStartGuide_2021.pdf";
+		QString fileName = QDir::currentPath() + "./guide/Biozone6 - Setup guide - FBZ001.pdf";
 		QDesktopServices::openUrl(QUrl("file:///" + fileName));
 	}
 

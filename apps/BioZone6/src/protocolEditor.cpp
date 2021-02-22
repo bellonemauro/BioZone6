@@ -268,7 +268,7 @@ void BioZone6_GUI::fromItemVectorToProtocol(std::vector<protocolTreeWidgetItem*>
 	std::vector<fluicell::PPC1api6dataStructures::command>* _protocol)
 {
 	// now all the items are inside the vector and we can interpret them as protocol commands
-	for (int i = 0; i < _command_vector->size(); i++)
+	for (size_t i = 0; i < _command_vector->size(); i++)
 	{
 		fluicell::PPC1api6dataStructures::command new_command;
 

@@ -54,7 +54,7 @@ public:
 	QString getRangeColumn(int _idx);
 
 	// allows to re-set the element with all the columns
-	void setElements(int _cmd_ind, int _value,
+	void setElements(int _cmd_ind, double _value,
 		bool _show_msg, QString _msg);
 
 	// virtual re-implementation of set data
@@ -64,7 +64,7 @@ public:
 	protocolTreeWidgetItem * clone();
 
 	int getLastCommand() { return m_last_command; }
-	int getLastValue() { return m_last_value; }
+	double getLastValue() { return m_last_value; }
 	Qt::CheckState getLastSM() { return m_last_show_msg; }
     QString getLastMsg() { return QString(m_last_show_msg); }
 
@@ -72,7 +72,7 @@ private:
 
 	// just to keep track of the last values changed
 	int m_last_command;
-	int m_last_value;
+	double m_last_value;
 	Qt::CheckState m_last_show_msg;
 	QString m_last_msg;
 

@@ -188,11 +188,11 @@ BioZone6_GUI::BioZone6_GUI(QMainWindow *parent) :
 	  SLOT(automaticCheckForUpdates()));
   m_check_updates->start();
   
-  m_workaround_setValues = new QTimer();
+  /*m_workaround_setValues = new QTimer();
   m_workaround_setValues->setInterval(500);
   connect(m_workaround_setValues,
 	  SIGNAL(timeout()), this,
-	  SLOT(updateBUGGYsetValues()));
+	  SLOT(updateBUGGYsetValues()));*/
 
   // reset the protocol table widget
   ui->treeWidget_macroTable->setColumnWidth(editorParams::c_idx, 70);
@@ -1328,6 +1328,7 @@ void BioZone6_GUI::about() {
 
 	return;
 }
+
 void BioZone6_GUI::checkForUpdates() {
 
 	m_biozone_updated->setVersion(m_version);

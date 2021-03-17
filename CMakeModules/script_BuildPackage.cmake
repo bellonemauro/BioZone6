@@ -17,7 +17,7 @@ if( WIN32 AND NOT UNIX )
 set (WEBSITE "https://www.fluicell.com/")   
 set (WEB_TUTORIAL "https://fluicell.com/products-fluicell/biopensystems/")  
 set (WEB_DOCS "https://bellonemauro.github.io/PPC1API-docs.io/")  
-set (GUIDE_PDF "/guide/Biozone6_v0.9.12_QuickStartGuide_2021.pdf")  
+set (GUIDE_PDF "/guide/Biozone6 - Setup guide - FBZ001.pdf")  
 
 # set the info/about for the executable - can be changed to some other comment
 set(CPACK_NSIS_URL_INFO_ABOUT "${WEBSITE}")

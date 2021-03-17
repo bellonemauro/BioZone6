@@ -277,7 +277,7 @@ void BioZone6_GUI::fromItemVectorToProtocol(std::vector<protocolTreeWidgetItem*>
 		new_command.setInstruction(static_cast<ppc1Cmd>(
 			_command_vector->at(i)->text(editorParams::c_command).toInt()));
 
-		new_command.setValue(_command_vector->at(i)->text(editorParams::c_value).toInt());
+		new_command.setValue(_command_vector->at(i)->text(editorParams::c_value).toDouble());
 		new_command.setStatusMessage(_command_vector->at(i)->text(editorParams::c_msg).toStdString());
 
 		_protocol->push_back(new_command);
@@ -775,7 +775,7 @@ void BioZone6_GUI::onTabEditorChanged(int _idx)
 			if (element->getInstruction() == ppc1Cmd::ask)
 				new_line.append(QString::fromStdString(element->getStatusMessage()));
 			else
-				new_line.append(QString::number(element->getValue()));
+				new_line.append(QString::number(element->getValue(), 'g', 3)); 
 			new_line.append(")  ");
 			ui->textBrowser_machineCode->append(new_line);
 		}

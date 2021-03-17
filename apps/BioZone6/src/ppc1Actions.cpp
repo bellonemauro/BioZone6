@@ -468,16 +468,18 @@ void BioZone6_GUI::protocolFinished(const QString &_result) {
 	m_running_protocol_file_name = "";
 
 	
-	m_workaround_setValues->start();
+	//m_workaround_setValues->start();
 
 
 }
 
+/* DEPRECATED on 12032021 ---- clean this out
 void BioZone6_GUI::updateBUGGYsetValues()
 {
 	//TODO: this is truly a horrible solution, there is a mismatch between 
 	//      the set_values at the end of a protocol and the set_values a little bit after
 	//      this causes a mismatch between the updated GUI sliders and the real set points
+	return;
 	if (!m_simulationOnly) {
 	updateVrecircSetPoint(-m_ppc1->getVrecircSetPoint());
 	updateVswitchSetPoint(-m_ppc1->getVswitchSetPoint());
@@ -486,7 +488,7 @@ void BioZone6_GUI::updateBUGGYsetValues()
 }
 	m_workaround_setValues->stop();
 
-}
+}*/
 
 void BioZone6_GUI::operationalMode() {
 

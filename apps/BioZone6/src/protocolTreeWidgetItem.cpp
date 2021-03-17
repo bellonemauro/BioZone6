@@ -95,7 +95,7 @@ bool protocolTreeWidgetItem::checkValidity( int _column)
     
 
 	// get the number to be checked
-	int number = this->text(editorParams::c_value).toInt();
+	double number = this->text(editorParams::c_value).toDouble();// .toInt();
 	switch (idx)
 	{
 	case protocolCommands::allOff: {
@@ -123,7 +123,11 @@ bool protocolTreeWidgetItem::checkValidity( int _column)
 		dynamic_cast<QTreeWidgetItem*>(this)->setToolTip(editorParams::c_command, m_tt_cmd_setPon);
 		if (number < 1) {
 			number = -number;
-			this->setText(editorParams::c_value, QString::number(number));
+			this->setText(editorParams::c_value, QString::number(int(number)));
+		}
+		else
+		{
+			this->setText(editorParams::c_value, QString::number(int(number)));
 		}
 		// if is not the range
 		if (//number < m_pr_params->p_off_min || // not necessary as it min=0
@@ -140,7 +144,11 @@ bool protocolTreeWidgetItem::checkValidity( int _column)
 		if (number < 1)
 		{
 			number = -number;
-			this->setText(editorParams::c_value, QString::number(number));
+			this->setText(editorParams::c_value, QString::number(int(number)));
+		}
+		else
+		{
+			this->setText(editorParams::c_value, QString::number(int(number)));
 		}
 		// if is not the range
 		if (//number < m_pr_params->p_off_min || // not necessary as it min=0
@@ -159,6 +167,10 @@ bool protocolTreeWidgetItem::checkValidity( int _column)
 			number = -number;
 			this->setText(editorParams::c_value, QString::number(number));
 		}
+		else
+		{
+			this->setText(editorParams::c_value, QString::number(int(number)));
+		}
 		// if is not the range
 		if (number < m_pr_params->v_recirc_min) {  
 			// || number > m_pr_params->v_recirc_max) { // not necessary as it max=0
@@ -175,6 +187,10 @@ bool protocolTreeWidgetItem::checkValidity( int _column)
 			number = -number;
 			this->setText(editorParams::c_value, QString::number(number));
 		}
+		else
+		{
+			this->setText(editorParams::c_value, QString::number(int(number)));
+		}
 		// if is not the range
 		if (number < m_pr_params->v_switch_min){
 			//number > m_pr_params->v_switch_max) {  // not necessary as it max=0
@@ -190,6 +206,10 @@ bool protocolTreeWidgetItem::checkValidity( int _column)
 			this->setText(editorParams::c_value, QString("0"));
 			return false;
 		}
+		else
+		{
+			this->setText(editorParams::c_value, QString::number(int(number)));
+		}
 		return true;
 	}
 	case protocolCommands::syncOut: {
@@ -199,14 +219,22 @@ bool protocolTreeWidgetItem::checkValidity( int _column)
 			this->setText(editorParams::c_value, QString("20"));
 			return false;
 		}
+		else
+		{
+			this->setText(editorParams::c_value, QString::number(int(number)));
+		}
 		return true;
 	}
 	case protocolCommands::wait: {
 		// if the value is not valid, reset to one
 		dynamic_cast<QTreeWidgetItem*>(this)->setToolTip(editorParams::c_command, m_tt_cmd_wait);
-		if (number < 1) {
+		if (number < 0) {
 			this->setText(editorParams::c_value, QString("1"));
 			return false;
+		}
+		else
+		{
+			this->setText(editorParams::c_value, QString::number(number));
 		}
 		return true;
 	}
@@ -216,6 +244,10 @@ bool protocolTreeWidgetItem::checkValidity( int _column)
 		if (number < 1) {
 			this->setText(editorParams::c_value, QString("1"));
 			return false;
+		}
+		else
+		{
+			this->setText(editorParams::c_value, QString::number(int(number)));
 		}
 		return true;
 	}
@@ -444,7 +476,7 @@ QString protocolTreeWidgetItem::getRangeColumn( int _idx)
 
 }
 
-void protocolTreeWidgetItem::setElements(int _cmd_ind, int _value, bool _show_msg, QString _msg)
+void protocolTreeWidgetItem::setElements(int _cmd_ind, double _value, bool _show_msg, QString _msg)
 {
 	this->blockSignals(true);
 	this->setText(m_cmd_idx_c, "0");
@@ -467,7 +499,7 @@ void protocolTreeWidgetItem::setData(int column, int role, const QVariant & valu
 	// it is then possible to overload a signal and 
 	// bring the last value to the undo stack
 	m_last_command = this->text(1).toInt();
-	m_last_value = this->text(3).toInt();
+	m_last_value = this->text(3).toDouble();
 	m_last_msg = this->text(4);
 
 	this->QTreeWidgetItem::setData(column, role, value);

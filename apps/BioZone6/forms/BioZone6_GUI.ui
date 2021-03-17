@@ -1480,6 +1480,9 @@ QPushButton:disabled{ background-color: #CCCCCC; }
                       </item>
                       <item row="0" column="0" rowspan="2" colspan="3">
                        <widget class="QSpinBox" name="spinBox_PonOM">
+                        <property name="enabled">
+                         <bool>true</bool>
+                        </property>
                         <property name="font">
                          <font>
                           <pointsize>11</pointsize>
@@ -1512,6 +1515,9 @@ QPushButton:disabled{ background-color: #CCCCCC; }
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
+                        </property>
+                        <property name="readOnly">
+                         <bool>true</bool>
                         </property>
                         <property name="buttonSymbols">
                          <enum>QAbstractSpinBox::NoButtons</enum>

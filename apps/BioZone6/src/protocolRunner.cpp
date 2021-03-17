@@ -115,7 +115,7 @@ void BioZone6_protocolRunner::simulateCommand(fluicell::PPC1api6dataStructures::
 		return;
 	}
 	case ppc1Cmd::wait: {//sleep
-		int val = static_cast<int>(_cmd.getValue());
+		double val = _cmd.getValue();
 		QString msg = QString::fromStdString(_cmd.getStatusMessage());
 		simulateWait(val);
 		return;
@@ -166,11 +166,25 @@ void BioZone6_protocolRunner::simulateCommand(fluicell::PPC1api6dataStructures::
 }
 
 
-void BioZone6_protocolRunner::simulateWait(int _sleep_for)
+void BioZone6_protocolRunner::simulateWait(double _sleep_for)
 {
+	// _sleep_for is the amount of time to sleep in
+
+	if (_sleep_for < 1)
+	{
+		int time_to_sleep = _sleep_for * 1000;
+		QThread::msleep(time_to_sleep);
+		std::cout << "slept for " << time_to_sleep << " and it was " << _sleep_for << std::endl;
+		return;
+	}
+
 	const qint64 kInterval = 1000;
 	qint64 mtime = QDateTime::currentMSecsSinceEpoch();
-	for (int j = 0; j < _sleep_for; j++) {
+
+	int number_of_seconds = int(_sleep_for);
+
+	int number_of_milliseconds = int((_sleep_for - number_of_seconds) * 1000);
+	for (int j = 0; j < number_of_seconds; j++) {
 		// visualize step time left 
 		m_time_left_for_step = _sleep_for - j;
 		mtime += kInterval;
@@ -178,7 +192,7 @@ void BioZone6_protocolRunner::simulateWait(int _sleep_for)
 		if (sleepFor < 0) {
 			sleepFor = kInterval - ((-sleepFor) % kInterval);
 		}
-		msleep(sleepFor);// (m_macro->at(i).Duration);					
+		QThread::msleep(sleepFor);// (m_macro->at(i).Duration);					
 		m_time_elapsed = m_time_elapsed + 1.0;
 		double status = 100.0 * m_time_elapsed / m_protocol_duration;
 
@@ -192,6 +206,11 @@ void BioZone6_protocolRunner::simulateWait(int _sleep_for)
 			return;
 		}
 	}
+
+	QThread::msleep(number_of_milliseconds);
+	emit timeStatus(100);// if we are here, we are done waiting
+	std::cout << "slept for " << number_of_milliseconds << " and it was " << _sleep_for << std::endl;
+	return;
 
 }
 
@@ -261,7 +280,7 @@ void BioZone6_protocolRunner::run()
 						// If the command is to wait, we do it here
 						if (m_protocol->at(i).getInstruction() == ppc1Cmd::wait) 
 						{	
-							int val = static_cast<int>(m_protocol->at(i).getValue());
+							double val = m_protocol->at(i).getValue();
 							simulateWait(val);
 						}
 						if (m_protocol->at(i).getInstruction() == ppc1Cmd::showPopUp)
@@ -302,6 +321,9 @@ void BioZone6_protocolRunner::run()
 					}
 				}
 			}//end for protocol
+			simulateWait(0.2); 
+			// TODO: this small wait time at the end of the protocol allows for pressure values to
+			// be correclty applied and updated
 		}
 		else {
 			std::cerr << HERE << "  ---- error --- MESSAGE: null pointer " << std::endl;

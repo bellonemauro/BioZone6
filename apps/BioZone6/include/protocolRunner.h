@@ -90,7 +90,7 @@ private:
 	
 	void initCustomStrings();
 	void simulateCommand(fluicell::PPC1api6dataStructures::command _cmd);
-	void simulateWait(int _sleep_for);
+	void simulateWait(double _sleep_for); // _sleep_for in sec
 	
 
 	fluicell::PPC1api6 *m_ppc1;                            //!< pointer to the device to run the protocol 

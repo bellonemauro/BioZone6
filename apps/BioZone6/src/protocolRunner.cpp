@@ -206,10 +206,13 @@ void BioZone6_protocolRunner::simulateWait(double _sleep_for)
 			return;
 		}
 	}
-
-	QThread::msleep(number_of_milliseconds);
-	emit timeStatus(100);// if we are here, we are done waiting
-	std::cout << "slept for " << number_of_milliseconds << " and it was " << _sleep_for << std::endl;
+	if (number_of_milliseconds > 0)
+	{
+		QThread::msleep(number_of_milliseconds);
+		double status = 100.0 * m_time_elapsed / m_protocol_duration;
+		emit timeStatus(status);// if we are here, we are done waiting
+		std::cout << "slept for " << number_of_milliseconds << " and it was " << _sleep_for << std::endl;
+	}
 	return;
 
 }

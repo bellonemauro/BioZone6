@@ -278,12 +278,12 @@ bool protocolTreeWidgetItem::checkValidity( int _column)
 		this->setText(editorParams::c_value, QString("")); // it removes whatever is there
 		return true;
 	}
-	case protocolCommands::button1:
-	case protocolCommands::button2:
-	case protocolCommands::button3:
-	case protocolCommands::button4:
-	case protocolCommands::button5:
-	case protocolCommands::button6: {
+	//case protocolCommands::button1:
+	//case protocolCommands::button2:
+	//case protocolCommands::button3:
+	//case protocolCommands::button4:
+	//case protocolCommands::button5:
+	/*case protocolCommands::button6: {
 		// check pump button : 0 = stop, 1 = pump
 		// if the value is not valid, reset to zero
 		dynamic_cast<QTreeWidgetItem*>(this)->setToolTip(editorParams::c_command, m_tt_cmd_button);
@@ -292,7 +292,7 @@ bool protocolTreeWidgetItem::checkValidity( int _column)
 			return false;
 		}
 		return true;
-	}
+	}*/
 	case 454545://protocolCommands::ramp: 
 	{
 		// if the number if lower than 0,
@@ -313,7 +313,15 @@ bool protocolTreeWidgetItem::checkValidity( int _column)
 	case protocolCommands::operational: {
 		// no need to check here
 		dynamic_cast<QTreeWidgetItem*>(this)->setToolTip(editorParams::c_command, m_tt_cmd_operational);
-		this->setText(editorParams::c_value, QString("")); // it removes whatever is there
+		//this->setText(editorParams::c_value, QString::number("")); // it removes whatever is there
+		if (number < 1) {
+			this->setText(editorParams::c_value, QString::number(1)); // if the value is not valid, reset to zero
+			return false;
+		}
+		if (number > 4) {
+			this->setText(editorParams::c_value, QString::number(1)); // if the value is not valid, reset to zero
+			return false;
+		}
 		return true;
 	}
 	case protocolCommands::initialize: {
@@ -432,17 +440,17 @@ QString protocolTreeWidgetItem::getRangeColumn( int _idx)
 		// Comment	
 		return QString("-");
 	}
-	case protocolCommands::button1: // Button1
-	case protocolCommands::button2: // Button2
-	case protocolCommands::button3: // Button3
-	case protocolCommands::button4: // Button4
-	case protocolCommands::button5: // Button5
-	case protocolCommands::button6: {// Button6	
-		return QString("1/0 pump/stop");
-	}
+	//case protocolCommands::button1: // Button1
+	//case protocolCommands::button2: // Button2
+	//case protocolCommands::button3: // Button3
+	//case protocolCommands::button4: // Button4
+	//case protocolCommands::button5: // Button5
+	//case protocolCommands::button6: {// Button6	
+	//	return QString("1/0 pump/stop");
+	//}
 	case protocolCommands::operational: {
 		// function
-		return QString("-");
+		return QString("SnR,LnR,SnS,LnS");
 	}
 	case protocolCommands::initialize: {
 		// function

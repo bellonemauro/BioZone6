@@ -431,12 +431,12 @@ struct protocolCommands {
 		pumpsOff,
 		loop,
 		comment,
-		button1,
-		button2,
-		button3,
-		button4,
-		button5,
-		button6,
+		//button1,
+		//button2,
+		//button3,
+		//button4,
+		//button5,
+		//button6,
 		operational,
 		initialize,
 		standby,
@@ -470,12 +470,12 @@ struct protocolCommands {
 		case pumpsOff: return "pumpsOff";
 		case loop: return "loop";
 		case comment: return "comment";
-		case button1: return "button1";
-		case button2: return "button2";
-		case button3: return "button3";
-		case button4: return "button4";
-		case button5: return "button5";
-		case button6: return "button6";
+		//case button1: return "button1";
+		//case button2: return "button2";
+		//case button3: return "button3";
+		//case button4: return "button4";
+		//case button5: return "button5";
+		//case button6: return "button6";
 		case operational: return "operational";
 		case initialize: return "initialize";
 		case standby: return "standby";

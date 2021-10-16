@@ -405,7 +405,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 	{
 		return;
 	}
-	case protocolCommands::button1: 
+	/*case protocolCommands::button1: 
 	{ 
 		// load the protocol for pushSolution1 or stopSolution1
 		QTreeWidget* virtual_tree_widget = new QTreeWidget();
@@ -488,7 +488,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 
 		fromTreeToItemVector(virtual_tree_widget, _command_vector);
 		return;
-	}
+	}*/
 	case 555565://protocolCommands::ramp: //TODO: this is hidden for now
 	{
 		// load the protocol for ramp
@@ -578,7 +578,7 @@ void BioZone6_GUI::createOperationalModeCommand(int _p_on, int _p_off, int _v_s,
 	//protocolTreeWidgetItem* item1 = new protocolTreeWidgetItem();
 	protocolTreeWidgetItem* item2 = new protocolTreeWidgetItem();
 	protocolTreeWidgetItem* item3 = new protocolTreeWidgetItem();
-	//protocolTreeWidgetItem* item4 = new protocolTreeWidgetItem();
+	protocolTreeWidgetItem* item4 = new protocolTreeWidgetItem();
 	protocolTreeWidgetItem* item5 = new protocolTreeWidgetItem();
 	protocolTreeWidgetItem* item6 = new protocolTreeWidgetItem();
 
@@ -590,8 +590,8 @@ void BioZone6_GUI::createOperationalModeCommand(int _p_on, int _p_off, int _v_s,
 	item3->setText(editorParams::c_command, QString::number(protocolCommands::setPoff));
 	item3->setText(editorParams::c_value, QString::number(_p_off));
 
-	//item4->setText(editorParams::c_command, QString::number(protocolCommands::wait));
-	//item4->setText(editorParams::c_value, QString::number(5));
+	item4->setText(editorParams::c_command, QString::number(protocolCommands::wait));
+	item4->setText(editorParams::c_value, QString::number(5));
 
 	item5->setText(editorParams::c_command, QString::number(protocolCommands::setVrecirc));
 	item5->setText(editorParams::c_value, QString::number(_v_r));

@@ -768,10 +768,10 @@ void BioZone6_tools::activateOperationaModeSettings(int _enable)
 	else
 		ui_tools->checkBox_modifyOperationalModeValues->setCheckState(Qt::CheckState::Unchecked);
 	
-	ui_tools->spinBox_p_on_default->setEnabled(enable);
-	ui_tools->spinBox_p_off_default->setEnabled(enable);
-	ui_tools->spinBox_v_switch_default->setEnabled(enable);
-	ui_tools->spinBox_v_recirc_default->setEnabled(enable);
+	//ui_tools->spinBox_p_on_default->setEnabled(enable);
+	//ui_tools->spinBox_p_off_default->setEnabled(enable);
+	//ui_tools->spinBox_v_switch_default->setEnabled(enable);
+	//ui_tools->spinBox_v_recirc_default->setEnabled(enable);
 
 	// enable all the fiels
 	ui_tools->spinBox_sAs_Pon_def->setEnabled(enable);

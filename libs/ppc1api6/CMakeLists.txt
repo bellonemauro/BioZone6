@@ -15,7 +15,9 @@ set (LIB_SOURCES ${PROJECT_SOURCE_DIR} )
 set (LIB_HEADERS ${PROJECT_SOURCE_DIR}/include)
 message (STATUS "${PROJECT_NAME} MESSAGE:   ---   LIB_SOURCES    :: ${LIB_SOURCES}")
 message (STATUS "${PROJECT_NAME} MESSAGE:   ---   LIB_HEADERS    :: ${LIB_HEADERS}")
-
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+	
 #Allows other components to find this library
 set (PPC1api6_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include  CACHE PATH "Path to the headers of PPC1 api") 
 # necessary to allow the *.cpp to find headers 

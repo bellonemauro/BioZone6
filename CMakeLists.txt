@@ -9,7 +9,7 @@
 
 project(Fluicell)   # Fluicell
 
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
 
 option(ENABLE_verbose "Verbose cmake cofiguration " "OFF")
 if ( ENABLE_verbose )

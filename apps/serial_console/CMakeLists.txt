@@ -31,7 +31,7 @@ ENDIF()
 # this is necessary to find in the code the ui____.h file built in the build folder
 include_directories(${PROJECT_BINARY_DIR}) 
 
-OPTION (with_QT6 "Option to build with QT6, off during porting", OFF)
+OPTION (with_QT6 "Option to build with QT6, off during porting" OFF)
 IF(with_QT6)
 	set(CMAKE_CXX_STANDARD 17)
 	set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -42,7 +42,7 @@ IF(with_QT6)
 	set(CMAKE_AUTORCC ON)
 	set(CMAKE_AUTOUIC ON)
 
-	find_package(Qt6 COMPONENTS Core Widgets Gui SerialPort  REQUIRED)
+	find_package(Qt6 COMPONENTS Core Widgets Gui  REQUIRED) # here some package is missing, serialport charts and networking at least
 
 	add_definitions (${QT_DEFINITIONS})   #required to use QT and gui
 
@@ -61,7 +61,7 @@ IF(with_QT6)
 	#target_link_libraries ( ${PROJECT_NAME}  ${QT_LIBRARIES} ${Qt5SerialPort_LIBRARIES})
 	target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Widgets Qt6::Gui Qt6::SerialPort)
 
-ELSE()
+ELSE(with_QT6)
 	# Add options to build specific targets
 	# allows automatic linking of QT - see http://www.cmake.org/cmake/help/v3.0/policy/CMP0020.html
 	cmake_policy(SET CMP0020 NEW)

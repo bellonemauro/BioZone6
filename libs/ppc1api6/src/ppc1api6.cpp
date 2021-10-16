@@ -36,10 +36,11 @@ fluicell::PPC1api6::PPC1api6() :
 	// set default filter values
 	m_filter_enabled = true;
 	m_filter_size = 20;
-
+	
 	// initialize thread variables
 	m_threadTerminationHandler = false; // it will be true when the thread starts
 	m_isRunning = false;
+	std::string ss = this->getDeviceID();
 }
 
 void fluicell::PPC1api6::threadSerial() 
@@ -90,11 +91,13 @@ void fluicell::PPC1api6::threadSerial()
 		m_excep_handler = true;
 		return;
 	}
+	
 }
 
 bool fluicell::PPC1api6::decodeDataLine(const std::string &_data, 
 	fluicell::PPC1api6dataStructures::PPC1api6_data *_PPC1_data) const
 {
+	std::string ss = (const_cast<fluicell::PPC1api6*>(this))->getDeviceID();
 	// check for empty data
 	if (_data.empty())
 	{

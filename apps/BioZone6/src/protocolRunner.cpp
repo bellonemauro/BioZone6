@@ -209,6 +209,7 @@ void BioZone6_protocolRunner::simulateWait(double _sleep_for)
 	if (number_of_milliseconds > 0)
 	{
 		QThread::msleep(number_of_milliseconds);
+		m_time_elapsed = m_time_elapsed + (number_of_milliseconds*0.001); // number of milliseconds in sec
 		double status = 100.0 * m_time_elapsed / m_protocol_duration;
 		emit timeStatus(status);// if we are here, we are done waiting
 		std::cout << "slept for " << number_of_milliseconds << " and it was " << _sleep_for << std::endl;
@@ -324,7 +325,7 @@ void BioZone6_protocolRunner::run()
 					}
 				}
 			}//end for protocol
-			simulateWait(0.2); 
+			simulateWait(0.2); // TODO: fix this number
 			// TODO: this small wait time at the end of the protocol allows for pressure values to
 			// be correclty applied and updated
 		}
@@ -335,6 +336,7 @@ void BioZone6_protocolRunner::run()
 			emit resultReady(result);
 			return;
 		}
+		emit timeStatus(100); 
 		result = m_str_success; 
 		emit resultReady(result);
 

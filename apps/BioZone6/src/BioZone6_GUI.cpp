@@ -1201,7 +1201,7 @@ bool BioZone6_GUI::visualizeProgressMessage(int _seconds, QString _message)
 	//this will make the windows more reactive
 	// so the loop will take x(sec) / acceleration_time
 	int updates_per_second = 5; 
-	
+
 	QProgressDialog *PD = new QProgressDialog(msg, m_str_cancel, 0, 
 		updates_per_second*_seconds, this);
 	PD->setMinimumWidth(350);   // here there is a warning that the geometry cannot be set, forget about it!
@@ -1300,8 +1300,8 @@ void BioZone6_GUI::about() {
 	QString msg_content = tr("<b>BioZone6</b> is a "
 		"<a href='http://fluicell.com/'>Fluicell</a> AB software <br>"
 		"Copyright Fluicell AB, Sweden 2020 <br> <br>"
-		"Arvid Wallgrens Backe 20<br>"
-		"SE-41346 Gothenburg, Sweden<br>"
+		"Flöjelbergsgatan 8C<br>"
+		"SE-431 37 Mölndal, Sweden<br>"
 		"Tel: +46 76 208 3354 <br>"
 		"e-mail: info@fluicell.com <br><br>"
 		"Developer:<a href='http://www.maurobellone.com'>Mauro Bellone</a> <br>"

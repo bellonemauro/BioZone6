@@ -104,7 +104,9 @@ set(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")
 # Icon in the add/remove control panel. Must be an .exe file 
 set(CPACK_NSIS_INSTALLED_ICON_NAME BioZone6.exe)
 
-set(CPACK_NSIS_MUI_FINISHPAGE_RUN BioZone6.exe)
+#set(CPACK_NSIS_MUI_FINISHPAGE_RUN ./BioZone6/BioZone6.exe)
+# this does not work properly, when the software starts it starts from a 
+# different folder generating an error that protocols and other application files are not found
 
 
 #set(CPACK_NSIS_MUI_UNPAGE_WELCOME )

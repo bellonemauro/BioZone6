@@ -627,7 +627,7 @@ private slots:
 	*
 	*       Put the device into a standby mode by running the following commands:
 	*
-	*       STANDBY MACRO
+	*       STANDBY PROTOCOL
 	*       allOff()
 	*       setPoff(11)
 	*       setPon(0)

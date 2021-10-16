@@ -333,10 +333,12 @@ private slots:
 	*/
 	bool saveSettings(QString _file_name = QString("./settings/setting_save.ini"));
 
-	/** \brief ask a password to unlock protected settings
+	/** \brief ask a password to unlock protected tip settings
 	*
 	*/
-	void askPasswordToUnlock();
+	void enableTipSetting();
+
+
 
 	void tipSelection(int _idx);
 
@@ -384,6 +386,12 @@ private:
 
 	void getTipSettingsFromGUI();
 
+	/** \brief ask a password
+	*
+	* \return true if the password is correct
+	*/
+	bool askPasswordToUnlock();
+
 	/** \brief From _position to 3 RGB bytes 
 	*
 	*/
@@ -417,7 +425,7 @@ private:
 	GUIparams *m_GUI_params;      //!<  GUI setting structure
 
 	fluicell::PPC1api6dataStructures::tip *m_tip;
-	bool m_expert;       //!< expert mode, set to true upon correct password
+	bool m_expert;             //!< expert mode, set to true upon correct password
 
 	// translatable strings
 	QString m_str_warning;

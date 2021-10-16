@@ -759,31 +759,40 @@ void BioZone6_tools::activateOperationaModeSettings(int _enable)
 	
 	std::cout << HERE << std::endl;
 
-	ui_tools->spinBox_p_on_default->setEnabled(_enable);
-	ui_tools->spinBox_p_off_default->setEnabled(_enable);
-	ui_tools->spinBox_v_switch_default->setEnabled(_enable);
-	ui_tools->spinBox_v_recirc_default->setEnabled(_enable);
+	bool enable = false;
+	if (ui_tools->checkBox_modifyOperationalModeValues->isChecked()==true && askPasswordToUnlock() == true)
+	{
+		enable = true;
+		ui_tools->checkBox_modifyOperationalModeValues->setCheckState(Qt::CheckState::Checked);
+	}
+	else
+		ui_tools->checkBox_modifyOperationalModeValues->setCheckState(Qt::CheckState::Unchecked);
+	
+	ui_tools->spinBox_p_on_default->setEnabled(enable);
+	ui_tools->spinBox_p_off_default->setEnabled(enable);
+	ui_tools->spinBox_v_switch_default->setEnabled(enable);
+	ui_tools->spinBox_v_recirc_default->setEnabled(enable);
 
 	// enable all the fiels
-	ui_tools->spinBox_sAs_Pon_def->setEnabled(_enable);
-	ui_tools->spinBox_sAs_Poff_def->setEnabled(_enable);
-	ui_tools->spinBox_sAs_Vs_def->setEnabled(_enable);
-	ui_tools->spinBox_sAs_Vr_def->setEnabled(_enable);
+	ui_tools->spinBox_sAs_Pon_def->setEnabled(enable);
+	ui_tools->spinBox_sAs_Poff_def->setEnabled(enable);
+	ui_tools->spinBox_sAs_Vs_def->setEnabled(enable);
+	ui_tools->spinBox_sAs_Vr_def->setEnabled(enable);
 
-	ui_tools->spinBox_sAr_Pon_def->setEnabled(_enable);
-	ui_tools->spinBox_sAr_Poff_def->setEnabled(_enable);
-	ui_tools->spinBox_sAr_Vs_def->setEnabled(_enable);
-	ui_tools->spinBox_sAr_Vr_def->setEnabled(_enable);
+	ui_tools->spinBox_sAr_Pon_def->setEnabled(enable);
+	ui_tools->spinBox_sAr_Poff_def->setEnabled(enable);
+	ui_tools->spinBox_sAr_Vs_def->setEnabled(enable);
+	ui_tools->spinBox_sAr_Vr_def->setEnabled(enable);
 
-	ui_tools->spinBox_lAs_Pon_def->setEnabled(_enable);
-	ui_tools->spinBox_lAs_Poff_def->setEnabled(_enable);
-	ui_tools->spinBox_lAs_Vs_def->setEnabled(_enable);
-	ui_tools->spinBox_lAs_Vr_def->setEnabled(_enable);
+	ui_tools->spinBox_lAs_Pon_def->setEnabled(enable);
+	ui_tools->spinBox_lAs_Poff_def->setEnabled(enable);
+	ui_tools->spinBox_lAs_Vs_def->setEnabled(enable);
+	ui_tools->spinBox_lAs_Vr_def->setEnabled(enable);
 
-	ui_tools->spinBox_lAr_Pon_def->setEnabled(_enable);
-	ui_tools->spinBox_lAr_Poff_def->setEnabled(_enable);
-	ui_tools->spinBox_lAr_Vs_def->setEnabled(_enable);
-	ui_tools->spinBox_lAr_Vr_def->setEnabled(_enable);
+	ui_tools->spinBox_lAr_Pon_def->setEnabled(enable);
+	ui_tools->spinBox_lAr_Poff_def->setEnabled(enable);
+	ui_tools->spinBox_lAr_Vs_def->setEnabled(enable);
+	ui_tools->spinBox_lAr_Vr_def->setEnabled(enable);
 
 }
 
@@ -1709,7 +1718,22 @@ bool BioZone6_tools::saveSettings(QString _file_name)
 	return true;
 }
 
-void BioZone6_tools::askPasswordToUnlock()
+void BioZone6_tools::enableTipSetting()
+{
+
+	if (askPasswordToUnlock())
+	{
+		this->unlockProtectedSettings(true);
+
+	}
+	else
+	{
+		this->unlockProtectedSettings(false);
+	}
+
+}
+
+bool BioZone6_tools::askPasswordToUnlock()
 {
 	//ask password
 	//if correct 
@@ -1724,14 +1748,16 @@ void BioZone6_tools::askPasswordToUnlock()
 		{
 			QMessageBox::information(this, m_str_information, m_correct_password);
 			m_expert = true;
-			this->unlockProtectedSettings(true);
+			return true;
 		}
 		else
 		{
 			QMessageBox::warning(this, m_str_information, m_wrong_password);
-			this->unlockProtectedSettings(false);
+			m_expert = false;
+			return false;
 		}
 	}
+	return false;
 }
 
 void BioZone6_tools::tipSelection(int _idx)

@@ -28,7 +28,7 @@ bool XmlProtocolReader::read(QIODevice *device, protocolTreeWidgetItem* after_it
 	m_row = treeWidget->topLevelItemCount()-1;//    treeWidget->currentIndex().row();
     if (xml.readNextStartElement()) {
         if (xml.name() == QLatin1String("Protocol")
-            && xml.attributes().value(versionAttribute()) == QLatin1String("1.0")) {
+            && xml.attributes().value(versionAttribute()) == QLatin1String("1.1")) {
             readPRT();
         } else {
             xml.raiseError(QObject::tr("The file is not an PRT version 1.0 file."));

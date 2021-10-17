@@ -829,6 +829,16 @@ private:
   */ 
   void addAllCommandsToPPC1Protocol(QTreeWidget* _tree,
 	  std::vector<fluicell::PPC1api6dataStructures::command>* _protocol);
+  
+  /** \brief Protocol validity check
+  *
+  *   This is done after adding all commands to the protocol to check that the commands sequence 
+  *   does not break any device functioning rule
+  *
+  *   \return true if the protocol is correct, false for any error
+  */
+  bool protocolValidityCheck(QTreeWidget* _tree,
+	  std::vector<fluicell::PPC1api6dataStructures::command>* _protocol);
 
   void fromTreeToItemVector(QTreeWidget* _tree,
 	  std::vector<protocolTreeWidgetItem*>* _command_vector);

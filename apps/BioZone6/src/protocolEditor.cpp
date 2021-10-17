@@ -206,6 +206,9 @@ void BioZone6_GUI::addAllCommandsToPPC1Protocol(QTreeWidget* _tree,
 	// then from the command vector are pushed to the protocol
 	fromItemVectorToProtocol(&command_vector, _protocol);
 
+	//TODO: add here a protocol validity check
+	//bool success = protocolValidityCheck(_tree, _protocol);
+
 	std::cout << HERE << " Converted protocol size " << _protocol->size() << std::endl;
 
 	// update duration
@@ -216,6 +219,13 @@ void BioZone6_GUI::addAllCommandsToPPC1Protocol(QTreeWidget* _tree,
 	s.append(m_str_protocol_duration);
 	s.append(generateDurationString(remaining_time_sec));
 	ui->label_protocolDuration->setText(s);
+}
+
+bool BioZone6_GUI::protocolValidityCheck(QTreeWidget* _tree,
+	std::vector<fluicell::PPC1api6dataStructures::command>* _protocol)
+{
+	//TODO: awaiting for a list of validity checks
+	return true;
 }
 
 QString BioZone6_GUI::generateDurationString(int _time)
@@ -560,31 +570,27 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 	case protocolCommands::SnR_ON_button:
 	{
 		// load the protocol for standby
+		QString value = QString::number(int(_item->getLastValue()));
+
+		QString file_to_open = QString(preset_protocols_path + "/pumpSolution" + value + ".prt");
+		//QMessageBox::warning(this, m_str_warning,
+		//	QString("presetProtocols/internal open  the file. <br>" + file_to_open));
+
 		QTreeWidget* virtual_tree_widget = new QTreeWidget();
-		openXml(QString(preset_protocols_path + "/internal/pumpSolution1.prt"), virtual_tree_widget);
+		openXml(file_to_open, virtual_tree_widget);
 		fromTreeToItemVector(virtual_tree_widget, _command_vector);
 		return;
 	}//TODO: all the other are missing
-	case 2123454:{//protocolCommands::standardAndSlow: {
+	case protocolCommands::SnR_OFF_button:
+	{
 		// load the protocol for standby
-		this->createOperationalModeCommand(m_pr_params->p_on_sAs, m_pr_params->p_off_sAs,
-			m_pr_params->v_switch_sAs, m_pr_params->v_recirc_sAs,
-			_command_vector);
-		//TODO: there is a problem with using this command consecutively in a protocol: 
-		//      assuming that the GUI is set in the standardAndRegular mode and run the following protocol
-		//
-		//      operational()      ---> set values are from standardAndRegular mode
-		//      sleep(1)
-		//      standardAndSlow()  ---> apply new values for the mode standardAndSlow()
-		//      sleep(1)
-		//      -do any other long operation here, change pressures, open valves, etc. 
-		//      sleep(1)
-		//      operational()      ---> here we have the issue-UNPREDICTIBLE BEHAVIOUR. HORRIBLE TERROR!!!
-		//                              The user would expect to have the pressure/vacuum values
-		//                              set to standardAndSlow(), but they will be set to standardAndRegular 
-		//                              instead as it is the starting point
+		QString value = QString::number(int(_item->getLastValue()));
+		QString file_to_open = QString(preset_protocols_path + "/stopSolution" + value + ".prt");
+		QTreeWidget* virtual_tree_widget = new QTreeWidget();
+		openXml(file_to_open, virtual_tree_widget);
+		fromTreeToItemVector(virtual_tree_widget, _command_vector);
 		return;
-	}
+	}//TODO: all the other are missing
 	default:
 		break;
 	}

@@ -31,7 +31,7 @@ bool XmlProtocolWriter::writeFile(QIODevice *device)
         + QTime::currentTime().toString() + " ";
     xml.writeComment(toPrint);
     xml.writeStartElement(QStringLiteral("Protocol"));
-    xml.writeAttribute(versionAttribute(), QStringLiteral("1.0"));
+    xml.writeAttribute(versionAttribute(), QStringLiteral("1.1"));
     for (int i = 0; i < treeWidget->topLevelItemCount(); ++i)
         writeItem(treeWidget->topLevelItem(i));
 

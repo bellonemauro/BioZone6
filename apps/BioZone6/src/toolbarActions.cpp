@@ -199,7 +199,7 @@ void BioZone6_GUI::showProtocolEditor() {
 		ui->actionLoad_profile->setText(m_str_load_profile);
 		ui->actionEditor->setText(m_str_editor);
 		QIcon iconEditor;
-		iconEditor.addFile(QStringLiteral("://icons/protocolEditor.png"), QSize(), QIcon::Normal, QIcon::Off);
+		iconEditor.addFile(QStringLiteral(":/icons/protocolEditor.png"), QSize(), QIcon::Normal, QIcon::Off);
 		iconEditor.addFile(QStringLiteral(":/icons/protocolEditor_off.png"), QSize(), QIcon::Disabled, QIcon::Off);
 		ui->actionEditor->setIcon(iconEditor);
 		

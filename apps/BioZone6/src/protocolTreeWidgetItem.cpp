@@ -55,14 +55,14 @@ protocolTreeWidgetItem::protocolTreeWidgetItem(protocolTreeWidgetItem *_parent) 
 	m_tt_cmd_comment = tr("Comment for the designer, no effect on the protocol running");
 	m_tt_cmd_button = tr("Run push/stop protocol for button X");
 	m_tt_cmd_ramp = tr("");
-	m_tt_cmd_operational = tr("Run the operational protocol");
+	m_tt_cmd_operational = tr("Pur the device in one of the operational modes, \n1 = Standard and Regular (SnR) \n2 = Large and Regular (LnR) \n3 = Standard and Slow (SnS) \n4 = Large and Slow (LnS)");
 	m_tt_cmd_initialize = tr("Run initialize protocol");
 	m_tt_cmd_standby = tr("Run standby protocol");
 	m_tt_cmd_function = tr("");
-	m_tt_cmd_smallAndSlow = tr("Set the droplet to be small and flow to be slow");
-	m_tt_cmd_smallAndFast = tr("Set the droplet to be small and flow to be fast");
-	m_tt_cmd_bigAndSlow = tr("Set the droplet to be big and flow to be slow");
-	m_tt_cmd_bigAndFast = tr("Set the droplet to be big and flow to be fast");
+	m_tt_cmd_smallAndSlow_button = tr("WRITE ME");
+	m_tt_cmd_smallAndFast_button = tr("WRITE ME");
+	m_tt_cmd_bigAndSlow_button = tr("WRITE ME");
+	m_tt_cmd_bigAndFast_button = tr("WRITE ME");
 
 	dynamic_cast<QTreeWidgetItem*>(this)->setToolTip(editorParams::c_idx, m_tt_c_idx);
 	dynamic_cast<QTreeWidgetItem*>(this)->setToolTip(editorParams::c_command, m_tt_c_cmd);
@@ -343,29 +343,62 @@ bool protocolTreeWidgetItem::checkValidity( int _column)
 		this->setText(editorParams::c_value, QString("1")); // it can only be 1
 		return true;
 	}
-	case protocolCommands::standardAndSlow: {
+	case protocolCommands::SnR_ON_button:
+	case protocolCommands::SnR_OFF_button: {
 		// function
-		dynamic_cast<QTreeWidgetItem*>(this)->setToolTip(editorParams::c_command, m_tt_cmd_smallAndSlow);
-		this->setText(editorParams::c_value, QString("")); // it removes whatever is there
+		dynamic_cast<QTreeWidgetItem*>(this)->setToolTip(editorParams::c_command, m_tt_cmd_smallAndSlow_button);
+		if (number < 1) {
+			this->setText(editorParams::c_value, QString::number(1)); // if the value is not valid, reset to zero
+			return false;
+		}
+		if (number > 6) {
+			this->setText(editorParams::c_value, QString::number(1)); // if the value is not valid, reset to zero
+			return false;
+		}
 		return true;
 	}
-	case protocolCommands::standardAndRegular: {
+	case protocolCommands::LnR_ON_button:
+	case protocolCommands::LnR_OFF_button: {
 		// function
-		dynamic_cast<QTreeWidgetItem*>(this)->setToolTip(editorParams::c_command, m_tt_cmd_smallAndFast);
-		this->setText(editorParams::c_value, QString("")); // it removes whatever is there
+		dynamic_cast<QTreeWidgetItem*>(this)->setToolTip(editorParams::c_command, m_tt_cmd_smallAndFast_button);
+		if (number < 1) {
+			this->setText(editorParams::c_value, QString::number(1)); // if the value is not valid, reset to zero
+			return false;
+		}
+		if (number > 6) {
+			this->setText(editorParams::c_value, QString::number(1)); // if the value is not valid, reset to zero
+			return false;
+		}
 		return true;
 	}
-	case protocolCommands::largeAndSlow: {
+	case protocolCommands::SnS_ON_button:
+	case protocolCommands::SnS_OFF_button: {
 		// function
-		dynamic_cast<QTreeWidgetItem*>(this)->setToolTip(editorParams::c_command, m_tt_cmd_bigAndSlow);
-		this->setText(editorParams::c_value, QString("")); // it removes whatever is there
+		dynamic_cast<QTreeWidgetItem*>(this)->setToolTip(editorParams::c_command, m_tt_cmd_bigAndSlow_button);
+		if (number < 1) {
+			this->setText(editorParams::c_value, QString::number(1)); // if the value is not valid, reset to zero
+			return false;
+		}
+		if (number > 6) {
+			this->setText(editorParams::c_value, QString::number(1)); // if the value is not valid, reset to zero
+			return false;
+		}
 		return true;
 	}
-	case protocolCommands::largeAndRegular: {
+	case protocolCommands::LnS_ON_button: 
+	case protocolCommands::LnS_OFF_button: {
 		// function
-		dynamic_cast<QTreeWidgetItem*>(this)->setToolTip(editorParams::c_command, m_tt_cmd_bigAndFast);
-		this->setText(editorParams::c_value, QString("")); // it removes whatever is there
-		return true;
+		dynamic_cast<QTreeWidgetItem*>(this)->setToolTip(editorParams::c_command, m_tt_cmd_bigAndFast_button);
+		if (number < 1) {
+			this->setText(editorParams::c_value, QString::number(1)); // if the value is not valid, reset to zero
+			return false;
+		}
+		if (number > 6) {
+			this->setText(editorParams::c_value, QString::number(1)); // if the value is not valid, reset to zero
+			return false;
+		}
+		return true; 
+		
 	}
 	default: {
 		// default function active if none of the previous
@@ -450,7 +483,7 @@ QString protocolTreeWidgetItem::getRangeColumn( int _idx)
 	//}
 	case protocolCommands::operational: {
 		// function
-		return QString("SnR,LnR,SnS,LnS");
+		return QString("SnR, LnR, SnS, LnS");
 	}
 	case protocolCommands::initialize: {
 		// function
@@ -460,21 +493,16 @@ QString protocolTreeWidgetItem::getRangeColumn( int _idx)
 		// function
 		return QString("-");
 	}
-	case protocolCommands::standardAndSlow: {
+	case protocolCommands::SnR_ON_button:
+	case protocolCommands::SnR_OFF_button: 
+	case protocolCommands::LnR_ON_button:
+	case protocolCommands::LnR_OFF_button: 
+	case protocolCommands::SnS_ON_button:
+	case protocolCommands::SnS_OFF_button: 
+	case protocolCommands::LnS_ON_button:
+	case protocolCommands::LnS_OFF_button: {
 		// function
-		return QString("-");
-	}
-	case protocolCommands::standardAndRegular: {
-		// function
-		return QString("-");
-	}
-	case protocolCommands::largeAndSlow: {
-		// function
-		return QString("-");
-	}
-	case protocolCommands::largeAndRegular: {
-		// function
-		return QString("-");
+		return QString("Button 1 to 6");
 	}
 	default: {
 		// default function active if none of the previous

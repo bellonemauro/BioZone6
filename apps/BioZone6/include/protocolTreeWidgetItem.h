@@ -125,10 +125,10 @@ private:
 	QString m_tt_cmd_initialize;
 	QString m_tt_cmd_standby;
 	QString m_tt_cmd_function;
-	QString m_tt_cmd_smallAndSlow;
-	QString m_tt_cmd_smallAndFast;
-	QString m_tt_cmd_bigAndSlow;
-	QString m_tt_cmd_bigAndFast;
+	QString m_tt_cmd_smallAndSlow_button;
+	QString m_tt_cmd_smallAndFast_button;
+	QString m_tt_cmd_bigAndSlow_button;
+	QString m_tt_cmd_bigAndFast_button;
 
 };
 

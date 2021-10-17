@@ -413,37 +413,35 @@ struct protocolCommands {
 
 	enum command {
 		allOff, 
+		wait,
+		operational,
+		standby,
+		SnR_ON_button,
+		SnR_OFF_button,
+		LnR_ON_button,
+		LnR_OFF_button,
+		SnS_ON_button,
+		SnS_OFF_button,
+		LnS_ON_button,
+		LnS_OFF_button,
+		loop,
+		setPon,
+		setPoff,
+		setVrecirc,
+		setVswitch,
 		solution1,
 		solution2,
 		solution3,
 		solution4,
 		solution5,
 		solution6,
-		setPon,
-		setPoff,
-		setVrecirc,
-		setVswitch,
 		waitSync,
 		syncOut,
-		wait,
-		showPopUp,
-		ask,
-		pumpsOff,
-		loop,
 		comment,
-		//button1,
-		//button2,
-		//button3,
-		//button4,
-		//button5,
-		//button6,
-		operational,
+		ask,
 		initialize,
-		standby,
-		standardAndSlow,
-		standardAndRegular,
-		largeAndSlow,
-		largeAndRegular,
+		showPopUp,
+		pumpsOff,
 		END //THIS IS TO TAKE TRACK OF ENUMERATION
 	};
 
@@ -479,10 +477,14 @@ struct protocolCommands {
 		case operational: return "operational";
 		case initialize: return "initialize";
 		case standby: return "standby";
-		case standardAndSlow: return "standardAndSlow";
-		case standardAndRegular: return "standardAndRegular";
-		case largeAndSlow: return "largeAndSlow";
-		case largeAndRegular: return "largeAndRegular";
+		case SnR_ON_button: return "SnR_ON_button";
+		case SnR_OFF_button: return "SnR_OFF_button";
+		case LnR_ON_button: return "LnR_ON_button";
+		case LnR_OFF_button: return "LnR_OFF_button";
+		case SnS_ON_button: return "SnS_ON_button";
+		case SnS_OFF_button: return "SnS_OFF_button";
+		case LnS_ON_button: return "LnS_ON_button";
+		case LnS_OFF_button: return "LnS_OFF_button";
 		case END: return "END";
 		}
 		return "Invalid";

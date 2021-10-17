@@ -382,15 +382,15 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 			dynamic_cast<protocolTreeWidgetItem*> (_item));
 		return;
 	}
-	case protocolCommands::ask:{
+	case protocolCommands::ask: {
 		_command_vector->push_back(
-		dynamic_cast<protocolTreeWidgetItem*> (_item)); 
+			dynamic_cast<protocolTreeWidgetItem*> (_item));
 		return;
 	}
 	case protocolCommands::pumpsOff:
 	{
 		_command_vector->push_back(
-		dynamic_cast<protocolTreeWidgetItem*> (_item)); 
+			dynamic_cast<protocolTreeWidgetItem*> (_item));
 		return;
 	}
 	case protocolCommands::loop: // this should never happen as there is a child for that
@@ -405,15 +405,15 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 	{
 		return;
 	}
-	/*case protocolCommands::button1: 
-	{ 
+	/*case protocolCommands::button1:
+	{
 		// load the protocol for pushSolution1 or stopSolution1
 		QTreeWidget* virtual_tree_widget = new QTreeWidget();
 		if (_item->text(editorParams::c_value).toInt() == 1)
 			openXml(QString (preset_protocols_path + "/pumpSolution1.prt"), virtual_tree_widget);
 		else if (_item->text(editorParams::c_value).toInt() == 0)
 			openXml(QString(preset_protocols_path + "/stopSolution1.prt"), virtual_tree_widget);
-		else // this should never happen 
+		else // this should never happen
 			return;
 
 		fromTreeToItemVector(virtual_tree_widget, _command_vector);
@@ -427,7 +427,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 			openXml(QString(preset_protocols_path + "/pumpSolution2.prt"), virtual_tree_widget);
 		else if (_item->text(editorParams::c_value).toInt() == 0)
 			openXml(QString(preset_protocols_path + "/stopSolution2.prt"), virtual_tree_widget);
-		else // this should never happen 
+		else // this should never happen
 			return;
 
 		fromTreeToItemVector(virtual_tree_widget, _command_vector);
@@ -441,7 +441,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 			openXml(QString(preset_protocols_path + "/pumpSolution3.prt"), virtual_tree_widget);
 		else if (_item->text(editorParams::c_value).toInt() == 0)
 			openXml(QString(preset_protocols_path + "/stopSolution3.prt"), virtual_tree_widget);
-		else // this should never happen 
+		else // this should never happen
 			return;
 
 		fromTreeToItemVector(virtual_tree_widget, _command_vector);
@@ -455,7 +455,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 			openXml(QString(preset_protocols_path + "/pumpSolution4.prt"), virtual_tree_widget);
 		else if (_item->text(editorParams::c_value).toInt() == 0)
 			openXml(QString(preset_protocols_path + "/stopSolution4.prt"), virtual_tree_widget);
-		else // this should never happen 
+		else // this should never happen
 			return;
 
 		fromTreeToItemVector(virtual_tree_widget, _command_vector);
@@ -469,7 +469,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 			openXml(QString(preset_protocols_path + "/pumpSolution5.prt"), virtual_tree_widget);
 		else if (_item->text(editorParams::c_value).toInt() == 0)
 			openXml(QString(preset_protocols_path + "/stopSolution5.prt"), virtual_tree_widget);
-		else // this should never happen 
+		else // this should never happen
 			return;
 
 		fromTreeToItemVector(virtual_tree_widget, _command_vector);
@@ -483,7 +483,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 			openXml(QString(preset_protocols_path + "/pumpSolution6.prt"), virtual_tree_widget);
 		else if (_item->text(editorParams::c_value).toInt() == 0)
 			openXml(QString(preset_protocols_path + "/stopSolution1.prt"), virtual_tree_widget);
-		else // this should never happen 
+		else // this should never happen
 			return;
 
 		fromTreeToItemVector(virtual_tree_widget, _command_vector);
@@ -500,9 +500,44 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 	case protocolCommands::operational:
 	{
 		// load the protocol for operational
-		this->createOperationalModeCommand(m_pr_params->p_on_default, m_pr_params->p_off_default,
-			m_pr_params->v_switch_default, m_pr_params->v_recirc_default,
-			_command_vector);
+		int value = int(_item->getLastValue());
+
+		switch (value)
+		{
+		case 1:
+		{
+			this->createOperationalModeCommand(m_pr_params->p_on_sAr, m_pr_params->p_off_sAr,
+				m_pr_params->v_switch_sAr, m_pr_params->v_recirc_sAr,
+				_command_vector);
+			break;
+		}
+		case 2:
+		{
+			this->createOperationalModeCommand(m_pr_params->p_on_lAr, m_pr_params->p_off_lAr,
+				m_pr_params->v_switch_lAr, m_pr_params->v_recirc_lAr,
+				_command_vector);
+			break;
+		}
+		case 3:
+		{
+			this->createOperationalModeCommand(m_pr_params->p_on_sAs, m_pr_params->p_off_sAs,
+				m_pr_params->v_switch_sAs, m_pr_params->v_recirc_sAs,
+				_command_vector);
+			break;
+		}
+		case 4:
+		{
+			this->createOperationalModeCommand(m_pr_params->p_on_lAs, m_pr_params->p_off_lAs,
+				m_pr_params->v_switch_lAs, m_pr_params->v_recirc_lAs,
+				_command_vector);
+			break;
+		}
+		default:
+			this->createOperationalModeCommand(m_pr_params->p_on_default, m_pr_params->p_off_default,
+				m_pr_params->v_switch_default, m_pr_params->v_recirc_default,
+				_command_vector);
+			break;
+		}
 
 		return;
 	}
@@ -522,7 +557,15 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 		fromTreeToItemVector(virtual_tree_widget, _command_vector);
 		return;
 	}
-	case protocolCommands::standardAndSlow: {
+	case protocolCommands::SnR_ON_button:
+	{
+		// load the protocol for standby
+		QTreeWidget* virtual_tree_widget = new QTreeWidget();
+		openXml(QString(preset_protocols_path + "/internal/pumpSolution1.prt"), virtual_tree_widget);
+		fromTreeToItemVector(virtual_tree_widget, _command_vector);
+		return;
+	}//TODO: all the other are missing
+	case 2123454:{//protocolCommands::standardAndSlow: {
 		// load the protocol for standby
 		this->createOperationalModeCommand(m_pr_params->p_on_sAs, m_pr_params->p_off_sAs,
 			m_pr_params->v_switch_sAs, m_pr_params->v_recirc_sAs,
@@ -542,31 +585,6 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 		//                              instead as it is the starting point
 		return;
 	}
-	case protocolCommands::standardAndRegular: {
-		// load the protocol for standby
-		this->createOperationalModeCommand(m_pr_params->p_on_sAr, m_pr_params->p_off_sAr,
-			m_pr_params->v_switch_sAr, m_pr_params->v_recirc_sAr,
-			_command_vector);
-		
-		return;
-	}
-	case protocolCommands::largeAndSlow: {
-		// load the protocol for standby
-
-		this->createOperationalModeCommand(m_pr_params->p_on_lAs, m_pr_params->p_off_lAs,
-			m_pr_params->v_switch_lAs, m_pr_params->v_recirc_lAs,
-			_command_vector);
-		return;
-	}
-	case protocolCommands::largeAndRegular: {
-		// load the protocol for standby
-		
-		this->createOperationalModeCommand(m_pr_params->p_on_lAr, m_pr_params->p_off_lAr,
-			m_pr_params->v_switch_lAr, m_pr_params->v_recirc_lAr,
-			_command_vector);
-
-		return;
-	}
 	default:
 		break;
 	}
@@ -575,6 +593,8 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 void BioZone6_GUI::createOperationalModeCommand(int _p_on, int _p_off, int _v_s, int _v_r,
 	std::vector<protocolTreeWidgetItem*>* _command_vector)
 {
+
+
 	//protocolTreeWidgetItem* item1 = new protocolTreeWidgetItem();
 	protocolTreeWidgetItem* item2 = new protocolTreeWidgetItem();
 	protocolTreeWidgetItem* item3 = new protocolTreeWidgetItem();
@@ -602,7 +622,7 @@ void BioZone6_GUI::createOperationalModeCommand(int _p_on, int _p_off, int _v_s,
 	//_command_vector->push_back(item1);
 	_command_vector->push_back(item2);
 	_command_vector->push_back(item3);
-	//_command_vector->push_back(item4);
+    _command_vector->push_back(item4);
 	_command_vector->push_back(item5);
 	_command_vector->push_back(item6);
 

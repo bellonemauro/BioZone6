@@ -743,6 +743,27 @@ void BioZone6_tools::getPRsettingsFromGUI()
 	m_pr_params->enableFilter = ui_tools->checkBox_enablePPC1filter->isChecked();
 	m_pr_params->filterSize = ui_tools->spinBox_PPC1filterSize->value();
 	m_pr_params->waitSyncTimeout = ui_tools->spinBox_PPC1_sync_timeout->value();
+	
+	m_pr_params->p_on_sAs = ui_tools->spinBox_sAs_Pon_def->value();
+	m_pr_params->p_off_sAs = ui_tools->spinBox_sAs_Poff_def->value();
+	m_pr_params->v_recirc_sAs = ui_tools->spinBox_sAs_Vr_def->value();
+	m_pr_params->v_switch_sAs = ui_tools->spinBox_sAs_Vs_def->value();
+
+	m_pr_params->p_on_sAr = ui_tools->spinBox_sAr_Pon_def->value();
+	m_pr_params->p_off_sAr = ui_tools->spinBox_sAr_Poff_def->value();
+	m_pr_params->v_recirc_sAr = ui_tools->spinBox_sAr_Vr_def->value();
+	m_pr_params->v_switch_sAr = ui_tools->spinBox_sAr_Vs_def->value();
+
+	m_pr_params->p_on_lAs = ui_tools->spinBox_lAs_Pon_def->value();
+	m_pr_params->p_off_lAs = ui_tools->spinBox_lAs_Poff_def->value();
+	m_pr_params->v_recirc_lAs = ui_tools->spinBox_lAs_Vr_def->value();
+	m_pr_params->v_switch_lAs = ui_tools->spinBox_lAs_Vs_def->value();
+
+	m_pr_params->p_on_lAr = ui_tools->spinBox_lAr_Pon_def->value();
+	m_pr_params->p_off_lAr = ui_tools->spinBox_lAr_Poff_def->value();
+	m_pr_params->v_recirc_lAr = ui_tools->spinBox_lAr_Vr_def->value();
+	m_pr_params->v_switch_lAr = ui_tools->spinBox_lAr_Vs_def->value();
+
 }
 
 void BioZone6_tools::getTipSettingsFromGUI()

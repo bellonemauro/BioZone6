@@ -450,6 +450,7 @@ struct protocolCommands {
 		switch (_idx)
 		{
 		case allOff: return "allOff";
+		case wait: return "wait"; 
 		case solution1: return "solution1";
 		case solution2: return "solution2";
 		case solution3: return "solution3";
@@ -462,18 +463,11 @@ struct protocolCommands {
 		case setVswitch: return "setVswitch";
 		case waitSync: return "waitSync";
 		case syncOut: return "syncOut";
-		case wait: return "wait";
 		case showPopUp: return "showPopUp";
 		case ask: return "ask";
 		case pumpsOff: return "pumpsOff";
 		case loop: return "loop";
 		case comment: return "comment";
-		//case button1: return "button1";
-		//case button2: return "button2";
-		//case button3: return "button3";
-		//case button4: return "button4";
-		//case button5: return "button5";
-		//case button6: return "button6";
 		case operational: return "operational";
 		case initialize: return "initialize";
 		case standby: return "standby";

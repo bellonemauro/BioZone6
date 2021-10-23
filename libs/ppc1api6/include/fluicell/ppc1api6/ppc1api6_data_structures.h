@@ -665,25 +665,38 @@ namespace fluicell { namespace PPC1api6dataStructures
 			*
 			**/
 			enum  instructions {
+				//TODO: this data structure is duplicated in the protocolTreeWidgetItem
 
-				allOff = 0,
-				solution1 = 1,
-				solution2 = 2,
-				solution3 = 3,
-				solution4 = 4,
-				solution5 = 5,
-				solution6 = 6,
-				setPon = 7,
-				setPoff = 8,
-				setVrecirc = 9,
-				setVswitch = 10,
-				waitSync = 11,
-				syncOut = 12,
-				wait = 13,
-				showPopUp = 14,
-				ask = 15,
-				pumpsOff = 16,
-				loop = 17,
+				allOff,
+				wait,
+				operational,
+				standby,
+				SnR_ON_button,
+				SnR_OFF_button,
+				LnR_ON_button,
+				LnR_OFF_button,
+				SnS_ON_button,
+				SnS_OFF_button,
+				LnS_ON_button,
+				LnS_OFF_button,
+				loop,
+				setPon,
+				setPoff,
+				setVrecirc,
+				setVswitch,
+				solution1,
+				solution2,
+				solution3,
+				solution4,
+				solution5,
+				solution6,
+				waitSync,
+				syncOut,
+				comment,
+				ask,
+				initialize,
+				showPopUp,
+				pumpsOff,
 				END
 			};
 
@@ -693,7 +706,7 @@ namespace fluicell { namespace PPC1api6dataStructures
 			*
 			**/
 			command() :
-				instruction(instructions::setPon), value (0),
+				instruction(setPon), value (0),
 				status_message("No message")
 			{ }
 
@@ -813,15 +826,30 @@ namespace fluicell { namespace PPC1api6dataStructures
 			**/
 			std::string getCommandAsString() const
 			{
-				static const char* const text[] =
-				{ 
-					"allOff",
-					"solution1", "solution2","solution3","solution4","solution5","solution6",
-					"setPon", "setPoff",  "setVrecirc", "setVswitch",
-					"waitSync", "syncOut", "wait", "showPopUp",
-					"ask", "pumpsOff", 
-					 "loop" };
-				return  text[int(this->instruction)]; // cast to integer
+				switch (int(this->instruction))
+				{
+				case allOff: return "allOff";
+				case wait: return "wait";
+				case solution1: return "solution1";
+				case solution2: return "solution2";
+				case solution3: return "solution3";
+				case solution4: return "solution4";
+				case solution5: return "solution5";
+				case solution6: return "solution6";
+				case setPon: return "setPon";
+				case setPoff: return "setPoff";
+				case setVrecirc: return "setVrecirc";
+				case setVswitch: return "setVswitch";
+				case waitSync: return "waitSync";
+				case syncOut: return "syncOut";
+				case showPopUp: return "showPopUp";
+				case ask: return "ask";
+				case pumpsOff: return "pumpsOff";
+				case loop: return "loop";
+				case END: return "END";
+				}
+				return "Invalid";
+			
 			}
 
 			/**  \brief Get the value for the corresponding command.

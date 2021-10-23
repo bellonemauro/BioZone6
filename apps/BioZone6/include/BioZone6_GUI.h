@@ -50,6 +50,7 @@
 #include "protocolCommands.h"
 #include "chart.h"
 #include "updater.h"
+#include "myQTled.h"
 #include "XmlProtocolReader.h"
 #include "XmlProtocolWriter.h"
 #include "xmlsyntaxhighlighter.h"

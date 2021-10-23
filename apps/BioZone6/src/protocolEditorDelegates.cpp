@@ -111,8 +111,8 @@ void ComboBoxDelegate::paint(QPainter *painter,
 }
 
  int ComboBoxDelegate::getElementIndex(std::string _name)
- {
-	 for (size_t i = 0; i < this->Items.size(); i++)
+ { 
+	 for (int i = 0; i < this->Items.size(); i++)
 	 {
 		 if (this->Items.at(i).c_str() == _name)
 			 return i;

@@ -237,7 +237,7 @@ QPushButton:disabled{ background-color: #CCCCCC; }
        <number>0</number>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_0">
        <property name="styleSheet">
@@ -331,7 +331,7 @@ QPushButton:disabled{ background-color: #CCCCCC; }
              </property>
              <property name="minimumSize">
               <size>
-               <width>86</width>
+               <width>110</width>
                <height>24</height>
               </size>
              </property>
@@ -441,7 +441,7 @@ QPushButton:disabled{ background-color: #CCCCCC; }
             <widget class="QComboBox" name="comboBox_automaticUpdates">
              <property name="minimumSize">
               <size>
-               <width>86</width>
+               <width>110</width>
                <height>24</height>
               </size>
              </property>
@@ -662,7 +662,7 @@ QPushButton:disabled{ background-color: #CCCCCC; }
            </font>
           </property>
           <property name="title">
-           <string>PPC1</string>
+           <string>PPC1-6CH</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_7">
            <item row="3" column="0">

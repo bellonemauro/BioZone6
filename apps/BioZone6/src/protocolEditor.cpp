@@ -489,7 +489,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 		// load the protocol for standby
 		QString value = QString::number(int(_item->getLastValue()));
 
-		QString file_to_open = QString(preset_protocols_path + "/pumpSolution" + value + ".prt");
+		QString file_to_open = QString(preset_protocols_path + "/ButtonsPRTFiles/StandardAndRegular/SnR-ON-Button" + value + ".prt");
 		//QMessageBox::warning(this, m_str_warning,
 		//	QString("presetProtocols/internal open  the file. <br>" + file_to_open));
 
@@ -502,12 +502,84 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 	{
 		// load the protocol for standby
 		QString value = QString::number(int(_item->getLastValue()));
-		QString file_to_open = QString(preset_protocols_path + "/stopSolution" + value + ".prt");
+		QString file_to_open = QString(preset_protocols_path + "/ButtonsPRTFiles/StandardAndRegular/SnR-OFF-Button" + value + ".prt");
+		QTreeWidget* virtual_tree_widget = new QTreeWidget();
+		openXml(file_to_open, virtual_tree_widget);
+		fromTreeToItemVector(virtual_tree_widget, _command_vector);
+		return;
+	}
+	case protocolCommands::LnR_ON_button:
+	{
+		// load the protocol for standby
+		QString value = QString::number(int(_item->getLastValue()));
+
+		QString file_to_open = QString(preset_protocols_path + "/ButtonsPRTFiles/LargeAndRegular/LnR-ON-Button" + value + ".prt");
+		//QMessageBox::warning(this, m_str_warning,
+		//	QString("presetProtocols/internal open  the file. <br>" + file_to_open));
+
 		QTreeWidget* virtual_tree_widget = new QTreeWidget();
 		openXml(file_to_open, virtual_tree_widget);
 		fromTreeToItemVector(virtual_tree_widget, _command_vector);
 		return;
 	}//TODO: all the other are missing
+	case protocolCommands::LnR_OFF_button:
+	{
+		// load the protocol for standby
+		QString value = QString::number(int(_item->getLastValue()));
+		QString file_to_open = QString(preset_protocols_path + "/ButtonsPRTFiles/LargeAndRegular/LnR-OFF-Button" + value + ".prt");
+		QTreeWidget* virtual_tree_widget = new QTreeWidget();
+		openXml(file_to_open, virtual_tree_widget);
+		fromTreeToItemVector(virtual_tree_widget, _command_vector);
+		return;
+	}
+	case protocolCommands::SnS_ON_button:
+	{
+		// load the protocol for standby
+		QString value = QString::number(int(_item->getLastValue()));
+
+		QString file_to_open = QString(preset_protocols_path + "/ButtonsPRTFiles/StandardAndSlow/SnS-ON-Button" + value + ".prt");
+		//QMessageBox::warning(this, m_str_warning,
+		//	QString("presetProtocols/internal open  the file. <br>" + file_to_open));
+
+		QTreeWidget* virtual_tree_widget = new QTreeWidget();
+		openXml(file_to_open, virtual_tree_widget);
+		fromTreeToItemVector(virtual_tree_widget, _command_vector);
+		return;
+	}//TODO: all the other are missing
+	case protocolCommands::SnS_OFF_button:
+	{
+		// load the protocol for standby
+		QString value = QString::number(int(_item->getLastValue()));
+		QString file_to_open = QString(preset_protocols_path + "//ButtonsPRTFiles/StandardAndSlow/SnS-OFF-Button" + value + ".prt");
+		QTreeWidget* virtual_tree_widget = new QTreeWidget();
+		openXml(file_to_open, virtual_tree_widget);
+		fromTreeToItemVector(virtual_tree_widget, _command_vector);
+		return;
+	}
+	case protocolCommands::LnS_ON_button:
+	{
+		// load the protocol for standby
+		QString value = QString::number(int(_item->getLastValue()));
+
+		QString file_to_open = QString(preset_protocols_path + "/ButtonsPRTFiles/LargeAndSlow/LnS-ON-Button" + value + ".prt");
+		//QMessageBox::warning(this, m_str_warning,
+		//	QString("presetProtocols/internal open  the file. <br>" + file_to_open));
+
+		QTreeWidget* virtual_tree_widget = new QTreeWidget();
+		openXml(file_to_open, virtual_tree_widget);
+		fromTreeToItemVector(virtual_tree_widget, _command_vector);
+		return;
+	}//TODO: all the other are missing
+	case protocolCommands::LnS_OFF_button:
+	{
+		// load the protocol for standby
+		QString value = QString::number(int(_item->getLastValue()));
+		QString file_to_open = QString(preset_protocols_path + "//ButtonsPRTFiles/LargeAndSlow/LnS-OFF-Button" + value + ".prt");
+		QTreeWidget* virtual_tree_widget = new QTreeWidget();
+		openXml(file_to_open, virtual_tree_widget);
+		fromTreeToItemVector(virtual_tree_widget, _command_vector);
+		return;
+	}
 	default:
 		break;
 	}

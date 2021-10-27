@@ -9,7 +9,7 @@
 *  +---------------------------------------------------------------------------+ */
 
 #include "tools.h"
-#include  <QCheckBox>
+#include <QCheckBox>
 #include <QInputDialog>
 
 BioZone6_tools::BioZone6_tools(QWidget *parent):

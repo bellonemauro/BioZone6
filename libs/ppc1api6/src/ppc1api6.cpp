@@ -959,6 +959,24 @@ bool fluicell::PPC1api6::runCommand(fluicell::PPC1api6dataStructures::command _c
 		logStatus(HERE, " loop NOT implemented at the API level " );
 		return true;
 	}
+	case fluicell::PPC1api6dataStructures::command::instructions::operational:
+	case fluicell::PPC1api6dataStructures::command::instructions::standby:
+	case fluicell::PPC1api6dataStructures::command::instructions::SnR_ON_button:
+	case fluicell::PPC1api6dataStructures::command::instructions::SnR_OFF_button:
+	case fluicell::PPC1api6dataStructures::command::instructions::LnR_ON_button:
+	case fluicell::PPC1api6dataStructures::command::instructions::LnR_OFF_button:
+	case fluicell::PPC1api6dataStructures::command::instructions::SnS_ON_button:
+	case fluicell::PPC1api6dataStructures::command::instructions::SnS_OFF_button:
+	case fluicell::PPC1api6dataStructures::command::instructions::LnS_ON_button:
+	case fluicell::PPC1api6dataStructures::command::instructions::LnS_OFF_button:
+	case fluicell::PPC1api6dataStructures::command::instructions::initialize:
+	case fluicell::PPC1api6dataStructures::command::instructions::showPopUp:
+	{	
+		
+		logStatus(HERE, _cmd.getCommandAsString() + ": this command NOT implemented at the API level ");
+		return true;
+
+	}
 	default:{
 		logError(HERE, " Command NOT recognized ");
 		return false;

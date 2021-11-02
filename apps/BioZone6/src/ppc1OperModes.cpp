@@ -182,7 +182,7 @@ void BioZone6_GUI::onPlusPonOM()
 		updatePonSetPoint(Pon_adapted);
 		if(m_pipette_active) 
 			QThread::msleep(150);
-		double Vr_adapted = m_pipette_status->v_recirc_set_point + 1;
+		double Vr_adapted = m_pipette_status->v_recirc_set_point - 1;
 		updateVrecircSetPoint(Vr_adapted);
 		if (m_pipette_active)
 			QThread::msleep(150);
@@ -211,7 +211,7 @@ void BioZone6_GUI::onMinusPonOM()
 		updatePonSetPoint(Pon_adapted);
 		if (m_pipette_active) 
 			QThread::msleep(150);
-		double Vr_adapted = m_pipette_status->v_recirc_set_point - 1;
+		double Vr_adapted = m_pipette_status->v_recirc_set_point + 1;
 		updateVrecircSetPoint(Vr_adapted);
 		if (m_pipette_active)
 			QThread::msleep(150);

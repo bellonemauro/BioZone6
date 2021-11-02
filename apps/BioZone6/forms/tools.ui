@@ -2480,7 +2480,7 @@ background-color: rgb(255, 255, 255);
               </font>
              </property>
              <property name="text">
-              <string>Default</string>
+              <string>Current</string>
              </property>
             </widget>
            </item>

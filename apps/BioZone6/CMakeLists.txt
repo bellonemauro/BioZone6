@@ -69,10 +69,41 @@ if(MSVC)
 	file(COPY "${F}" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Debug/${PROJECT_NAME}/presetProtocols/)
   ENDFOREACH(F)
   
+  #TODO: this is truly ugly, make a macro to copy all these folders
   FILE(GLOB myProject_PRESETPROTOCOLSINTERNAL "${PROJECT_SOURCE_DIR}/presetProtocols/internal/*.*") 
   FOREACH(F ${myProject_PRESETPROTOCOLSINTERNAL})
 	file(COPY "${F}" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Release/${PROJECT_NAME}/presetProtocols/internal/)
 	file(COPY "${F}" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Debug/${PROJECT_NAME}/presetProtocols/internal/)
+  ENDFOREACH(F)
+
+  FILE(GLOB myProject_PRESETPROTOCOLSINTERNAL "${PROJECT_SOURCE_DIR}/presetProtocols/internal/ButtonsPRTFiles/*.*") 
+  FOREACH(F ${myProject_PRESETPROTOCOLSINTERNAL})
+	file(COPY "${F}" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Release/${PROJECT_NAME}/presetProtocols/internal/ButtonsPRTFiles/)
+	file(COPY "${F}" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Debug/${PROJECT_NAME}/presetProtocols/internal/ButtonsPRTFiles/)
+  ENDFOREACH(F)
+
+  FILE(GLOB myProject_PRESETPROTOCOLSINTERNAL "${PROJECT_SOURCE_DIR}/presetProtocols/internal/ButtonsPRTFiles/LargeAndRegular/*.*") 
+  FOREACH(F ${myProject_PRESETPROTOCOLSINTERNAL})
+	file(COPY "${F}" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Release/${PROJECT_NAME}/presetProtocols/internal/ButtonsPRTFiles/LargeAndRegular/)
+	file(COPY "${F}" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Debug/${PROJECT_NAME}/presetProtocols/internal/ButtonsPRTFiles/LargeAndRegular/)
+  ENDFOREACH(F)
+
+  FILE(GLOB myProject_PRESETPROTOCOLSINTERNAL "${PROJECT_SOURCE_DIR}/presetProtocols/internal/ButtonsPRTFiles/LargeAndSlow/*.*") 
+  FOREACH(F ${myProject_PRESETPROTOCOLSINTERNAL})
+	file(COPY "${F}" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Release/${PROJECT_NAME}/presetProtocols/internal/ButtonsPRTFiles/LargeAndSlow/)
+	file(COPY "${F}" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Debug/${PROJECT_NAME}/presetProtocols/internal/ButtonsPRTFiles/LargeAndSlow/)
+  ENDFOREACH(F)
+
+  FILE(GLOB myProject_PRESETPROTOCOLSINTERNAL "${PROJECT_SOURCE_DIR}/presetProtocols/internal/ButtonsPRTFiles/StandardAndRegular/*.*") 
+  FOREACH(F ${myProject_PRESETPROTOCOLSINTERNAL})
+	file(COPY "${F}" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Release/${PROJECT_NAME}/presetProtocols/internal/ButtonsPRTFiles/StandardAndRegular/)
+	file(COPY "${F}" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Debug/${PROJECT_NAME}/presetProtocols/internal/ButtonsPRTFiles/StandardAndRegular/)
+  ENDFOREACH(F)
+
+  FILE(GLOB myProject_PRESETPROTOCOLSINTERNAL "${PROJECT_SOURCE_DIR}/presetProtocols/internal/ButtonsPRTFiles/StandardAndSlow/*.*") 
+  FOREACH(F ${myProject_PRESETPROTOCOLSINTERNAL})
+	file(COPY "${F}" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Release/${PROJECT_NAME}/presetProtocols/internal/ButtonsPRTFiles/StandardAndSlow/)
+	file(COPY "${F}" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Debug/${PROJECT_NAME}/presetProtocols/internal/ButtonsPRTFiles/StandardAndSlow/)
   ENDFOREACH(F)
 
 #  FILE(GLOB myProject_LANGUAGES "${PROJECT_SOURCE_DIR}/languages/*.qm") 

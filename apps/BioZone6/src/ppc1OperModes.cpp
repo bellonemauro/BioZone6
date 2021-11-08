@@ -42,6 +42,10 @@ void BioZone6_GUI::setStandardAndSlow()
 		m_dialog_tools->setDefaultPressuresVacuums(new_p_on_default, new_p_off_default, 
 			-new_v_recirc_default, -new_v_switch_default);
 
+		// update button protocol files path 
+		m_button_protocol_path = m_protocol_path + 
+			"/internal/ButtonsPRTFiles/StandardAndSlow/";
+
 		QMessageBox::information(this, m_str_information,
 			m_new_settings_applied);
 	}
@@ -78,6 +82,10 @@ void BioZone6_GUI::setStandardAndRegular()
 		// apply the new values 
 		m_dialog_tools->setDefaultPressuresVacuums(new_p_on_default, new_p_off_default,
 			-new_v_recirc_default, -new_v_switch_default);
+		
+		// update button protocol files path 
+		m_button_protocol_path = m_protocol_path +
+			"/internal/ButtonsPRTFiles/StandardAndRegular/";
 
 		QMessageBox::information(this, m_str_information,
 			m_new_settings_applied);
@@ -115,6 +123,10 @@ void BioZone6_GUI::setLargeAndSlow()
 		m_dialog_tools->setDefaultPressuresVacuums(new_p_on_default, new_p_off_default,
 			-new_v_recirc_default, -new_v_switch_default);
 
+		// update button protocol files path 
+		m_button_protocol_path = m_protocol_path +
+			"/internal/ButtonsPRTFiles/LargeAndSlow/";
+
 		QMessageBox::information(this, m_str_information,
 			m_new_settings_applied);
 	}
@@ -150,6 +162,10 @@ void BioZone6_GUI::setLargeAndRegular()
 		// apply the new values 
 		m_dialog_tools->setDefaultPressuresVacuums(new_p_on_default, new_p_off_default,
 			-new_v_recirc_default, -new_v_switch_default);
+		
+		// update button protocol files path 
+		m_button_protocol_path = m_protocol_path +
+			"/internal/ButtonsPRTFiles/LargeAndRegular/";
 
 		QMessageBox::information(this, m_str_information,
 			m_new_settings_applied);

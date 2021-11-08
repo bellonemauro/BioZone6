@@ -1337,6 +1337,7 @@ bool BioZone6_tools::loadSettings(QString _path)
 		tip_type = 0;
 	}
 	ui_tools->comboBox_tipSelection->setCurrentIndex(tip_type);
+
 	//m_pr_params->-----= ddddd;
 	//
 	
@@ -1379,7 +1380,6 @@ bool BioZone6_tools::loadSettings(QString _path)
 	}
 	ui_tools->spinBox_PPC1filterSize->setValue(filter_size);
 	m_pr_params->filterSize = filter_size;
-
 
 	int wait_sync_timeout = m_settings->value("PPC1/WaitSyncTimeout", "60").toInt(&ok);
 	if (!ok) {

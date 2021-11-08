@@ -345,6 +345,7 @@ private slots:
 	*   may be changed by the user
 	*
 	*/
+	void onPushButtonSolutionX(QPushButton* _button, int _idx);
 	void onPushButtonSolution1();
 	void onPushButtonSolution2();
 	void onPushButtonSolution3();
@@ -1015,6 +1016,7 @@ private:
 
   QString m_version;         //!< software version
   QString m_protocol_path;   //!< protocol path 
+  QString m_button_protocol_path;   //!< button protocol files path, this changes according to the operational mode 
   QString m_settings_path;   //!< settings path
   QString m_ext_data_path;   //!< ext data path (save history)
   QTranslator m_translator;  //!< translator object

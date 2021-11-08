@@ -101,17 +101,22 @@ void BioZone6_GUI::colSolution6Changed(const int _r, const int _g, const int _b)
 	m_chart_view->setSolutionColor6(m_sol6_color);
 }
 
-void BioZone6_GUI::onPushButtonSolution1() 
-{ 
+
+void BioZone6_GUI::onPushButtonSolutionX(QPushButton *_button, int _idx)
+{
 	std::cout << HERE << std::endl;
-	if (!ui->pushButton_solution1->isChecked()) {
+	QString currentProtocolFileName = m_button_protocol_path;
+	if (!_button->isChecked()) {
 
 		ui->pushButton_solution1->setChecked(false);
 		// stop pumping protocol
-		QString currentProtocolFileName = QDir::homePath();
-		currentProtocolFileName.append("/Documents/BioZone6/presetProtocols/internal/");
-		currentProtocolFileName.append("stopSolution1.prt");
+
+		currentProtocolFileName = m_button_protocol_path + 
+			"OFF_Button" + QString::number(_idx) +".prt";
 		if (QFile::exists(currentProtocolFileName)) {
+			QMessageBox::warning(this, m_str_warning,
+				"FILE FOUND" + tr("<br>%1")
+				.arg(QDir::toNativeSeparators(currentProtocolFileName))); 
 			this->runProtocolFile(currentProtocolFileName);
 		}
 		else
@@ -125,9 +130,11 @@ void BioZone6_GUI::onPushButtonSolution1()
 	else
 	{
 		// start pumping protocol
-		QString currentProtocolFileName = QDir::homePath();
-		currentProtocolFileName.append("/Documents/BioZone6/presetProtocols/internal/");
-		currentProtocolFileName.append("pumpSolution1.prt");
+		currentProtocolFileName = m_button_protocol_path +
+			"ON_Button" + QString::number(_idx) + ".prt";
+		QMessageBox::warning(this, m_str_warning,
+			"FILE FOUND" + tr("<br>%1")
+			.arg(QDir::toNativeSeparators(currentProtocolFileName))); 
 		if (QFile::exists(currentProtocolFileName)) {
 			this->runProtocolFile(currentProtocolFileName);
 		}
@@ -142,6 +149,42 @@ void BioZone6_GUI::onPushButtonSolution1()
 
 }
 
+void BioZone6_GUI::onPushButtonSolution1() 
+{ 
+	std::cout << HERE << std::endl;
+	QString currentProtocolFileName = m_button_protocol_path;
+	this->onPushButtonSolutionX(ui->pushButton_solution1, 1);
+}
+void BioZone6_GUI::onPushButtonSolution2()
+{
+	std::cout << HERE << std::endl;
+	QString currentProtocolFileName = m_button_protocol_path;
+	this->onPushButtonSolutionX(ui->pushButton_solution2, 2);
+}
+void BioZone6_GUI::onPushButtonSolution3()
+{
+	std::cout << HERE << std::endl;
+	QString currentProtocolFileName = m_button_protocol_path;
+	this->onPushButtonSolutionX(ui->pushButton_solution3, 3);
+}
+void BioZone6_GUI::onPushButtonSolution4()
+{
+	std::cout << HERE << std::endl;
+	QString currentProtocolFileName = m_button_protocol_path;
+	this->onPushButtonSolutionX(ui->pushButton_solution4, 4);
+}
+void BioZone6_GUI::onPushButtonSolution5()
+{
+	std::cout << HERE << std::endl;
+	QString currentProtocolFileName = m_button_protocol_path;
+	this->onPushButtonSolutionX(ui->pushButton_solution5, 5);
+}
+void BioZone6_GUI::onPushButtonSolution6()
+{
+	std::cout << HERE << std::endl;
+	QString currentProtocolFileName = m_button_protocol_path;
+	this->onPushButtonSolutionX(ui->pushButton_solution6, 6);
+}
 
 void BioZone6_GUI::solution1(bool _enable)
 {
@@ -204,48 +247,6 @@ void BioZone6_GUI::solution1(bool _enable)
 	updateFlowControlPercentages();
 }
 
-void BioZone6_GUI::onPushButtonSolution2()
-{
-	std::cout << HERE << std::endl;
-	if (!ui->pushButton_solution2->isChecked()) {
-
-		ui->pushButton_solution2->setChecked(false);
-		// stop pumping protocol
-		QString currentProtocolFileName = QDir::homePath();
-		currentProtocolFileName.append("/Documents/BioZone6/presetProtocols/internal/");
-		currentProtocolFileName.append("stopSolution2.prt");
-		if (QFile::exists(currentProtocolFileName)) {
-			this->runProtocolFile(currentProtocolFileName);
-		}
-		else
-		{
-			QMessageBox::warning(this, m_str_warning,
-				m_str_file_not_loaded + tr("<br>%1")
-				.arg(QDir::toNativeSeparators(currentProtocolFileName)));
-			ui->pushButton_solution2->setChecked(true);
-		}
-
-	}
-	else
-	{
-		// start pumping protocol
-		QString currentProtocolFileName = QDir::homePath();
-		currentProtocolFileName.append("/Documents/BioZone6/presetProtocols/internal/");
-		currentProtocolFileName.append("pumpSolution2.prt");
-		if (QFile::exists(currentProtocolFileName)) {
-			this->runProtocolFile(currentProtocolFileName);
-		}
-		else
-		{
-			QMessageBox::warning(this, m_str_warning,
-				m_str_file_not_loaded + tr("<br>%1")
-				.arg(QDir::toNativeSeparators(currentProtocolFileName)));
-			ui->pushButton_solution2->setChecked(false);
-		}
-
-	}
-
-}
 
 
 void BioZone6_GUI::solution2(bool _enable)
@@ -309,48 +310,6 @@ void BioZone6_GUI::solution2(bool _enable)
 	updateFlowControlPercentages();
 }
 
-void BioZone6_GUI::onPushButtonSolution3()
-{
-	std::cout << HERE << std::endl;
-	if (!ui->pushButton_solution3->isChecked()) {
-
-		ui->pushButton_solution3->setChecked(false);
-		// stop pumping protocol
-		QString currentProtocolFileName = QDir::homePath();
-		currentProtocolFileName.append("/Documents/BioZone6/presetProtocols/internal/");
-		currentProtocolFileName.append("stopSolution3.prt");
-		if (QFile::exists(currentProtocolFileName)) {
-			this->runProtocolFile(currentProtocolFileName);
-		}
-		else
-		{
-			QMessageBox::warning(this, m_str_warning,
-				m_str_file_not_loaded + tr("<br>%1")
-				.arg(QDir::toNativeSeparators(currentProtocolFileName)));
-			ui->pushButton_solution3->setChecked(true);
-		}
-
-	}
-	else
-	{
-		// start pumping protocol
-		QString currentProtocolFileName = QDir::homePath();
-		currentProtocolFileName.append("/Documents/BioZone6/presetProtocols/internal/");
-		currentProtocolFileName.append("pumpSolution3.prt");
-		if (QFile::exists(currentProtocolFileName)) {
-			this->runProtocolFile(currentProtocolFileName);
-		}
-		else
-		{
-			QMessageBox::warning(this, m_str_warning,
-				m_str_file_not_loaded + tr("<br>%1")
-				.arg(QDir::toNativeSeparators(currentProtocolFileName)));
-			ui->pushButton_solution3->setChecked(false);
-		}
-
-	}
-
-}
 
 
 void BioZone6_GUI::solution3(bool _enable)
@@ -412,49 +371,6 @@ void BioZone6_GUI::solution3(bool _enable)
 
 	updateFlows();
 	updateFlowControlPercentages();
-}
-
-void BioZone6_GUI::onPushButtonSolution4()
-{
-	std::cout << HERE << std::endl;
-	if (!ui->pushButton_solution4->isChecked()) {
-
-		ui->pushButton_solution4->setChecked(false);
-		// stop pumping protocol
-		QString currentProtocolFileName = QDir::homePath();
-		currentProtocolFileName.append("/Documents/BioZone6/presetProtocols/internal/");
-		currentProtocolFileName.append("stopSolution4.prt"); 
-		if (QFile::exists(currentProtocolFileName)) {
-			this->runProtocolFile(currentProtocolFileName);
-		}
-		else
-		{
-			QMessageBox::warning(this, m_str_warning,
-				m_str_file_not_loaded + tr("<br>%1")
-				.arg(QDir::toNativeSeparators(currentProtocolFileName)));
-			ui->pushButton_solution4->setChecked(true);
-		}
-
-	}
-	else
-	{
-		// start pumping protocol
-		QString currentProtocolFileName = QDir::homePath();
-		currentProtocolFileName.append("/Documents/BioZone6/presetProtocols/internal/");
-		currentProtocolFileName.append("pumpSolution4.prt");
-		if (QFile::exists(currentProtocolFileName)) {
-			this->runProtocolFile(currentProtocolFileName);
-		}
-		else
-		{
-			QMessageBox::warning(this, m_str_warning,
-				m_str_file_not_loaded + tr("<br>%1")
-				.arg(QDir::toNativeSeparators(currentProtocolFileName)));
-			ui->pushButton_solution4->setChecked(false);
-		}
-
-	}
-
 }
 
 
@@ -521,49 +437,6 @@ void BioZone6_GUI::solution4(bool _enable)
 
 
 
-void BioZone6_GUI::onPushButtonSolution5()
-{
-	std::cout << HERE << std::endl;
-	if (!ui->pushButton_solution5->isChecked()) {
-
-		ui->pushButton_solution5->setChecked(false);
-		// stop pumping protocol
-		QString currentProtocolFileName = QDir::homePath();
-		currentProtocolFileName.append("/Documents/BioZone6/presetProtocols/internal/");
-		currentProtocolFileName.append("stopSolution5.prt");
-		if (QFile::exists(currentProtocolFileName)) {
-			this->runProtocolFile(currentProtocolFileName);
-		}
-		else
-		{
-			QMessageBox::warning(this, m_str_warning,
-				m_str_file_not_loaded + tr("<br>%1")
-				.arg(QDir::toNativeSeparators(currentProtocolFileName)));
-			ui->pushButton_solution5->setChecked(true);
-		}
-
-	}
-	else
-	{
-		// start pumping protocol
-		QString currentProtocolFileName = QDir::homePath();
-		currentProtocolFileName.append("/Documents/BioZone6/presetProtocols/internal/");
-		currentProtocolFileName.append("pumpSolution5.prt");
-		if (QFile::exists(currentProtocolFileName)) {
-			this->runProtocolFile(currentProtocolFileName);
-		}
-		else
-		{
-			QMessageBox::warning(this, m_str_warning,
-				m_str_file_not_loaded + tr("<br>%1")
-				.arg(QDir::toNativeSeparators(currentProtocolFileName)));
-			ui->pushButton_solution5->setChecked(false);
-		}
-
-	}
-
-}
-
 
 void BioZone6_GUI::solution5(bool _enable)
 {
@@ -624,49 +497,6 @@ void BioZone6_GUI::solution5(bool _enable)
 
 	updateFlows();
 	updateFlowControlPercentages();
-}
-
-void BioZone6_GUI::onPushButtonSolution6()
-{
-	std::cout << HERE << std::endl;
-	if (!ui->pushButton_solution6->isChecked()) {
-
-		ui->pushButton_solution6->setChecked(false);
-		// stop pumping protocol
-		QString currentProtocolFileName = QDir::homePath();
-		currentProtocolFileName.append("/Documents/BioZone6/presetProtocols/internal/");
-		currentProtocolFileName.append("stopSolution6.prt");
-		if (QFile::exists(currentProtocolFileName)) {
-			this->runProtocolFile(currentProtocolFileName);
-		}
-		else
-		{
-			QMessageBox::warning(this, m_str_warning,
-				m_str_file_not_loaded + tr("<br>%1")
-				.arg(QDir::toNativeSeparators(currentProtocolFileName)));
-			ui->pushButton_solution6->setChecked(true);
-		}
-
-	}
-	else
-	{
-		// start pumping protocol
-		QString currentProtocolFileName = QDir::homePath();
-		currentProtocolFileName.append("/Documents/BioZone6/presetProtocols/internal/");
-		currentProtocolFileName.append("pumpSolution6.prt");
-		if (QFile::exists(currentProtocolFileName))	{
-			this->runProtocolFile(currentProtocolFileName);
-		}
-		else
-		{
-			QMessageBox::warning(this, m_str_warning,
-				m_str_file_not_loaded + tr("<br>%1")
-				.arg(QDir::toNativeSeparators(currentProtocolFileName)));
-			ui->pushButton_solution6->setChecked(false);
-		}
-
-	}
-
 }
 
 void BioZone6_GUI::solution6(bool _enable) 

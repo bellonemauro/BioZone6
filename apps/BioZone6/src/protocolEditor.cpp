@@ -304,8 +304,8 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 	int command_idx = _item->text(editorParams::c_command).toInt();
 
 	//TODO: this should be done once and for all at the very beginning
-	QString preset_protocols_path = QDir::homePath();
-	preset_protocols_path.append("/Documents/BioZone6/presetProtocols/internal/");
+	QString preset_protocols_path = m_protocol_path;// QDir::homePath();
+	preset_protocols_path.append("/internal/");
 	QDir preset_protocols_dir;
 	if (!preset_protocols_dir.exists(preset_protocols_path)) {
 		// TODO: define what to do here, re-install message?
@@ -489,7 +489,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 		// load the protocol for standby
 		QString value = QString::number(int(_item->getLastValue()));
 
-		QString file_to_open = QString(preset_protocols_path + "/ButtonsPRTFiles/StandardAndRegular/SnR-ON-Button" + value + ".prt");
+		QString file_to_open = QString(preset_protocols_path + "/ButtonsPRTFiles/StandardAndRegular/ON_Button" + value + ".prt");
 		//QMessageBox::warning(this, m_str_warning,
 		//	QString("presetProtocols/internal open  the file. <br>" + file_to_open));
 
@@ -502,7 +502,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 	{
 		// load the protocol for standby
 		QString value = QString::number(int(_item->getLastValue()));
-		QString file_to_open = QString(preset_protocols_path + "/ButtonsPRTFiles/StandardAndRegular/SnR-OFF-Button" + value + ".prt");
+		QString file_to_open = QString(preset_protocols_path + "/ButtonsPRTFiles/StandardAndRegular/OFF_Button" + value + ".prt");
 		QTreeWidget* virtual_tree_widget = new QTreeWidget();
 		openXml(file_to_open, virtual_tree_widget);
 		fromTreeToItemVector(virtual_tree_widget, _command_vector);
@@ -513,7 +513,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 		// load the protocol for standby
 		QString value = QString::number(int(_item->getLastValue()));
 
-		QString file_to_open = QString(preset_protocols_path + "/ButtonsPRTFiles/LargeAndRegular/LnR-ON-Button" + value + ".prt");
+		QString file_to_open = QString(preset_protocols_path + "/ButtonsPRTFiles/LargeAndRegular/ON_Button" + value + ".prt");
 		//QMessageBox::warning(this, m_str_warning,
 		//	QString("presetProtocols/internal open  the file. <br>" + file_to_open));
 
@@ -526,7 +526,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 	{
 		// load the protocol for standby
 		QString value = QString::number(int(_item->getLastValue()));
-		QString file_to_open = QString(preset_protocols_path + "/ButtonsPRTFiles/LargeAndRegular/LnR-OFF-Button" + value + ".prt");
+		QString file_to_open = QString(preset_protocols_path + "/ButtonsPRTFiles/LargeAndRegular/OFF_Button" + value + ".prt");
 		QTreeWidget* virtual_tree_widget = new QTreeWidget();
 		openXml(file_to_open, virtual_tree_widget);
 		fromTreeToItemVector(virtual_tree_widget, _command_vector);
@@ -537,7 +537,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 		// load the protocol for standby
 		QString value = QString::number(int(_item->getLastValue()));
 
-		QString file_to_open = QString(preset_protocols_path + "/ButtonsPRTFiles/StandardAndSlow/SnS-ON-Button" + value + ".prt");
+		QString file_to_open = QString(preset_protocols_path + "/ButtonsPRTFiles/StandardAndSlow/ON_Button" + value + ".prt");
 		//QMessageBox::warning(this, m_str_warning,
 		//	QString("presetProtocols/internal open  the file. <br>" + file_to_open));
 
@@ -550,7 +550,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 	{
 		// load the protocol for standby
 		QString value = QString::number(int(_item->getLastValue()));
-		QString file_to_open = QString(preset_protocols_path + "//ButtonsPRTFiles/StandardAndSlow/SnS-OFF-Button" + value + ".prt");
+		QString file_to_open = QString(preset_protocols_path + "/ButtonsPRTFiles/StandardAndSlow/OFF_Button" + value + ".prt");
 		QTreeWidget* virtual_tree_widget = new QTreeWidget();
 		openXml(file_to_open, virtual_tree_widget);
 		fromTreeToItemVector(virtual_tree_widget, _command_vector);
@@ -561,7 +561,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 		// load the protocol for standby
 		QString value = QString::number(int(_item->getLastValue()));
 
-		QString file_to_open = QString(preset_protocols_path + "/ButtonsPRTFiles/LargeAndSlow/LnS-ON-Button" + value + ".prt");
+		QString file_to_open = QString(preset_protocols_path + "/ButtonsPRTFiles/LargeAndSlow/ON_Button" + value + ".prt");
 		//QMessageBox::warning(this, m_str_warning,
 		//	QString("presetProtocols/internal open  the file. <br>" + file_to_open));
 
@@ -574,7 +574,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 	{
 		// load the protocol for standby
 		QString value = QString::number(int(_item->getLastValue()));
-		QString file_to_open = QString(preset_protocols_path + "//ButtonsPRTFiles/LargeAndSlow/LnS-OFF-Button" + value + ".prt");
+		QString file_to_open = QString(preset_protocols_path + "/ButtonsPRTFiles/LargeAndSlow/OFF_Button" + value + ".prt");
 		QTreeWidget* virtual_tree_widget = new QTreeWidget();
 		openXml(file_to_open, virtual_tree_widget);
 		fromTreeToItemVector(virtual_tree_widget, _command_vector);

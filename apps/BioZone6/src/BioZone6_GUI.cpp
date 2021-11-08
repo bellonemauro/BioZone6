@@ -1008,6 +1008,21 @@ void BioZone6_GUI::setProtocolUserPath(QString _path)
 {
 	_path = QDir::cleanPath(_path); 
 	m_protocol_path = _path;  // set the data member
+	//TODO: m_protocol_path MUST be initialized, this is done in the main now, but there is no stability check 
+	// update button protocol files path 
+	if (ui->pushButton_standardAndRegular->isChecked())
+		m_button_protocol_path = m_protocol_path +
+			"/internal/ButtonsPRTFiles/StandardAndRegular/";
+	if (ui->pushButton_standardAndSlow->isChecked())
+		m_button_protocol_path = m_protocol_path +
+		"/internal/ButtonsPRTFiles/StandardAndSlow/";
+	if (ui->pushButton_largeAndRegular->isChecked())
+		m_button_protocol_path = m_protocol_path +
+		"/internal/ButtonsPRTFiles/LargeAndRegular/";
+	if (ui->pushButton_largeAndSlow->isChecked())
+		m_button_protocol_path = m_protocol_path +
+		"/internal/ButtonsPRTFiles/LargeAndSlow/";
+
 	this->readProtocolFolder(m_protocol_path);  // look for files in the folder
 	ui->lineEdit_protocolPath->setText(_path);  // set the current path in the GUI field
 }

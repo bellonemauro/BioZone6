@@ -32,7 +32,7 @@ bool BioZone6_GUI::loadProtocol()
 
 	QString file_name = QFileDialog::getOpenFileName(
 		this, m_str_save_protocol, m_protocol_path,  // dialog to open files
-		"Lab-on-a-tip protocol File (*.prt);; All Files(*.*)", 0);
+		"BioZone6 protocol File (*.prt);; All Files(*.*)", 0);
 
 	if (file_name.isEmpty()) {
 		//QMessageBox::warning(this, m_str_warning,
@@ -124,7 +124,7 @@ bool BioZone6_GUI::saveProtocolAs()
 	QApplication::setOverrideCursor(Qt::WaitCursor);
 	QString file_name = QFileDialog::getSaveFileName(this,
 		m_str_save_protocol, m_protocol_path,  // dialog to open files
-		"Lab-on-a-tip protocol File (*.prt);; All Files(*.*)", 0);
+		"BioZone6 protocol File (*.prt);; All Files(*.*)", 0);
 	
 	if (file_name.isEmpty()) {
 		QApplication::restoreOverrideCursor();

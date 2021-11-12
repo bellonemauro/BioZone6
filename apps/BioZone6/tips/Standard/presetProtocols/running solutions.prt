@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE prt>
+<!--Fluicell xml protocol file for BioZone 6 - https://www.fluicell.com/-->
+<!--File created on Fri Feb 5 2021  13:11:30 -->
+<Protocol version="1.0">
+    <setPoff value="12" message="setPoff(12)"/>
+    <setPon value="55" message="setPon(55)"/>
+    <showPopUp value="5" message="Establishing operational pressures"/>
+    <wait value="5" message="sleep(5)"/>
+    <setVswitch value="-100" message="setVswitch(-100)"/>
+    <setVrecirc value="-75" message="setVrecirc(-75)"/>
+    <showPopUp value="90" message="Priming each solution"/>
+    <button1 value="1" message=""/>
+    <wait value="5" message=" "/>
+    <button1 value="0" message=" "/>
+    <button2 value="1" message=" "/>
+    <wait value="5" message=" "/>
+    <button2 value="0" message=" "/>
+    <button3 value="1" message=" "/>
+    <wait value="5" message=" "/>
+    <button3 value="0" message=" "/>
+    <button4 value="1" message=" "/>
+    <wait value="5" message=" "/>
+    <button4 value="0" message=" "/>
+    <button5 value="1" message=" "/>
+    <wait value="5" message=" "/>
+    <button5 value="0" message=" "/>
+    <button6 value="1" message=" "/>
+    <wait value="5" message=" "/>
+    <button6 value="0" message=" "/>
+    <wait value="5" message=" "/>
+    <allOff value="" message=" "/>
+    <ask value="" message="BZ tip is ready for operation. Press OK to start, then position the tip for operation."/>
+</Protocol>

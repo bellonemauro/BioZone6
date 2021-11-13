@@ -15,8 +15,12 @@ void BioZone6_GUI::newTip()
 {
 	std::cout << HERE << std::endl;
 
-	QString currentProtocolFileName = QDir::homePath();
-	currentProtocolFileName.append("/Documents/BioZone6/presetProtocols/internal/");
+	//QString currentProtocolFileName = QDir::homePath();
+	//QString currentProtocolFileName = m_protocol_path + 
+	//	QString::fromStdString(m_ppc1->getTip()->tip_setting_path);// QDir::homePath();
+	//currentProtocolFileName.append("/presetProtocols/internal/");
+	
+	QString currentProtocolFileName = m_internal_protocol_path;
 	currentProtocolFileName.append("initialize.prt");
 	if (QFile::exists(currentProtocolFileName)) {
 		this->runProtocolFile(currentProtocolFileName);
@@ -514,8 +518,13 @@ void BioZone6_GUI::operationalMode() {
 void BioZone6_GUI::stopFlow()
 {
 	std::cout << HERE << std::endl;
-	QString currentProtocolFileName = QDir::homePath();
-	currentProtocolFileName.append("/Documents/BioZone6/presetProtocols/internal/");
+	//QString currentProtocolFileName = QDir::homePath();
+	//currentProtocolFileName.append("/Documents/BioZone6/presetProtocols/internal/");
+	//QString currentProtocolFileName = m_protocol_path + 
+	//	QString::fromStdString(m_ppc1->getTip()->tip_setting_path);// QDir::homePath();
+	//currentProtocolFileName.append("/presetProtocols/internal/");
+
+	QString currentProtocolFileName = m_internal_protocol_path; 
 	currentProtocolFileName.append("stopFlow.prt");
 	if (QFile::exists(currentProtocolFileName)) {
 		this->runProtocolFile(currentProtocolFileName);
@@ -535,8 +544,13 @@ void BioZone6_GUI::standby()
 {
 	std::cout << HERE << std::endl;
 
-	QString currentProtocolFileName = QDir::homePath();
-	currentProtocolFileName.append("/Documents/BioZone6/presetProtocols/internal/");
+	//QString currentProtocolFileName = QDir::homePath();
+	//currentProtocolFileName.append("/Documents/BioZone6/presetProtocols/internal/");
+	//QString currentProtocolFileName = m_protocol_path +
+	//	QString::fromStdString(m_ppc1->getTip()->tip_setting_path);// QDir::homePath();
+	//currentProtocolFileName.append("/presetProtocols/internal/");
+	
+	QString currentProtocolFileName = m_internal_protocol_path;
 	currentProtocolFileName.append("standby.prt");
 	if (QFile::exists(currentProtocolFileName)) {
 		this->runProtocolFile(currentProtocolFileName);

@@ -15,13 +15,27 @@
 void BioZone6_GUI::setStandardAndSlow()
 {
 	std::cout << HERE << std::endl;
-	
-	// reset this to 0 to avoid interference between modes
-	ui->spinBox_PonOM->setValue(0);
+
 
 	// if the button is unchecked, check it and uncheck all the others
 	if (ui->pushButton_standardAndSlow->isChecked())
 	{
+		if (ui->pushButton_solution1->isChecked() ||
+			ui->pushButton_solution2->isChecked() ||
+			ui->pushButton_solution3->isChecked() ||
+			ui->pushButton_solution4->isChecked() ||
+			ui->pushButton_solution5->isChecked() ||
+			ui->pushButton_solution6->isChecked())
+		{
+			ui->pushButton_standardAndSlow->setChecked(false);
+			QMessageBox::warning(this, m_str_warning,
+				"A solution is ON, please turn the solution OFF before changing operational mode");
+			return;
+		}
+
+		// reset this to 0 to avoid interference between modes
+		ui->spinBox_PonOM->setValue(0);
+
 		// uncheck the other buttons
 		ui->pushButton_standardAndRegular->setChecked(false);
 		ui->pushButton_largeAndSlow->setChecked(false);
@@ -43,8 +57,10 @@ void BioZone6_GUI::setStandardAndSlow()
 			-new_v_recirc_default, -new_v_switch_default);
 
 		// update button protocol files path 
-		m_button_protocol_path = m_protocol_path + 
-			"/internal/ButtonsPRTFiles/StandardAndSlow/";
+		//m_button_protocol_path = m_protocol_path + 
+		//	QString::fromStdString(m_ppc1->getTip()->tip_setting_path)+
+		//	"/presetProtocols/internal/ButtonsPRTFiles/StandardAndSlow/";
+		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_SnS_path;
 
 		QMessageBox::information(this, m_str_information,
 			m_new_settings_applied);
@@ -58,11 +74,25 @@ void BioZone6_GUI::setStandardAndRegular()
 {
 	std::cout << HERE << std::endl;
 	
-	// reset this to 0 to avoid interference between modes
-	ui->spinBox_PonOM->setValue(0);
 
 	if (ui->pushButton_standardAndRegular->isChecked())
 	{
+		if (ui->pushButton_solution1->isChecked() ||
+			ui->pushButton_solution2->isChecked() ||
+			ui->pushButton_solution3->isChecked() ||
+			ui->pushButton_solution4->isChecked() ||
+			ui->pushButton_solution5->isChecked() ||
+			ui->pushButton_solution6->isChecked())
+		{
+			ui->pushButton_standardAndRegular->setChecked(false);
+			QMessageBox::warning(this, m_str_warning,
+				"A solution is ON, please turn the solution OFF before changing operational mode");
+			return;
+		}
+
+		// reset this to 0 to avoid interference between modes
+		ui->spinBox_PonOM->setValue(0);
+
 		std::cout << HERE << "CHECKED" << std::endl;
 		// uncheck the other buttons
 		ui->pushButton_standardAndSlow->setChecked(false);
@@ -84,8 +114,11 @@ void BioZone6_GUI::setStandardAndRegular()
 			-new_v_recirc_default, -new_v_switch_default);
 		
 		// update button protocol files path 
-		m_button_protocol_path = m_protocol_path +
-			"/internal/ButtonsPRTFiles/StandardAndRegular/";
+		//m_button_protocol_path = m_protocol_path + 
+		//	QString::fromStdString(m_ppc1->getTip()->tip_setting_path)+
+		//	"/presetProtocols/internal/ButtonsPRTFiles/StandardAndRegular/";
+		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_SnR_path;// "/ButtonsPRTFiles/StandardAndRegular/";
+
 
 		QMessageBox::information(this, m_str_information,
 			m_new_settings_applied);
@@ -98,12 +131,25 @@ void BioZone6_GUI::setStandardAndRegular()
 void BioZone6_GUI::setLargeAndSlow()
 {
 	std::cout << HERE << std::endl;
-
-	// reset this to 0 to avoid interference between modes
-	ui->spinBox_PonOM->setValue(0);
+	
 
 	if (ui->pushButton_largeAndSlow->isChecked())
 	{
+		if (ui->pushButton_solution1->isChecked() ||
+			ui->pushButton_solution2->isChecked() ||
+			ui->pushButton_solution3->isChecked() ||
+			ui->pushButton_solution4->isChecked() ||
+			ui->pushButton_solution5->isChecked() ||
+			ui->pushButton_solution6->isChecked())
+		{
+			ui->pushButton_largeAndSlow->setChecked(false);
+			QMessageBox::warning(this, m_str_warning,
+				"A solution is ON, please turn the solution OFF before changing operational mode");
+			return;
+		}
+		// reset this to 0 to avoid interference between modes
+		ui->spinBox_PonOM->setValue(0);
+
 		// uncheck the other buttons
 		ui->pushButton_standardAndSlow->setChecked(false);
 		ui->pushButton_standardAndRegular->setChecked(false);
@@ -124,8 +170,10 @@ void BioZone6_GUI::setLargeAndSlow()
 			-new_v_recirc_default, -new_v_switch_default);
 
 		// update button protocol files path 
-		m_button_protocol_path = m_protocol_path +
-			"/internal/ButtonsPRTFiles/LargeAndSlow/";
+		//m_button_protocol_path = m_protocol_path + 
+		//	QString::fromStdString(m_ppc1->getTip()->tip_setting_path)+
+		//	"/presetProtocols/internal/ButtonsPRTFiles/LargeAndSlow/";
+		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_LnS_path;// 
 
 		QMessageBox::information(this, m_str_information,
 			m_new_settings_applied);
@@ -139,11 +187,25 @@ void BioZone6_GUI::setLargeAndRegular()
 {
 	std::cout << HERE << std::endl;
 
-	// reset this to 0 to avoid interference between modes
-	ui->spinBox_PonOM->setValue(0);
 
 	if (ui->pushButton_largeAndRegular->isChecked())
 	{
+		if (ui->pushButton_solution1->isChecked() ||
+			ui->pushButton_solution2->isChecked() ||
+			ui->pushButton_solution3->isChecked() ||
+			ui->pushButton_solution4->isChecked() ||
+			ui->pushButton_solution5->isChecked() ||
+			ui->pushButton_solution6->isChecked())
+		{
+			ui->pushButton_largeAndRegular->setChecked(false);
+			QMessageBox::warning(this, m_str_warning,
+				"A solution is ON, please turn the solution OFF before changing operational mode");
+			return;
+		}
+
+		// reset this to 0 to avoid interference between modes
+		ui->spinBox_PonOM->setValue(0);
+
 		// uncheck the other buttons
 		ui->pushButton_standardAndSlow->setChecked(false);
 		ui->pushButton_standardAndRegular->setChecked(false);
@@ -164,8 +226,10 @@ void BioZone6_GUI::setLargeAndRegular()
 			-new_v_recirc_default, -new_v_switch_default);
 		
 		// update button protocol files path 
-		m_button_protocol_path = m_protocol_path +
-			"/internal/ButtonsPRTFiles/LargeAndRegular/";
+		//m_button_protocol_path = m_protocol_path + 
+		//	QString::fromStdString(m_ppc1->getTip()->tip_setting_path) +
+		//	"/presetProtocols/internal/ButtonsPRTFiles/LargeAndRegular/";
+		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_LnR_path;// 
 
 		QMessageBox::information(this, m_str_information,
 			m_new_settings_applied);

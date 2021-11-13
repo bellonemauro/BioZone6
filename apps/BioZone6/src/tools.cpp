@@ -773,6 +773,8 @@ void BioZone6_tools::getTipSettingsFromGUI()
 
 	if (ui_tools->doubleSpinBox_lengthToZone->isEnabled())
 		m_tip->length_to_zone = ui_tools->doubleSpinBox_lengthToZone->value();
+
+	this->tipSelection(ui_tools->comboBox_tipSelection->currentIndex());
 }
 
 void BioZone6_tools::activateOperationaModeSettings(int _enable)
@@ -1346,7 +1348,7 @@ bool BioZone6_tools::loadSettings(QString _path)
 	{
 		std::cerr << HERE
 			<< "tip/length_to_zone corrupted in setting file, using default value " << std::endl;
-		length_to_zone = DEFAULT_LENGTH_TO_ZONE_PRIME;
+		length_to_zone = DEFAULT_LENGTH_TO_ZONE_STANDARD;
 	}
 	ui_tools->doubleSpinBox_lengthToZone->setValue(length_to_zone);
 
@@ -1355,7 +1357,7 @@ bool BioZone6_tools::loadSettings(QString _path)
 	{
 		std::cerr << HERE
 			<< "tip/length_to_zone corrupted in setting file, using default value " << std::endl;
-		length_to_tip = DEFAULT_LENGTH_TO_TIP_PRIME;
+		length_to_tip = DEFAULT_LENGTH_TO_TIP_STANDARD;
 	}
 	ui_tools->doubleSpinBox_lengthToTip->setValue(length_to_tip);
 
@@ -1785,37 +1787,69 @@ void BioZone6_tools::tipSelection(int _idx)
 {
 	if (_idx == 0)
 	{   //tip prime
-		ui_tools->doubleSpinBox_lengthToTip->setValue(DEFAULT_LENGTH_TO_TIP_PRIME);
-		ui_tools->doubleSpinBox_lengthToZone->setValue(DEFAULT_LENGTH_TO_ZONE_PRIME);
-		m_tip->usePrimeTip();
+		ui_tools->doubleSpinBox_lengthToTip->setValue(DEFAULT_LENGTH_TO_TIP_STANDARD);
+		ui_tools->doubleSpinBox_lengthToZone->setValue(DEFAULT_LENGTH_TO_ZONE_STANDARD);
+		m_tip->useStandardTip();
 
 		//TODO SET THE DEFAULT VALUES
 		//Standard
 		//Pon(mbar) 190
-		ui_tools->spinBox_p_on_default->setValue(190);
+		//ui_tools->spinBox_p_on_default->setValue(190);
+		
 		//Poff(mbar) 22
-		ui_tools->spinBox_p_off_default->setValue(22);
+		//ui_tools->spinBox_p_off_default->setValue(22);
+		
 		//Vswitch(mbar) - 115
-		ui_tools->spinBox_v_switch_default->setValue(-115);
+		//ui_tools->spinBox_v_switch_default->setValue(-115);
+		
 		//Vrecirc(mbar) - 115
-		ui_tools->spinBox_v_recirc_default->setValue(-115);
+		//ui_tools->spinBox_v_recirc_default->setValue(-115);
 	}
 	if (_idx == 1)
 	{   // tip flex
-		ui_tools->doubleSpinBox_lengthToTip->setValue(DEFAULT_LENGTH_TO_TIP_FLEX);
-		ui_tools->doubleSpinBox_lengthToZone->setValue(DEFAULT_LENGTH_TO_ZONE_FLEX);
-		m_tip->useFlexTip();
+		ui_tools->doubleSpinBox_lengthToTip->setValue(DEFAULT_LENGTH_TO_TIP_WIDE);
+		ui_tools->doubleSpinBox_lengthToZone->setValue(DEFAULT_LENGTH_TO_ZONE_WIDE);
+		m_tip->useWideTip();
 		//TODO: add save of the tip type
 		// TODO SET THE DEFAULT VALUES
 		//Standard
 		//Pon(mbar) 215
-		ui_tools->spinBox_p_on_default->setValue(215);
+		//ui_tools->spinBox_p_on_default->setValue(215);
+		
 		//Poff(mbar) 30
-		ui_tools->spinBox_p_off_default->setValue(30);
+		//ui_tools->spinBox_p_off_default->setValue(30);
+		
 		//Vswitch(mbar) - 135
-		ui_tools->spinBox_v_switch_default->setValue(-135);
+		//ui_tools->spinBox_v_switch_default->setValue(-135);
+		
 		//Vrecirc(mbar) - 135
-		ui_tools->spinBox_v_recirc_default->setValue(-135);
+		//ui_tools->spinBox_v_recirc_default->setValue(-135);
+		//Standby
+		//Pon(mbar) 0
+		//Poff(mbar) 11
+		//Vswitch(mbar) - 55
+		//Vrecirc(mbar) - 55
+
+	}
+	if (_idx == 2)
+	{   // tip flex
+		ui_tools->doubleSpinBox_lengthToTip->setValue(DEFAULT_LENGTH_TO_TIP_ION);
+		ui_tools->doubleSpinBox_lengthToZone->setValue(DEFAULT_LENGTH_TO_ZONE_ION);
+		m_tip->useIonOptixTip();
+		//TODO: add save of the tip type
+		// TODO SET THE DEFAULT VALUES
+		//Standard
+		//Pon(mbar) 215
+		//ui_tools->spinBox_p_on_default->setValue(215);
+		
+		//Poff(mbar) 30
+		//ui_tools->spinBox_p_off_default->setValue(30);
+		
+		//Vswitch(mbar) - 135
+		//ui_tools->spinBox_v_switch_default->setValue(-135);
+		
+		//Vrecirc(mbar) - 135
+		//ui_tools->spinBox_v_recirc_default->setValue(-135);
 		//Standby
 		//Pon(mbar) 0
 		//Poff(mbar) 11

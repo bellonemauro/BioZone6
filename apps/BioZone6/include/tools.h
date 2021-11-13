@@ -103,9 +103,9 @@ public:
 	*/
 	GUIparams getGUIparams() { return *m_GUI_params; }
 
-	int getTipType()
+	fluicell::PPC1api6dataStructures::tip::tipType getTipType()
 	{
-		return ui_tools->comboBox_tipSelection->currentIndex();
+		return m_tip->type;//   ui_tools->comboBox_tipSelection->currentIndex();
 	}
 
 	fluicell::PPC1api6dataStructures::tip getTip() { return *m_tip; }

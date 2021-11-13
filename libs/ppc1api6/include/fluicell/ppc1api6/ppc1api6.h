@@ -775,6 +775,10 @@ namespace fluicell
 			return m_tip->type;
 		}
 
+		fluicell::PPC1api6dataStructures::tip* getTip() const {
+			return m_tip;
+		}
+
 		/** \brief Allows to set the tip type using pre-determined values
 		*
 		*   Two tips are currently allowed Prime and Flex 
@@ -783,10 +787,8 @@ namespace fluicell
 		*
 		*  \note -  call this function without argument reset the tip to Prime
 		**/
-		void setTip(bool _tip = true) {
-			if (_tip == true) m_tip->usePrimeTip();
-			if (_tip == false) m_tip->useFlexTip();
-		}
+		void setTip(fluicell::PPC1api6dataStructures::tip::tipType _tip = 
+			fluicell::PPC1api6dataStructures::tip::tipType::Standard);
 
 		/** \brief Get the length_to_tip value
 		*

@@ -79,31 +79,19 @@ public:
 	*/
 	~BioZone6_GUI();
 	
-	/**  \brief Set the version of the software from the main 
+	/**  \brief Set the 
+	of the software from the main 
 	*
 	*  @param _version  version to be assigned to the class member m_version
 	*/
 	void setVersion(std::string _version);
 
-	/**  \brief Set the protocol path in the user folder
+	/**  \brief Set the user files path in the user folder
 	*
-	*  @param _path  path to be assigned to the data member m_protocol_path
+	*  @param _path  path to be assigned to the data members 
 	*/
-	void setProtocolUserPath(QString _path);
+	void setUserFilesPath(QString _path);
 
-	/**  \brief Set the settings path in the user folder
-	*
-	*  @param _path  path to be assigned to the data member m_settings_path
-	*/
-	void setSettingsUserPath(QString _path);
-
-	/**  \brief Set the external data path in the user folder
-	*
-	*  @param _path  path to be assigned to the data member m_ext_data_path
-	*
-	*  \note This folder is used to save history and log or errors
-	*/
-	void setExtDataUserPath(QString _path) { m_ext_data_path = _path;  }
 
 	/**  \brief Initial support for high-dpi screens
 	*
@@ -114,6 +102,9 @@ public:
 	*/
 	void appScaling(int _dpiX, int _dpiY);
 
+	/**  \brief Runs a protocol in a given file 
+	*
+	*/
 	void runProtocolFile(QString _protocol_path = "");
 
 private slots:
@@ -346,6 +337,9 @@ private slots:
 	*
 	*/
 	void onPushButtonSolutionX(QPushButton* _button, int _idx);
+	
+	/** \brief These functions just re-direct to onPushButtonSolutionX with the button as object 
+	*/
 	void onPushButtonSolution1();
 	void onPushButtonSolution2();
 	void onPushButtonSolution3();
@@ -639,10 +633,26 @@ private slots:
 	*/
 	void standby();
 
+	/** \brief Set one of the operational modes
+	*
+	*   The operational modes are different modes in which the system can work according to
+	*    different values of vacuum and pressure for the tip, currently 4 different operationa modes are supported
+	* 
+	*	standard and regular
+	*   standard and slow
+	*   large and regular
+	*   large and slow
+	*
+	* \note
+	*/
 	void setStandardAndSlow();
 	void setStandardAndRegular();
 	void setLargeAndSlow();
 	void setLargeAndRegular();
+
+	/** \brief Plus minus button for vacuum and pressures in operational modes
+	*
+	*/
 	void onPlusPonOM();
 	void onMinusPonOM();
 	
@@ -1015,9 +1025,22 @@ private:
   double m_v_perc;           //!< vacuum percentage
 
   QString m_version;         //!< software version
-  QString m_protocol_path;   //!< protocol path 
-  QString m_button_protocol_path;   //!< button protocol files path, this changes according to the operational mode 
-  QString m_settings_path;   //!< settings path
+  QString m_base_biozone_path;       //!< this should be user/documents/Biozone6
+  QString m_tip_selection_string;    //!< this allows to change tip and reload settings and protocols accordingly  // /tip/
+  QString m_protocols_pathhh;        //!< protocol path
+  QString m_operational_mode_protocol_path; //!< this keeps track of the operational mode we are running in 
+  QString m_internal_protocol_path;  //!< path to the internal protocols
+  const QString m_settings_string;
+  const QString m_ext_data_folder_string;
+  const QString m_internal_protocol_string;
+  const QString m_preset_protocols_string;
+  const QString m_buttonPRTfiles_SnR_path;
+  const QString m_buttonPRTfiles_SnS_path;
+  const QString m_buttonPRTfiles_LnR_path;
+  const QString m_buttonPRTfiles_LnS_path;
+
+  //QString m_button_protocol_path;   //!< button protocol files path, this changes according to the operational mode 
+  QString m_settings_pathx;   //!< settings path
   QString m_ext_data_path;   //!< ext data path (save history)
   QTranslator m_translator;  //!< translator object
   int m_language_idx;        //!< language index 1 = english

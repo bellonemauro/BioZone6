@@ -112,18 +112,24 @@ namespace fluicell { namespace PPC1api6dataStructures
 			#define MIN_VACUUM_PERC 50      //!< %
 			#define MAX_VACUUM_PERC 250     //!< %
 			#define MAX_VACUUM_INCREMENT 40     //!< %
-			#define DEFAULT_LENGTH_TO_TIP_PRIME 0.065     /*!< length of the pipe to the tip, this value is used  
+			#define DEFAULT_LENGTH_TO_TIP_STANDARD 0.068     /*!< length of the pipe to the tip, this value is used  
 									             for the calculation of the flow using the Poiseuille equation
 												 see function getFlow() -- default value 0.065 m; */ 
-			#define DEFAULT_LENGTH_TO_ZONE_PRIME 0.062    /*!< length of the pipe to the zone, this value is used 
+			#define DEFAULT_LENGTH_TO_ZONE_STANDARD 0.063    /*!< length of the pipe to the zone, this value is used 
 												 for the calculation of the flow using the Poiseuille equation
 											 	 see function getFlow()-- default value 0.124 m; */
-			#define DEFAULT_LENGTH_TO_TIP_FLEX 0.068     /*!< length of the pipe to the tip, this value is used  
+			#define DEFAULT_LENGTH_TO_TIP_WIDE 0.068     /*!< length of the pipe to the tip, this value is used  
 												 for the calculation of the flow using the Poiseuille equation
 												 see function getFlow() -- default value 0.065 m; */
-			#define DEFAULT_LENGTH_TO_ZONE_FLEX 0.063    /*!< length of the pipe to the zone, this value is used 
+			#define DEFAULT_LENGTH_TO_ZONE_WIDE 0.063    /*!< length of the pipe to the zone, this value is used 
 												 for the calculation of the flow using the Poiseuille equation
 												 see function getFlow()-- default value 0.124 m; */
+			#define DEFAULT_LENGTH_TO_TIP_ION 0.068     /*!< length of the pipe to the tip, this value is used  
+												 for the calculation of the flow using the Poiseuille equation
+												 see function getFlow() -- default value 0.065 m; */
+			#define DEFAULT_LENGTH_TO_ZONE_ION 0.063    /*!< length of the pipe to the zone, this value is used 
+												for the calculation of the flow using the Poiseuille equation
+												see function getFlow()-- default value 0.124 m; */
 			#define PPC1_VID "16D0"  //!< device vendor ID
 			//#define PPC1_PID "083A"  //!< device product ID
 			#define PPC1_PID "0830"  //!< device product ID   //TODO: this is to recognize the device
@@ -429,33 +435,45 @@ namespace fluicell { namespace PPC1api6dataStructures
 		public: 
 			
 			enum tipType {
-			prime = 0,
-			flex = 1
+			Standard = 0,
+			Wide = 1,
+			IonOptix = 2
 			};
 
 			double length_to_tip;
 			double length_to_zone;
+			std::string tip_setting_path;
 			tipType type;
 
 		public:
 			tip() :
-				length_to_tip (DEFAULT_LENGTH_TO_TIP_PRIME),
-				length_to_zone (DEFAULT_LENGTH_TO_ZONE_PRIME),
-				type (prime)
+				length_to_tip (DEFAULT_LENGTH_TO_TIP_STANDARD),
+				length_to_zone (DEFAULT_LENGTH_TO_ZONE_STANDARD),
+				tip_setting_path("/tips/Standard/"),
+				type (tip::tipType::Standard)
 				{}
 
-			void usePrimeTip()
+			void useStandardTip()
 			{
-				length_to_tip = DEFAULT_LENGTH_TO_TIP_PRIME;
-				length_to_zone = DEFAULT_LENGTH_TO_ZONE_PRIME;
-				type = prime;
+				length_to_tip = DEFAULT_LENGTH_TO_TIP_STANDARD;
+				length_to_zone = DEFAULT_LENGTH_TO_ZONE_STANDARD;
+				tip_setting_path = "/tips/Standard/";
+				type = tipType::Standard;
 			}
 
-			void useFlexTip()
+			void useWideTip()
 			{
-				length_to_tip = DEFAULT_LENGTH_TO_TIP_FLEX;
-				length_to_zone = DEFAULT_LENGTH_TO_ZONE_FLEX;
-				type = flex;
+				length_to_tip = DEFAULT_LENGTH_TO_TIP_WIDE;
+				length_to_zone = DEFAULT_LENGTH_TO_ZONE_WIDE;
+				tip_setting_path = "/tips/Wide/";
+				type = tipType::Wide;
+			}
+			void useIonOptixTip()
+			{
+				length_to_tip = DEFAULT_LENGTH_TO_TIP_ION;
+				length_to_zone = DEFAULT_LENGTH_TO_ZONE_ION;
+				tip_setting_path = "/tips/IonOptix/";
+				type = tipType::IonOptix;
 			}
 		};
 

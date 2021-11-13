@@ -94,6 +94,33 @@ void fluicell::PPC1api6::threadSerial()
 	
 }
 
+void fluicell::PPC1api6::setTip(fluicell::PPC1api6dataStructures::tip::tipType _tip ) {
+	
+	switch (_tip)
+	{
+	case fluicell::PPC1api6dataStructures::tip::tipType::Standard:
+	{
+		m_tip->useStandardTip();
+		break;
+	}
+	case fluicell::PPC1api6dataStructures::tip::tipType::Wide:
+	{
+		m_tip->useWideTip();
+		break;
+	}
+	case fluicell::PPC1api6dataStructures::tip::tipType::IonOptix:
+	{
+		m_tip->useIonOptixTip();
+		break;
+	}
+	default:
+		logError(HERE,
+			std::string("Unknown setting of tip type " ));
+		break;
+	}
+
+}
+
 bool fluicell::PPC1api6::decodeDataLine(const std::string &_data, 
 	fluicell::PPC1api6dataStructures::PPC1api6_data *_PPC1_data) const
 {

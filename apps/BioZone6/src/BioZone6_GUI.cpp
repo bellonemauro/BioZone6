@@ -38,7 +38,15 @@ BioZone6_GUI::BioZone6_GUI(QMainWindow *parent) :
 	m_sol3_color(QColor::fromRgb(0, 158, 255)),
 	m_sol4_color(QColor::fromRgb(130, 255, 0)),
 	qerr(NULL),
-	qout(NULL)
+	qout(NULL),
+	m_settings_string ("/settings/"),
+	m_ext_data_folder_string("/Ext_data/"),
+    m_internal_protocol_string("/internal/"),
+    m_preset_protocols_string("/presetProtocols/"),
+	m_buttonPRTfiles_SnR_path("/ButtonsPRTFiles/StandardAndRegular/"),
+	m_buttonPRTfiles_SnS_path("/ButtonsPRTFiles/StandardAndSlow/"),
+	m_buttonPRTfiles_LnR_path("/ButtonsPRTFiles/LargeAndRegular/"),
+	m_buttonPRTfiles_LnS_path("/ButtonsPRTFiles/LargeAndSlow/")
 {
 
   // allows to use path alias
@@ -132,7 +140,7 @@ BioZone6_GUI::BioZone6_GUI(QMainWindow *parent) :
   m_ppc1->setBaudRate((int)m_comSettings->getBaudRate());
   m_ppc1->setVerbose(m_GUI_params->verboseOutput);
   m_ppc1->setFilterSize(m_pr_params->filterSize);
-  m_ppc1->setTip(true);
+  m_ppc1->setTip(fluicell::PPC1api6dataStructures::tip::Standard);
 
   // init thread macroRunner 
   m_macroRunner_thread = new BioZone6_protocolRunner(this);
@@ -188,12 +196,6 @@ BioZone6_GUI::BioZone6_GUI(QMainWindow *parent) :
 	  SLOT(automaticCheckForUpdates()));
   m_check_updates->start();
   
-  /*m_workaround_setValues = new QTimer();
-  m_workaround_setValues->setInterval(500);
-  connect(m_workaround_setValues,
-	  SIGNAL(timeout()), this,
-	  SLOT(updateBUGGYsetValues()));*/
-
   // reset the protocol table widget
   ui->treeWidget_macroTable->setColumnWidth(editorParams::c_idx, 70);
   ui->treeWidget_macroTable->setColumnWidth(editorParams::c_command, 240);
@@ -266,7 +268,6 @@ BioZone6_GUI::BioZone6_GUI(QMainWindow *parent) :
   ui->label_user->setText(s);
 
 //  m_labonatip_chart_view->setGUIchart();
-
 
   // refill solutions and waste according to the loaded settings
   refillSolution();
@@ -654,20 +655,6 @@ void BioZone6_GUI::initConnects()
 		SIGNAL(clicked()), this,
 		SLOT(setPreset1()));
 
-	// TODO: This works but it is a not accepted support for long-touch to memorize settings
-	//ui->pushButton_set_preset1->setContextMenuPolicy(Qt::ContextMenuPolicy::CustomContextMenu);
-	//connect(ui->pushButton_set_preset1,
-	//	SIGNAL(customContextMenuRequested(const QPoint&)),
-	//	this, SLOT(resetPreset1(const QPoint&)));
-	//ui->pushButton_set_preset2->setContextMenuPolicy(Qt::ContextMenuPolicy::CustomContextMenu);
-	//connect(ui->pushButton_set_preset2,
-	//	SIGNAL(customContextMenuRequested(const QPoint&)),
-	//	this, SLOT(resetPreset2(const QPoint&)));
-	//ui->pushButton_set_preset3->setContextMenuPolicy(Qt::ContextMenuPolicy::CustomContextMenu);
-	//connect(ui->pushButton_set_preset3,
-	//	SIGNAL(customContextMenuRequested(const QPoint&)),
-	//	this, SLOT(resetPreset3(const QPoint&)));
-
 	connect(ui->pushButton_set_preset2,
 		SIGNAL(clicked()), this,
 		SLOT(setPreset2()));
@@ -829,8 +816,8 @@ void BioZone6_GUI::initConnects()
 		SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),
 		this, SLOT(onProtocolClicked(QTreeWidgetItem*, int)));
 
-	connect(ui->pushButton_openFolder,
-		SIGNAL(clicked()), this, SLOT(openProtocolFolder())); 
+	//connect(ui->pushButton_openFolder,
+	//	SIGNAL(clicked()), this, SLOT(openProtocolFolder())); //TODO: openProtocolFolder MUST BE SET BACK BEFORE ACTIVATING IT
 
 	connect(ui->treeWidget_protocol_folder,
 		SIGNAL(customContextMenuRequested(const QPoint&)),
@@ -876,8 +863,6 @@ void BioZone6_GUI::initConnects()
 	connect(ui->pushButton_loop,
 		SIGNAL(clicked()), this, SLOT(createNewLoop()));
 
-	//connect(ui->pushButton_addFunction,  //TODO: deprecated
-	//	SIGNAL(clicked()), this, SLOT(createNewFunction()));
 }
 
 void BioZone6_GUI::testTTL(bool _state) {
@@ -1002,29 +987,6 @@ void BioZone6_GUI::initCustomStrings()
 	m_wrong_password = tr("Wrong password, file not saved");
 	m_correct_password = tr("Correct password, file saved");
 	m_new_settings_applied = tr("New settings applied, <br> please click operational to activate the pumps");
-}
-
-void BioZone6_GUI::setProtocolUserPath(QString _path)
-{
-	_path = QDir::cleanPath(_path); 
-	m_protocol_path = _path;  // set the data member
-	//TODO: m_protocol_path MUST be initialized, this is done in the main now, but there is no stability check 
-	// update button protocol files path 
-	if (ui->pushButton_standardAndRegular->isChecked())
-		m_button_protocol_path = m_protocol_path +
-			"/internal/ButtonsPRTFiles/StandardAndRegular/";
-	if (ui->pushButton_standardAndSlow->isChecked())
-		m_button_protocol_path = m_protocol_path +
-		"/internal/ButtonsPRTFiles/StandardAndSlow/";
-	if (ui->pushButton_largeAndRegular->isChecked())
-		m_button_protocol_path = m_protocol_path +
-		"/internal/ButtonsPRTFiles/LargeAndRegular/";
-	if (ui->pushButton_largeAndSlow->isChecked())
-		m_button_protocol_path = m_protocol_path +
-		"/internal/ButtonsPRTFiles/LargeAndSlow/";
-
-	this->readProtocolFolder(m_protocol_path);  // look for files in the folder
-	ui->lineEdit_protocolPath->setText(_path);  // set the current path in the GUI field
 }
 
 // the appScaling is still to be done
@@ -1154,10 +1116,13 @@ void BioZone6_GUI::toolApply()
 	*m_GUI_params = m_dialog_tools->getGUIparams();
 	m_ppc1->setTip(m_dialog_tools->getTipType());
 
-	if (m_dialog_tools->isExpertMode()) {
+	//if (m_dialog_tools->isExpertMode()) 
+	{
 		fluicell::PPC1api6dataStructures::tip my_tip = m_dialog_tools->getTip();
 		m_ppc1->setTipParameters(my_tip.length_to_tip, my_tip.length_to_zone);
 	}
+
+	setUserFilesPath(m_base_biozone_path);
 
 	m_ppc1->setCOMport(m_comSettings->getName());
 	m_ppc1->setBaudRate((int)m_comSettings->getBaudRate());
@@ -1396,7 +1361,7 @@ void BioZone6_GUI::closeEvent(QCloseEvent *event) {
 	else {
 
 		if (m_macroRunner_thread->isRunning()) {
-			//this->runProtocol(); // this will stop the macro if running
+			//this->runProtocol(); // this will stop the protocol if running
 			QMessageBox::question(this, m_str_information, m_str_protocol_running_stop, m_str_ok);
 			event->ignore();
 			return;
@@ -1472,14 +1437,29 @@ void BioZone6_GUI::dumpLogs()
 
 }
 
-void BioZone6_GUI::setSettingsUserPath(QString _path) { 
-	m_settings_path = _path;
-	QString settings_filename = _path + "settings.ini";
-	if (!m_dialog_tools->setLoadSettingsFileName(settings_filename))
-		std::cerr << HERE << " error in loading settings file " << std::endl;
 
-	toolApply();
+void BioZone6_GUI::setUserFilesPath(QString _path)
+{
+	_path = QDir::cleanPath(_path);
+
+	// here we expect to know where the user has placed its files, 
+	// by default is /user/documents/BioZone6 so we set that folder
+	// then we have different settings for each tip, 
+	//   /user/documents/BioZone6/tips/__TIP_TYPE___/presetProtocols/___OPERATIONAL_MODE____/internal
+	//   /user/documents/BioZone6/tips/__TIP_TYPE___/settings/
+	m_base_biozone_path = _path;
+	m_tip_selection_string = QString::fromStdString(m_ppc1->getTip()->tip_setting_path);  // /tips/Standard/   	
+	m_settings_pathx = _path + m_tip_selection_string + m_settings_string;
+
+	m_ext_data_path = m_base_biozone_path + m_ext_data_folder_string;
+
+	m_protocols_pathhh = m_base_biozone_path + m_tip_selection_string + m_preset_protocols_string;
+	m_internal_protocol_path = m_protocols_pathhh + m_internal_protocol_string;
+	m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_SnR_path;
+
+	this->readProtocolFolder(m_protocols_pathhh);  // look for files in the folder
 }
+
 
 void BioZone6_GUI::setVersion(std::string _version) {
 	// set the version in the main window
@@ -1508,7 +1488,6 @@ void BioZone6_GUI::closeSoftware()
 	}
 
 	delete m_dialog_tools;
-	//delete m_dialog_p_editor;
 	qApp->quit();
 }
 

@@ -114,9 +114,9 @@ void BioZone6_GUI::onPushButtonSolutionX(QPushButton *_button, int _idx)
 		currentProtocolFileName = m_operational_mode_protocol_path +
 			"OFF_Button" + QString::number(_idx) +".prt";
 		if (QFile::exists(currentProtocolFileName)) {
-			//QMessageBox::warning(this, m_str_warning,
-			//	"FOUND" + tr("<br>%1")
-			//	.arg(QDir::toNativeSeparators(currentProtocolFileName)));
+			QMessageBox::warning(this, m_str_warning,
+				"FOUND" + tr("<br>%1")
+				.arg(QDir::toNativeSeparators(currentProtocolFileName)));
 			this->runProtocolFile(currentProtocolFileName);
 		}
 		else
@@ -133,9 +133,9 @@ void BioZone6_GUI::onPushButtonSolutionX(QPushButton *_button, int _idx)
 		currentProtocolFileName = m_operational_mode_protocol_path +
 			"ON_Button" + QString::number(_idx) + ".prt";
 		if (QFile::exists(currentProtocolFileName)) {
-			//QMessageBox::warning(this, m_str_warning,
-			//	"FOUND" + tr("<br>%1")
-			//	.arg(QDir::toNativeSeparators(currentProtocolFileName)));
+			QMessageBox::warning(this, m_str_warning,
+				"FOUND" + tr("<br>%1")
+				.arg(QDir::toNativeSeparators(currentProtocolFileName)));
 			this->runProtocolFile(currentProtocolFileName);
 		}
 		else
@@ -152,116 +152,45 @@ void BioZone6_GUI::onPushButtonSolutionX(QPushButton *_button, int _idx)
 void BioZone6_GUI::onPushButtonSolution1() 
 { 
 	std::cout << HERE << std::endl;
+    
+	this->stopAllOtherButton(1);
 	
-	if (
-		ui->pushButton_solution2->isChecked() ||
-		ui->pushButton_solution3->isChecked() ||
-		ui->pushButton_solution4->isChecked() ||
-		ui->pushButton_solution5->isChecked() ||
-		ui->pushButton_solution6->isChecked())
-	{
-		QMessageBox::warning(this, m_str_warning,
-			"One of the other wells is ON, please turn the solution OFF before opening another well");
-		ui->pushButton_solution1->setChecked(false);
-		return;
-	}
-
 	this->onPushButtonSolutionX(ui->pushButton_solution1, 1);
 }
 
 void BioZone6_GUI::onPushButtonSolution2()
 {
 	std::cout << HERE << std::endl;
-
-	if (
-		ui->pushButton_solution1->isChecked() ||
-		ui->pushButton_solution3->isChecked() ||
-		ui->pushButton_solution4->isChecked() ||
-		ui->pushButton_solution5->isChecked() ||
-		ui->pushButton_solution6->isChecked())
-	{
-		QMessageBox::warning(this, m_str_warning,
-			"One of the other wells is ON, please turn the solution OFF before opening another well");
-		ui->pushButton_solution2->setChecked(false);
-		return;
-	}
-
+	int onSolutionIndex = getOnSolutionIndex();
+	this->stopAllOtherButton(2);
 	this->onPushButtonSolutionX(ui->pushButton_solution2, 2);
 }
 
 void BioZone6_GUI::onPushButtonSolution3()
 {
 	std::cout << HERE << std::endl;
-	if (
-		ui->pushButton_solution1->isChecked() ||
-		ui->pushButton_solution2->isChecked() ||
-		ui->pushButton_solution4->isChecked() ||
-		ui->pushButton_solution5->isChecked() ||
-		ui->pushButton_solution6->isChecked())
-	{
-		QMessageBox::warning(this, m_str_warning,
-			"One of the other wells is ON, please turn the solution OFF before opening another well");
-		ui->pushButton_solution3->setChecked(false);
-		return;
-	}
-	
+	this->stopAllOtherButton(3);
 	this->onPushButtonSolutionX(ui->pushButton_solution3, 3);
 }
 
 void BioZone6_GUI::onPushButtonSolution4()
 {
 	std::cout << HERE << std::endl;
-	if (
-		ui->pushButton_solution1->isChecked() ||
-		ui->pushButton_solution2->isChecked() ||
-		ui->pushButton_solution3->isChecked() ||
-		ui->pushButton_solution5->isChecked() ||
-		ui->pushButton_solution6->isChecked())
-	{
-		QMessageBox::warning(this, m_str_warning,
-			"One of the other wells is ON, please turn the solution OFF before opening another well");
-		ui->pushButton_solution4->setChecked(false);
-		return;
-	}
-	
+	this->stopAllOtherButton(4);
 	this->onPushButtonSolutionX(ui->pushButton_solution4, 4);
 }
 
 void BioZone6_GUI::onPushButtonSolution5()
 {
 	std::cout << HERE << std::endl;
-	if (
-		ui->pushButton_solution1->isChecked() ||
-		ui->pushButton_solution2->isChecked() ||
-		ui->pushButton_solution3->isChecked() ||
-		ui->pushButton_solution4->isChecked() ||
-		ui->pushButton_solution6->isChecked())
-	{
-		QMessageBox::warning(this, m_str_warning,
-			"One of the other wells is ON, please turn the solution OFF before opening another well");
-		ui->pushButton_solution5->setChecked(false);
-		return;
-	}
-	
+	this->stopAllOtherButton(5);
 	this->onPushButtonSolutionX(ui->pushButton_solution5, 5);
 }
 
 void BioZone6_GUI::onPushButtonSolution6()
 {
 	std::cout << HERE << std::endl;
-	if (
-		ui->pushButton_solution1->isChecked() ||
-		ui->pushButton_solution2->isChecked() ||
-		ui->pushButton_solution3->isChecked() ||
-		ui->pushButton_solution4->isChecked() ||
-		ui->pushButton_solution5->isChecked())
-	{
-		QMessageBox::warning(this, m_str_warning,
-			"One of the other wells is ON, please turn the solution OFF before opening another well");
-		ui->pushButton_solution6->setChecked(false);
-		return;
-	}
-
+	this->stopAllOtherButton(6);
 	this->onPushButtonSolutionX(ui->pushButton_solution6, 6);
 }
 
@@ -790,4 +719,80 @@ void BioZone6_GUI::updateTimingSliders()
 		ui->textEdit_emptyTime->hide();
 		return;
 	}
+}
+
+int BioZone6_GUI::getOnSolutionIndex()
+{
+	// This function assumes that no solutions can be ON 
+	// at the same time otherwise the first will be returned 
+	if (ui->pushButton_solution1->isChecked())
+	{
+		return 1;
+	}
+	if (ui->pushButton_solution2->isChecked())
+	{
+		return 2;
+	}
+	if (ui->pushButton_solution3->isChecked())
+	{
+		return 3;
+	}
+	if (ui->pushButton_solution4->isChecked())
+	{
+		return 4;
+	}
+	if (ui->pushButton_solution5->isChecked())
+	{
+		return 5;
+	}
+	if(ui->pushButton_solution6->isChecked())
+	{
+		return 6;
+	}
+	return 0;
+
+}
+
+
+bool BioZone6_GUI::stopAllOtherButton( int _notThisOne)
+{
+	if (ui->pushButton_solution1->isChecked() && _notThisOne != 1)
+	{
+		this->onPushButtonSolutionX(ui->pushButton_solution1, 1);
+		QMessageBox::warning(this, m_str_warning,
+			"The solution is now off " + QString::number(1));
+	}
+	if (ui->pushButton_solution2->isChecked() && _notThisOne != 2)
+	{
+		this->onPushButtonSolutionX(ui->pushButton_solution2, 2);
+		QMessageBox::warning(this, m_str_warning,
+			"The solution is now off " + QString::number(2));
+	}
+	if (ui->pushButton_solution3->isChecked() && _notThisOne != 3)
+	{
+		this->onPushButtonSolutionX(ui->pushButton_solution3, 3);
+		QMessageBox::warning(this, m_str_warning,
+			"The solution is now off " + QString::number(2));
+	}
+	if (ui->pushButton_solution4->isChecked() && _notThisOne != 4)
+	{
+		this->onPushButtonSolutionX(ui->pushButton_solution4, 4);
+		QMessageBox::warning(this, m_str_warning,
+			"The solution is now off " + QString::number(2));
+	}
+	if (ui->pushButton_solution5->isChecked() && _notThisOne != 5)
+	{
+		this->onPushButtonSolutionX(ui->pushButton_solution5, 5);
+		QMessageBox::warning(this, m_str_warning,
+			"The solution is now off " + QString::number(2));
+	}
+	if (ui->pushButton_solution6->isChecked() && _notThisOne != 6)
+	{
+		this->onPushButtonSolutionX(ui->pushButton_solution6, 6);
+		QMessageBox::warning(this, m_str_warning,
+			"The solution is now off " + QString::number(2));
+	}
+
+	return true;
+
 }

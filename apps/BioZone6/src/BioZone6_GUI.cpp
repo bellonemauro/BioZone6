@@ -1457,6 +1457,16 @@ void BioZone6_GUI::setUserFilesPath(QString _path)
 	m_internal_protocol_path = m_protocols_pathhh + m_internal_protocol_string;
 	m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_SnR_path;
 
+	if(ui->pushButton_standardAndRegular->isChecked())
+		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_SnR_path;
+	if (ui->pushButton_standardAndSlow->isChecked())
+		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_SnS_path;
+	if (ui->pushButton_largeAndRegular->isChecked())
+		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_LnR_path;
+	if (ui->pushButton_largeAndSlow->isChecked())
+		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_LnS_path;
+
+
 	this->readProtocolFolder(m_protocols_pathhh);  // look for files in the folder
 }
 

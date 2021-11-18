@@ -842,6 +842,14 @@ private:
   void addAllCommandsToPPC1Protocol(QTreeWidget* _tree,
 	  std::vector<fluicell::PPC1api6dataStructures::command>* _protocol);
   
+  /** \brief Get the index of the current ON solution, returns 0 if no solution is ON
+  *
+  */
+  int getOnSolutionIndex();
+
+  bool stopAllOtherButton(int _notThisOne = 0);
+
+
   /** \brief Protocol validity check
   *
   *   This is done after adding all commands to the protocol to check that the commands sequence 

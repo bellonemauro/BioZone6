@@ -20,19 +20,7 @@ void BioZone6_GUI::setStandardAndSlow()
 	// if the button is unchecked, check it and uncheck all the others
 	if (ui->pushButton_standardAndSlow->isChecked())
 	{
-		if (ui->pushButton_solution1->isChecked() ||
-			ui->pushButton_solution2->isChecked() ||
-			ui->pushButton_solution3->isChecked() ||
-			ui->pushButton_solution4->isChecked() ||
-			ui->pushButton_solution5->isChecked() ||
-			ui->pushButton_solution6->isChecked())
-		{
-			ui->pushButton_standardAndSlow->setChecked(false);
-			QMessageBox::warning(this, m_str_warning,
-				"A solution is ON, please turn the solution OFF before changing operational mode");
-			return;
-		}
-
+		
 		// reset this to 0 to avoid interference between modes
 		ui->spinBox_PonOM->setValue(0);
 
@@ -62,8 +50,16 @@ void BioZone6_GUI::setStandardAndSlow()
 		//	"/presetProtocols/internal/ButtonsPRTFiles/StandardAndSlow/";
 		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_SnS_path;
 
-		QMessageBox::information(this, m_str_information,
-			m_new_settings_applied);
+		if (getOnSolutionIndex() != 0)
+		{
+			QMessageBox::warning(this, m_str_warning,
+				"A solution is ON, the solution will be OFF once the new setting is applied by pushing the operational button");
+			//TODO: set the string 
+		}
+		else {
+			QMessageBox::information(this, m_str_information,
+				m_new_settings_applied);
+		}
 	}
 	else {
 		ui->pushButton_standardAndSlow->setChecked(true);
@@ -77,19 +73,6 @@ void BioZone6_GUI::setStandardAndRegular()
 
 	if (ui->pushButton_standardAndRegular->isChecked())
 	{
-		if (ui->pushButton_solution1->isChecked() ||
-			ui->pushButton_solution2->isChecked() ||
-			ui->pushButton_solution3->isChecked() ||
-			ui->pushButton_solution4->isChecked() ||
-			ui->pushButton_solution5->isChecked() ||
-			ui->pushButton_solution6->isChecked())
-		{
-			ui->pushButton_standardAndRegular->setChecked(false);
-			QMessageBox::warning(this, m_str_warning,
-				"A solution is ON, please turn the solution OFF before changing operational mode");
-			return;
-		}
-
 		// reset this to 0 to avoid interference between modes
 		ui->spinBox_PonOM->setValue(0);
 
@@ -120,8 +103,16 @@ void BioZone6_GUI::setStandardAndRegular()
 		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_SnR_path;// "/ButtonsPRTFiles/StandardAndRegular/";
 
 
-		QMessageBox::information(this, m_str_information,
-			m_new_settings_applied);
+		if (getOnSolutionIndex() != 0)
+		{
+			QMessageBox::warning(this, m_str_warning,
+				"A solution is ON, the solution will be OFF once the new setting is applied by pushing the operational button");
+			//TODO: set the string 
+		}
+		else {
+			QMessageBox::information(this, m_str_information,
+				m_new_settings_applied);
+		}
 	}
 	else {
 		ui->pushButton_standardAndRegular->setChecked(true);
@@ -135,18 +126,6 @@ void BioZone6_GUI::setLargeAndSlow()
 
 	if (ui->pushButton_largeAndSlow->isChecked())
 	{
-		if (ui->pushButton_solution1->isChecked() ||
-			ui->pushButton_solution2->isChecked() ||
-			ui->pushButton_solution3->isChecked() ||
-			ui->pushButton_solution4->isChecked() ||
-			ui->pushButton_solution5->isChecked() ||
-			ui->pushButton_solution6->isChecked())
-		{
-			ui->pushButton_largeAndSlow->setChecked(false);
-			QMessageBox::warning(this, m_str_warning,
-				"A solution is ON, please turn the solution OFF before changing operational mode");
-			return;
-		}
 		// reset this to 0 to avoid interference between modes
 		ui->spinBox_PonOM->setValue(0);
 
@@ -175,8 +154,16 @@ void BioZone6_GUI::setLargeAndSlow()
 		//	"/presetProtocols/internal/ButtonsPRTFiles/LargeAndSlow/";
 		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_LnS_path;// 
 
-		QMessageBox::information(this, m_str_information,
-			m_new_settings_applied);
+		if (getOnSolutionIndex() != 0)
+		{
+			QMessageBox::warning(this, m_str_warning,
+				"A solution is ON, the solution will be OFF once the new setting is applied by pushing the operational button");
+			//TODO: set the string 
+		}
+		else {
+			QMessageBox::information(this, m_str_information,
+				m_new_settings_applied);
+		}
 	}
 	else {
 		ui->pushButton_largeAndSlow->setChecked(true);
@@ -190,19 +177,6 @@ void BioZone6_GUI::setLargeAndRegular()
 
 	if (ui->pushButton_largeAndRegular->isChecked())
 	{
-		if (ui->pushButton_solution1->isChecked() ||
-			ui->pushButton_solution2->isChecked() ||
-			ui->pushButton_solution3->isChecked() ||
-			ui->pushButton_solution4->isChecked() ||
-			ui->pushButton_solution5->isChecked() ||
-			ui->pushButton_solution6->isChecked())
-		{
-			ui->pushButton_largeAndRegular->setChecked(false);
-			QMessageBox::warning(this, m_str_warning,
-				"A solution is ON, please turn the solution OFF before changing operational mode");
-			return;
-		}
-
 		// reset this to 0 to avoid interference between modes
 		ui->spinBox_PonOM->setValue(0);
 
@@ -231,8 +205,17 @@ void BioZone6_GUI::setLargeAndRegular()
 		//	"/presetProtocols/internal/ButtonsPRTFiles/LargeAndRegular/";
 		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_LnR_path;// 
 
-		QMessageBox::information(this, m_str_information,
-			m_new_settings_applied);
+		if (getOnSolutionIndex() != 0)
+		{
+			QMessageBox::warning(this, m_str_warning,
+				"A solution is ON, the solution will be OFF once the new setting is applied by pushing the operational button");
+			//TODO: set the string 
+		}
+		else {
+			QMessageBox::information(this, m_str_information,
+				m_new_settings_applied);
+		}
+
 	}
 	else {
 		ui->pushButton_largeAndRegular->setChecked(true);

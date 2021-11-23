@@ -59,7 +59,7 @@ if(MSVC)
   ENDFOREACH(F)
   
   FILE(GLOB myProject_settings "${PROJECT_SOURCE_DIR}/settings/*.*") 
-  FOREACH(F ${myProject_GUIDE})
+  FOREACH(F ${myProject_settings})
 	file(COPY "${F}" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Release/${PROJECT_NAME}/settings/)
 	file(COPY "${F}" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Debug/${PROJECT_NAME}/settings/)
   ENDFOREACH(F)

@@ -114,9 +114,9 @@ void BioZone6_GUI::onPushButtonSolutionX(QPushButton *_button, int _idx)
 		currentProtocolFileName = m_operational_mode_protocol_path +
 			"OFF_Button" + QString::number(_idx) +".prt";
 		if (QFile::exists(currentProtocolFileName)) {
-			QMessageBox::information(this, m_str_warning,
-				"FOUND" + tr("<br>%1")
-				.arg(QDir::toNativeSeparators(currentProtocolFileName)));
+			//QMessageBox::information(this, m_str_warning,
+			//	"FOUND" + tr("<br>%1")
+			//	.arg(QDir::toNativeSeparators(currentProtocolFileName)));
 			this->runProtocolFile(currentProtocolFileName);
 		}
 		else

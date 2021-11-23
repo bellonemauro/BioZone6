@@ -58,6 +58,12 @@ if(MSVC)
 	file(COPY "${F}" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Debug/${PROJECT_NAME}/guide/)
   ENDFOREACH(F)
   
+  FILE(GLOB myProject_settings "${PROJECT_SOURCE_DIR}/settings/*.*") 
+  FOREACH(F ${myProject_GUIDE})
+	file(COPY "${F}" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Release/${PROJECT_NAME}/settings/)
+	file(COPY "${F}" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Debug/${PROJECT_NAME}/settings/)
+  ENDFOREACH(F)
+  
   
   file (GLOB_RECURSE files_to_copy RELATIVE "${PROJECT_SOURCE_DIR}/*" "${PROJECT_SOURCE_DIR}/tips/*")
   foreach(F ${files_to_copy})

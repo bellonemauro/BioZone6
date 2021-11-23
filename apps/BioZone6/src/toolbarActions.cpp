@@ -28,10 +28,10 @@ void BioZone6_GUI::loadPressed()
 bool BioZone6_GUI::loadProtocol()
 {
 
-	std::cout << HERE << m_protocols_pathhh.toStdString() << std::endl;
+	std::cout << HERE << m_protocols_path.toStdString() << std::endl;
 
 	QString file_name = QFileDialog::getOpenFileName(
-		this, m_str_save_protocol, m_protocols_pathhh,  // dialog to open files
+		this, m_str_save_protocol, m_protocols_path,  // dialog to open files
 		"BioZone6 protocol File (*.prt);; All Files(*.*)", 0);
 
 	if (file_name.isEmpty()) {
@@ -53,7 +53,7 @@ void BioZone6_GUI::openSettingsFile() {  // open setting file
 
 	std::cout << HERE << std::endl;
 
-	QString _path = QFileDialog::getOpenFileName(this, m_str_load_profile, m_settings_pathx,  // dialog to open files
+	QString _path = QFileDialog::getOpenFileName(this, m_str_load_profile, m_settings_path,  // dialog to open files
 		"Profile file (*.ini);; All Files(*.*)", 0);
 
 	if (_path.isEmpty()) {
@@ -123,7 +123,7 @@ bool BioZone6_GUI::saveProtocolAs()
 	std::cout << HERE << std::endl;
 	QApplication::setOverrideCursor(Qt::WaitCursor);
 	QString file_name = QFileDialog::getSaveFileName(this,
-		m_str_save_protocol, m_protocols_pathhh,  // dialog to open files
+		m_str_save_protocol, m_protocols_path,  // dialog to open files
 		"BioZone6 protocol File (*.prt);; All Files(*.*)", 0);
 	
 	if (file_name.isEmpty()) {
@@ -136,7 +136,7 @@ bool BioZone6_GUI::saveProtocolAs()
 		return false;
 	}
 
-	readProtocolFolder(m_protocols_pathhh);
+	readProtocolFolder(m_protocols_path);
 	m_current_protocol_file_name = file_name;
 	QApplication::restoreOverrideCursor();    
 	return true;
@@ -147,7 +147,7 @@ void BioZone6_GUI::saveSettingsFile() {
 	std::cout << HERE << std::endl;
 
 	QString _path = QFileDialog::getSaveFileName(this, 
-		m_str_save_profile, m_protocols_pathhh,  // dialog to open files
+		m_str_save_profile, m_protocols_path,  // dialog to open files
 		"Profile file (*.ini);; All Files(*.*)", 0);
 
 	if (_path.isEmpty()) { 

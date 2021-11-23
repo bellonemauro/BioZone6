@@ -114,7 +114,7 @@ void BioZone6_GUI::onPushButtonSolutionX(QPushButton *_button, int _idx)
 		currentProtocolFileName = m_operational_mode_protocol_path +
 			"OFF_Button" + QString::number(_idx) +".prt";
 		if (QFile::exists(currentProtocolFileName)) {
-			QMessageBox::warning(this, m_str_warning,
+			QMessageBox::information(this, m_str_warning,
 				"FOUND" + tr("<br>%1")
 				.arg(QDir::toNativeSeparators(currentProtocolFileName)));
 			this->runProtocolFile(currentProtocolFileName);
@@ -153,44 +153,147 @@ void BioZone6_GUI::onPushButtonSolution1()
 { 
 	std::cout << HERE << std::endl;
     
-	this->stopAllOtherButton(1);
-	
+	/*this->stopAllOtherButton(1);
+	QThread::msleep(100);
+	if (m_macroRunner_thread->isRunning()) {
+		while (m_macroRunner_thread->isRunning())
+		QThread::msleep(1000);
+	}
+	*/
+	if (ui->pushButton_solution2->isChecked() ||
+		ui->pushButton_solution3->isChecked() ||
+		ui->pushButton_solution4->isChecked() ||
+		ui->pushButton_solution5->isChecked() ||
+		ui->pushButton_solution6->isChecked()
+		) //TODO: fix here for 6 channels
+	{
+		QMessageBox::information(this, m_str_information,
+			"A solution is ON, turn it OFF first");
+		ui->pushButton_solution1->setChecked(false);
+		return;
+	}
 	this->onPushButtonSolutionX(ui->pushButton_solution1, 1);
 }
 
 void BioZone6_GUI::onPushButtonSolution2()
 {
 	std::cout << HERE << std::endl;
-	int onSolutionIndex = getOnSolutionIndex();
+	/*int onSolutionIndex = getOnSolutionIndex();
 	this->stopAllOtherButton(2);
+	QThread::msleep(100);
+	if (m_macroRunner_thread->isRunning()) {
+		while (m_macroRunner_thread->isRunning())
+			QThread::msleep(1000);
+	}*/
+
+	if (ui->pushButton_solution1->isChecked() ||
+		ui->pushButton_solution3->isChecked() ||
+		ui->pushButton_solution4->isChecked() ||
+		ui->pushButton_solution5->isChecked() ||
+		ui->pushButton_solution6->isChecked()
+		) //TODO: fix here for 6 channels
+	{
+		QMessageBox::information(this, m_str_information,
+			"A solution is ON, turn it OFF first");
+		ui->pushButton_solution2->setChecked(false);
+		return;
+	}
 	this->onPushButtonSolutionX(ui->pushButton_solution2, 2);
 }
 
 void BioZone6_GUI::onPushButtonSolution3()
 {
 	std::cout << HERE << std::endl;
-	this->stopAllOtherButton(3);
+	/*this->stopAllOtherButton(3);
+	QThread::msleep(100);
+	if (m_macroRunner_thread->isRunning()) {
+		while (m_macroRunner_thread->isRunning())
+			QThread::msleep(1000);
+			}*/
+	if (ui->pushButton_solution1->isChecked() ||
+		ui->pushButton_solution2->isChecked() ||
+		ui->pushButton_solution4->isChecked() ||
+		ui->pushButton_solution5->isChecked() ||
+		ui->pushButton_solution6->isChecked()
+		) //TODO: fix here for 6 channels
+	{
+		QMessageBox::information(this, m_str_information,
+			"A solution is ON, turn it OFF first");
+		ui->pushButton_solution3->setChecked(false);
+		return;
+	}
 	this->onPushButtonSolutionX(ui->pushButton_solution3, 3);
 }
 
 void BioZone6_GUI::onPushButtonSolution4()
 {
 	std::cout << HERE << std::endl;
-	this->stopAllOtherButton(4);
+	/*this->stopAllOtherButton(4);
+	QThread::msleep(100);
+	if (m_macroRunner_thread->isRunning()) {
+		while (m_macroRunner_thread->isRunning())
+			QThread::msleep(1000);
+	}*/
+	if (ui->pushButton_solution1->isChecked() ||
+		ui->pushButton_solution2->isChecked() ||
+		ui->pushButton_solution3->isChecked() ||
+		ui->pushButton_solution5->isChecked() ||
+		ui->pushButton_solution6->isChecked()
+		) //TODO: fix here for 6 channels
+	{
+		QMessageBox::information(this, m_str_information,
+			"A solution is ON, turn it OFF first");
+		ui->pushButton_solution4->setChecked(false);
+		return;
+	}
 	this->onPushButtonSolutionX(ui->pushButton_solution4, 4);
 }
 
 void BioZone6_GUI::onPushButtonSolution5()
 {
 	std::cout << HERE << std::endl;
-	this->stopAllOtherButton(5);
+	/*this->stopAllOtherButton(5);
+	QThread::msleep(100);
+	if (m_macroRunner_thread->isRunning()) {
+		while (m_macroRunner_thread->isRunning())
+			QThread::msleep(1000);
+	}*/
+	if (ui->pushButton_solution1->isChecked() ||
+		ui->pushButton_solution2->isChecked() ||
+		ui->pushButton_solution3->isChecked() ||
+		ui->pushButton_solution4->isChecked() ||
+		ui->pushButton_solution6->isChecked()
+		) //TODO: fix here for 6 channels
+	{
+		QMessageBox::information(this, m_str_information,
+			"A solution is ON, turn it OFF first");
+		ui->pushButton_solution5->setChecked(false);
+		return;
+	}
 	this->onPushButtonSolutionX(ui->pushButton_solution5, 5);
 }
 
 void BioZone6_GUI::onPushButtonSolution6()
 {
 	std::cout << HERE << std::endl;
-	this->stopAllOtherButton(6);
+	/*this->stopAllOtherButton(6);
+	QThread::msleep(100);
+	if (m_macroRunner_thread->isRunning()) {
+		while (m_macroRunner_thread->isRunning())
+			QThread::msleep(1000);
+	}*/
+	if (ui->pushButton_solution1->isChecked() ||
+		ui->pushButton_solution2->isChecked() ||
+		ui->pushButton_solution3->isChecked() ||
+		ui->pushButton_solution4->isChecked() ||
+		ui->pushButton_solution5->isChecked()
+		) //TODO: fix here for 6 channels
+	{
+		QMessageBox::information(this, m_str_information,
+			"A solution is ON, turn it OFF first");
+		ui->pushButton_solution6->setChecked(false);
+		return;
+	}
 	this->onPushButtonSolutionX(ui->pushButton_solution6, 6);
 }
 
@@ -758,39 +861,33 @@ bool BioZone6_GUI::stopAllOtherButton( int _notThisOne)
 {
 	if (ui->pushButton_solution1->isChecked() && _notThisOne != 1)
 	{
+		ui->pushButton_solution1->setChecked(false);
 		this->onPushButtonSolutionX(ui->pushButton_solution1, 1);
-		QMessageBox::warning(this, m_str_warning,
-			"The solution is now off " + QString::number(1));
 	}
 	if (ui->pushButton_solution2->isChecked() && _notThisOne != 2)
 	{
+		ui->pushButton_solution2->setChecked(false);
 		this->onPushButtonSolutionX(ui->pushButton_solution2, 2);
-		QMessageBox::warning(this, m_str_warning,
-			"The solution is now off " + QString::number(2));
 	}
 	if (ui->pushButton_solution3->isChecked() && _notThisOne != 3)
 	{
+		ui->pushButton_solution3->setChecked(false);
 		this->onPushButtonSolutionX(ui->pushButton_solution3, 3);
-		QMessageBox::warning(this, m_str_warning,
-			"The solution is now off " + QString::number(2));
 	}
 	if (ui->pushButton_solution4->isChecked() && _notThisOne != 4)
 	{
+		ui->pushButton_solution4->setChecked(false);
 		this->onPushButtonSolutionX(ui->pushButton_solution4, 4);
-		QMessageBox::warning(this, m_str_warning,
-			"The solution is now off " + QString::number(2));
 	}
 	if (ui->pushButton_solution5->isChecked() && _notThisOne != 5)
 	{
+		ui->pushButton_solution5->setChecked(false);
 		this->onPushButtonSolutionX(ui->pushButton_solution5, 5);
-		QMessageBox::warning(this, m_str_warning,
-			"The solution is now off " + QString::number(2));
 	}
 	if (ui->pushButton_solution6->isChecked() && _notThisOne != 6)
 	{
+		ui->pushButton_solution6->setChecked(false);
 		this->onPushButtonSolutionX(ui->pushButton_solution6, 6);
-		QMessageBox::warning(this, m_str_warning,
-			"The solution is now off " + QString::number(2));
 	}
 
 	return true;

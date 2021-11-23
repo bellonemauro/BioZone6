@@ -49,7 +49,7 @@ void BioZone6_GUI::readProtocolFolder(QString _path)
 
 void BioZone6_GUI::openProtocolFolder()
 {
-	QDir path = QFileDialog::getExistingDirectory(this, m_str_select_folder, m_protocols_pathhh);
+	QDir path = QFileDialog::getExistingDirectory(this, m_str_select_folder, m_protocols_path);
 	QString pp = path.path();
 	//TODO: THIS MUST BE SET BACK BEFORE ACTIVATING IT
 	if (pp != ".") // this prevent cancel to delete the old path
@@ -812,8 +812,8 @@ void BioZone6_GUI::OnShowInFolderClicked()
 {
 	std::cout << HERE << std::endl;
 
-	QString file_path = m_protocols_pathhh;
-	QDesktopServices::openUrl(QUrl::fromLocalFile(m_protocols_pathhh));
+	QString file_path = m_protocols_path;
+	QDesktopServices::openUrl(QUrl::fromLocalFile(m_protocols_path));
 }
 
 void BioZone6_GUI::helpTriggered() {
@@ -828,7 +828,7 @@ void BioZone6_GUI::deleteProtocol()
 
 	int row = m_triggered_protocol_item;
 
-	QString file_path = m_protocols_pathhh;
+	QString file_path = m_protocols_path;
 	file_path.append(
 		ui->treeWidget_protocol_folder->topLevelItem(row)->text(0));
 
@@ -845,7 +845,7 @@ void BioZone6_GUI::deleteProtocol()
 			// delete file
 			f.remove();
 			// update the folder
-			readProtocolFolder(m_protocols_pathhh);
+			readProtocolFolder(m_protocols_path);
 		}
 		else
 		{

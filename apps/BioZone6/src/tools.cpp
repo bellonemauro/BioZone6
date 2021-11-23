@@ -21,10 +21,10 @@ BioZone6_tools::BioZone6_tools(QWidget *parent):
 	m_tip(new fluicell::PPC1api6dataStructures::tip()),
 	m_expert(false),
 	m_GUI_params(new GUIparams()),
-	m_setting_file_name("/settings/settings.ini")
+	m_setting_file_name("./settings/settings.ini")
 {
 	ui_tools->setupUi(this );
-
+	
 	//load settings from file
 	loadSettings(m_setting_file_name);
 

@@ -39,7 +39,7 @@ BioZone6_GUI::BioZone6_GUI(QMainWindow *parent) :
 	m_sol4_color(QColor::fromRgb(130, 255, 0)),
 	qerr(NULL),
 	qout(NULL),
-	m_settings_string ("/settings/"),
+	m_settings_string ("/settings/settings.ini"),
 	m_ext_data_folder_string("/Ext_data/"),
     m_internal_protocol_string("/internal/"),
     m_preset_protocols_string("/presetProtocols/"),
@@ -66,7 +66,7 @@ BioZone6_GUI::BioZone6_GUI(QMainWindow *parent) :
   ui->textEdit_emptyTime_waste->hide();
 
   // initialize the tools as we need the settings  // TODO: waste of performances all these objects are created twice
-  m_dialog_tools = new BioZone6_tools();
+  m_dialog_tools = new BioZone6_tools(); 
   m_dialog_tools->setExtDataPath(m_ext_data_path);
   m_pipette_status = new pipetteStatus();
   m_comSettings = new COMSettings();
@@ -1449,12 +1449,13 @@ void BioZone6_GUI::setUserFilesPath(QString _path)
 	//   /user/documents/BioZone6/tips/__TIP_TYPE___/settings/
 	m_base_biozone_path = _path;
 	m_tip_selection_string = QString::fromStdString(m_ppc1->getTip()->tip_setting_path);  // /tips/Standard/   	
-	m_settings_pathx = _path + m_tip_selection_string + m_settings_string;
+	//m_settings_path = _path + m_tip_selection_string + m_settings_string;
+	m_settings_path = _path + m_settings_string;
 
 	m_ext_data_path = m_base_biozone_path + m_ext_data_folder_string;
 
-	m_protocols_pathhh = m_base_biozone_path + m_tip_selection_string + m_preset_protocols_string;
-	m_internal_protocol_path = m_protocols_pathhh + m_internal_protocol_string;
+	m_protocols_path = m_base_biozone_path + m_tip_selection_string + m_preset_protocols_string;
+	m_internal_protocol_path = m_protocols_path + m_internal_protocol_string;
 	m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_SnR_path;
 
 	if(ui->pushButton_standardAndRegular->isChecked())
@@ -1467,7 +1468,8 @@ void BioZone6_GUI::setUserFilesPath(QString _path)
 		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_LnS_path;
 
 
-	this->readProtocolFolder(m_protocols_pathhh);  // look for files in the folder
+	this->readProtocolFolder(m_protocols_path);  // look for files in the folder
+	m_dialog_tools->setLoadSettingsFileName(m_settings_path);
 }
 
 

@@ -211,7 +211,8 @@ void BioZone6_GUI::runProtocol()
 
 void BioZone6_GUI::runProtocolFile(QString _protocol_path) {
 
-	std::cout << HERE << " :: running protocol --> " << _protocol_path.toStdString() << std::endl;
+	std::cout << HERE << " :: running protocol --> " 
+		<< _protocol_path.toStdString() << std::endl;
 
 	if (!m_macroRunner_thread->isRunning()) { 
 
@@ -235,7 +236,8 @@ void BioZone6_GUI::runProtocolFile(QString _protocol_path) {
 
 		m_ppc1->setVerbose(false);
 
-		std::cout << HERE << " :: running protocol --> protocol size " << m_protocol->size() << std::endl;
+		std::cout << HERE << " :: running protocol --> protocol size " 
+			<< m_protocol->size() << std::endl;
 
 		m_macroRunner_thread->setProtocol(m_protocol);
 		m_macroRunner_thread->setSimulationFlag(m_simulationOnly);
@@ -348,16 +350,16 @@ void BioZone6_GUI::protocolFinished(const QString &_result) {
 	//       an ask command as last command of a protocol
 	QString message = m_running_protocol_file_name;
 
-	if (message.contains("pumpSolution", Qt::CaseSensitive) )
+	if (message.contains("ON_Button", Qt::CaseSensitive))
 	{
 		//QMessageBox::information(this, m_str_information, message);
 
 		int adaptation_value = ui->spinBox_PonOM->value();
 		double Pon_adapted = m_pipette_status->pon_set_point + adaptation_value;
 		updatePonSetPoint(Pon_adapted);
+		double Vr_adapted = m_pipette_status->v_recirc_set_point - adaptation_value;
+		updateVrecircSetPoint(Vr_adapted);
 	}
-
-
 
 	// restore settings that have been overlapped during the protocol running
 	this->toolApply();
@@ -470,10 +472,6 @@ void BioZone6_GUI::protocolFinished(const QString &_result) {
 
 	m_chart_view->updateChartProtocol(m_protocol);
 	m_running_protocol_file_name = "";
-
-	
-	//m_workaround_setValues->start();
-
 
 }
 

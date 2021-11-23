@@ -1035,7 +1035,7 @@ private:
   QString m_version;         //!< software version
   QString m_base_biozone_path;       //!< this should be user/documents/Biozone6
   QString m_tip_selection_string;    //!< this allows to change tip and reload settings and protocols accordingly  // /tip/
-  QString m_protocols_pathhh;        //!< protocol path
+  QString m_protocols_path;          //!< protocol path
   QString m_operational_mode_protocol_path; //!< this keeps track of the operational mode we are running in 
   QString m_internal_protocol_path;  //!< path to the internal protocols
   const QString m_settings_string;
@@ -1048,7 +1048,7 @@ private:
   const QString m_buttonPRTfiles_LnS_path;
 
   //QString m_button_protocol_path;   //!< button protocol files path, this changes according to the operational mode 
-  QString m_settings_pathx;   //!< settings path
+  QString m_settings_path;   //!< settings path
   QString m_ext_data_path;   //!< ext data path (save history)
   QTranslator m_translator;  //!< translator object
   int m_language_idx;        //!< language index 1 = english

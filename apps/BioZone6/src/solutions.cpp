@@ -778,7 +778,8 @@ void BioZone6_GUI::updateTimingSliders()
 		}
 		else
 		{
-			s.append(m_str_pulse_continuous_flowing);  
+			if (!m_macroRunner_thread->isRunning())
+				s.append(m_str_pulse_continuous_flowing);  
 			ui->textEdit_emptyTime->show();
 			ui->textEdit_emptyTime->setText(s);
 
@@ -811,6 +812,8 @@ void BioZone6_GUI::updateTimingSliders()
 		if (!m_macroRunner_thread->isRunning())
 			setEnableSolutionButtons(true);
 		_button->setChecked(false);
+		this->onPushButtonSolutionX(_button, m_flowing_solution);
+
 		ui->widget_solutionArrow->setVisible(false);
 		
 		m_pen_line.setColor(Qt::transparent);

@@ -15,5 +15,5 @@
     <setPon value="145" message=" "/>
     <setPoff value="8" message=" "/>
     <wait value="0.4" message=" "/>
-    <setPon value="135" message=" "/>
+    <setPon value="140" message=" "/>
 </Protocol>

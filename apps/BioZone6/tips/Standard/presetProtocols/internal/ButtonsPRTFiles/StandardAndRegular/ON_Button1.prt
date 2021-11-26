@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE prt>
 <!--Fluicell xml protocol file for BioZone 6 - https://www.fluicell.com/-->
-<!--File created on Wed Nov 17 2021  15:26:49 -->
+<!--File created on Mon Oct 25 2021  11:24:44 -->
 <Protocol version="1.1">
     <allOff value="" message=" "/>
     <solution1 value="1" message=" "/>
@@ -15,5 +15,5 @@
     <setPon value="170" message=" "/>
     <setPoff value="12" message=" "/>
     <wait value="0.4" message=" "/>
-    <setPon value="150" message=" "/>
+    <setPon value="160" message=" "/>
 </Protocol>

@@ -350,6 +350,10 @@ void BioZone6_GUI::protocolFinished(const QString &_result) {
 	//       an ask command as last command of a protocol
 	QString message = m_running_protocol_file_name;
 
+	// restore settings that have been overlapped during the protocol running
+	//this->toolApply();
+	*m_solutionParams = m_dialog_tools->getSolutionsParams();
+
 	if (message.contains("ON_Button", Qt::CaseSensitive))
 	{
 		//QMessageBox::information(this, m_str_information, message);
@@ -357,12 +361,14 @@ void BioZone6_GUI::protocolFinished(const QString &_result) {
 		int adaptation_value = ui->spinBox_PonOM->value();
 		double Pon_adapted = m_pipette_status->pon_set_point + adaptation_value;
 		updatePonSetPoint(Pon_adapted);
-		double Vr_adapted = m_pipette_status->v_recirc_set_point - adaptation_value;
+		
+		//double Vr_adapted = m_pipette_status->v_recirc_set_point - adaptation_value;
+		double Vr_adapted = -m_pr_params->v_recirc_default - adaptation_value;
 		updateVrecircSetPoint(Vr_adapted);
+
 	}
 
-	// restore settings that have been overlapped during the protocol running
-	this->toolApply();
+
 
 	// restore GUI 
 	ui->label_runMacro->setText(m_str_label_run_protocol);

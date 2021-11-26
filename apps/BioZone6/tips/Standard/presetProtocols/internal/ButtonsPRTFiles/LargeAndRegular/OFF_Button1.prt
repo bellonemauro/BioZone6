@@ -9,4 +9,7 @@
     <setPon value="60" message=" "/>
     <wait value="2" message=" "/>
     <setPoff value="10" message=" "/>
+    <setVrecirc value="-85" message=" "/>
+    <setVswitch value="-90" message=" "/>
+    <wait value="0.3" message=" "/>
 </Protocol>

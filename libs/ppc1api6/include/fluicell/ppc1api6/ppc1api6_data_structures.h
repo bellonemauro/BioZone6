@@ -697,7 +697,6 @@ namespace fluicell { namespace PPC1api6dataStructures
 				SnS_OFF_button,
 				LnS_ON_button,
 				LnS_OFF_button,
-				loop,
 				setPon,
 				setPoff,
 				setVrecirc,
@@ -715,6 +714,7 @@ namespace fluicell { namespace PPC1api6dataStructures
 				initialize,
 				showPopUp,
 				pumpsOff,
+				loop,
 				END
 			};
 

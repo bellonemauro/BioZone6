@@ -214,7 +214,7 @@ font-weight: 900;
             <item row="0" column="0">
              <widget class="QStackedWidget" name="stackedWidget_main">
               <property name="currentIndex">
-               <number>0</number>
+               <number>1</number>
               </property>
               <widget class="QWidget" name="page">
                <layout class="QGridLayout" name="gridLayout_18">
@@ -3345,47 +3345,6 @@ QPushButton:disabled{ background-color: #CCCCCC; }
                     </widget>
                    </item>
                    <item>
-                    <widget class="QPushButton" name="pushButton_plusIndent">
-                     <property name="enabled">
-                      <bool>true</bool>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>40</width>
-                       <height>40</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>40</width>
-                       <height>40</height>
-                      </size>
-                     </property>
-                     <property name="toolTip">
-                      <string>Add new command in the loop</string>
-                     </property>
-                     <property name="statusTip">
-                      <string>Add new command in the loop</string>
-                     </property>
-                     <property name="whatsThis">
-                      <string>Add new command in the loop</string>
-                     </property>
-                     <property name="text">
-                      <string/>
-                     </property>
-                     <property name="icon">
-                      <iconset resource="../resources.qrc">
-                       <normaloff>:/icons/indentPlus.png</normaloff>:/icons/indentPlus.png</iconset>
-                     </property>
-                     <property name="iconSize">
-                      <size>
-                       <width>25</width>
-                       <height>25</height>
-                      </size>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
                     <widget class="QPushButton" name="pushButton_duplicateLine">
                      <property name="enabled">
                       <bool>true</bool>
@@ -3459,19 +3418,6 @@ QPushButton:disabled{ background-color: #CCCCCC; }
                       </size>
                      </property>
                     </widget>
-                   </item>
-                   <item>
-                    <spacer name="horizontalSpacer_10">
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>339</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
                    </item>
                    <item>
                     <widget class="QPushButton" name="pushButton_undo">
@@ -3570,6 +3516,19 @@ QPushButton:disabled{ background-color: #CCCCCC; }
                       <bool>false</bool>
                      </property>
                     </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_10">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>339</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
                    </item>
                   </layout>
                  </widget>

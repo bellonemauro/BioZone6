@@ -424,7 +424,6 @@ struct protocolCommands {
 		SnS_OFF_button,
 		LnS_ON_button,
 		LnS_OFF_button,
-		loop,
 		setPon,
 		setPoff,
 		setVrecirc,
@@ -442,6 +441,7 @@ struct protocolCommands {
 		initialize,
 		showPopUp,
 		pumpsOff,
+		loop,
 		END //THIS IS TO TAKE TRACK OF ENUMERATION
 	};
 

@@ -851,8 +851,8 @@ void BioZone6_GUI::initConnects()
 	connect(ui->pushButton_moveUp,
 		SIGNAL(clicked()), this, SLOT(moveUp()));
 
-	connect(ui->pushButton_plusIndent,
-		SIGNAL(clicked()), this, SLOT(plusIndent()));
+	//connect(ui->pushButton_plusIndent,
+	//	SIGNAL(clicked()), this, SLOT(plusIndent()));
 
 	connect(ui->pushButton_duplicateLine,
 		SIGNAL(clicked()), this, SLOT(duplicateItem()));

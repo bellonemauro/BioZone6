@@ -192,6 +192,7 @@ int main(int argc, char **argv)
 	  // detect the home path ... C:/users/user/
 	  QString biozone_home_path = QDir::homePath();
 	  biozone_home_path.append("/Documents/BioZone6/");
+	  window.setUserSettingPath(QString(biozone_home_path + "/settings/settings.ini"));
 	  window.setUserFilesPath(biozone_home_path);
 
 #ifdef BIOZONE6_VERSION

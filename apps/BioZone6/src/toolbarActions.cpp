@@ -65,6 +65,9 @@ void BioZone6_GUI::openSettingsFile() {  // open setting file
 		QMessageBox::warning(this, m_str_warning, m_str_cannot_load_profile + "<br>" + _path);
 		return;
 	}
+	
+	m_settings_path = _path;
+	m_dialog_tools->setLoadSettingsFileName(m_settings_path);
 
 	toolApply();
 }

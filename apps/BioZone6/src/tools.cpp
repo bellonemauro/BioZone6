@@ -24,7 +24,9 @@ BioZone6_tools::BioZone6_tools(QWidget *parent):
 	m_setting_file_name("./settings/settings.ini")
 {
 	ui_tools->setupUi(this );
-	
+
+	//ui_tools->pushButton_enableTipSetting->setEnabled(false); //TODO: remember to remove once the password is set
+
 	//load settings from file
 	loadSettings(m_setting_file_name);
 
@@ -155,8 +157,11 @@ BioZone6_tools::BioZone6_tools(QWidget *parent):
 		static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
 		&BioZone6_tools::tipSelection);
 
-	connect(ui_tools->checkBox_modifyOperationalModeValues,
-		SIGNAL(stateChanged(int)), this, SLOT(activateOperationaModeSettings(int)));
+	//connect(ui_tools->checkBox_modifyOperationalModeValues,
+	//	SIGNAL(stateChanged(int)), this, SLOT(activateOperationaModeSettings(int)));
+	
+	connect(ui_tools->pushButton_enableTipSetting,
+		SIGNAL(clicked()), this, SLOT(activateOperationaModeSettings()));
 
     // connect tool window events Ok, Cancel, Apply
 	connect(ui_tools->buttonBox->button(QDialogButtonBox::Ok), 
@@ -783,13 +788,13 @@ void BioZone6_tools::activateOperationaModeSettings(int _enable)
 	std::cout << HERE << std::endl;
 
 	bool enable = false;
-	if (ui_tools->checkBox_modifyOperationalModeValues->isChecked()==true && askPasswordToUnlock() == true)
+	if (ui_tools->pushButton_enableTipSetting->isChecked()==true && askPasswordToUnlock() == true)
 	{
 		enable = true;
-		ui_tools->checkBox_modifyOperationalModeValues->setCheckState(Qt::CheckState::Checked);
+		ui_tools->pushButton_enableTipSetting->setChecked(Qt::CheckState::Checked);
 	}
 	else
-		ui_tools->checkBox_modifyOperationalModeValues->setCheckState(Qt::CheckState::Unchecked);
+		ui_tools->pushButton_enableTipSetting->setChecked(Qt::CheckState::Unchecked);
 	
 	//ui_tools->spinBox_p_on_default->setEnabled(enable);
 	//ui_tools->spinBox_p_off_default->setEnabled(enable);
@@ -817,6 +822,11 @@ void BioZone6_tools::activateOperationaModeSettings(int _enable)
 	ui_tools->spinBox_lAr_Vs_def->setEnabled(enable);
 	ui_tools->spinBox_lAr_Vr_def->setEnabled(enable);
 
+	ui_tools->doubleSpinBox_lengthToTip->setEnabled(enable);
+	ui_tools->doubleSpinBox_lengthToZone->setEnabled(enable);
+	ui_tools->comboBox_tipSelection->setEnabled(enable);
+
+
 }
 
 bool BioZone6_tools::loadSettings(QString _path)
@@ -836,20 +846,16 @@ bool BioZone6_tools::loadSettings(QString _path)
 	m_settings = new QSettings(_path, QSettings::IniFormat);
 
 	// read default group
-	QString user = m_settings->value("default/user", "No owner found").toString();
+	QString user = m_settings->value("default/user", "No profile selected").toString();
 	ui_tools->lineEdit_userName->setText(user);
 
-	QString comment = m_settings->value("default/comment", " ").toString();
+	QString comment = m_settings->value("default/comment", "Initial run").toString();
 	ui_tools->lineEdit_comment->setText(comment);
 
 	QString language = m_settings->value("default/language", "English").toString();
 	ui_tools->comboBox_language->setCurrentIndex(parseLanguageString(language));
 	m_GUI_params->setLanguage(ui_tools->comboBox_language->currentIndex());
 	
-	int automaticUpdates_index = m_settings->value("GUI/AutomaticUpdates", "0").toInt();
-	ui_tools->comboBox_automaticUpdates->setCurrentIndex(automaticUpdates_index);
-	m_GUI_params->automaticUpdates_idx = automaticUpdates_index;
-
 	// read com group
 	//ComName
 	QString comPort = m_settings->value("COM/ComName", "COM1").toString();
@@ -916,7 +922,7 @@ bool BioZone6_tools::loadSettings(QString _path)
 	ui_tools->checkBox_enableToolTips->setChecked(enable_tool_tips);
 	m_GUI_params->enableToolTips = enable_tool_tips;
 	
-	bool verb_out = m_settings->value("GUI/VerboseOutput", "1").toBool();
+	bool verb_out = m_settings->value("GUI/VerboseOutput", "0").toBool();
 	ui_tools->checkBox_verboseOut->setChecked(verb_out);
 	m_GUI_params->verboseOutput = verb_out;
 
@@ -928,13 +934,17 @@ bool BioZone6_tools::loadSettings(QString _path)
 	ui_tools->checkBox_dumpToFile->setChecked(dump_to_file);
 	m_GUI_params->dumpHistoryToFile = dump_to_file;
 
-	bool speech_active = m_settings->value("GUI/SpeechActive", "1").toBool();
+	bool speech_active = m_settings->value("GUI/SpeechActive", "0").toBool();
 	ui_tools->checkBox_enableSynthesis->setChecked(speech_active);
 	m_GUI_params->speechActive = speech_active;
 
 	
 	QString out_file_path = m_settings->value("GUI/OutFilePath", "./Ext_data/").toString();
 	m_GUI_params->outFilePath = out_file_path; 
+
+	int automaticUpdates_index = m_settings->value("GUI/AutomaticUpdates", "2").toInt();
+	ui_tools->comboBox_automaticUpdates->setCurrentIndex(automaticUpdates_index);
+	m_GUI_params->automaticUpdates_idx = automaticUpdates_index;
 
 	// read pr_limits group
     bool ok = false;
@@ -957,11 +967,11 @@ bool BioZone6_tools::loadSettings(QString _path)
 	m_pr_params->p_on_min = p_on_min;
 
 	//int p_on_default = m_settings->value("pr_limits/p_on_default", "190").toInt(&ok);
-	int p_on_default = m_settings->value("pv_standardAndRegular/p_on", "190").toInt(&ok);
+	int p_on_default = m_settings->value("pv_standardAndRegular/p_on", "55").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< " p_on_default corrupted in setting file, using default value " << std::endl;
-		p_on_default = 190;
+		p_on_default = 55;
 	}
 	ui_tools->spinBox_p_on_default->setValue(p_on_default);
 	m_pr_params->p_on_default = p_on_default;
@@ -985,11 +995,11 @@ bool BioZone6_tools::loadSettings(QString _path)
 	m_pr_params->p_off_min = p_off_min;
 
 	//int p_off_default = m_settings->value("pr_limits/p_off_default", "21").toInt(&ok);
-	int p_off_default = m_settings->value("pv_standardAndRegular/p_off", "21").toInt(&ok);
+	int p_off_default = m_settings->value("pv_standardAndRegular/p_off", "12").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< " p_off_default corrupted in setting file, using default value " << std::endl;
-		p_off_default = 21;
+		p_off_default = 12;
 	}
 	ui_tools->spinBox_p_off_default->setValue(p_off_default);
 	m_pr_params->p_off_default = p_off_default;
@@ -1013,11 +1023,11 @@ bool BioZone6_tools::loadSettings(QString _path)
 	m_pr_params->v_switch_min = v_switch_min;
 
 	//int v_switch_default = m_settings->value("pr_limits/v_switch_default", "-115").toInt(&ok);
-	int v_switch_default = m_settings->value("pv_standardAndRegular/v_switch", "-115").toInt(&ok);
+	int v_switch_default = m_settings->value("pv_standardAndRegular/v_switch", "-100").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< " v_switch_default corrupted in setting file, using default value " << std::endl;
-		v_switch_default = -115;
+		v_switch_default = -100;
 	}
 	ui_tools->spinBox_v_switch_default->setValue(v_switch_default);
 	m_pr_params->v_switch_default = v_switch_default;
@@ -1041,11 +1051,11 @@ bool BioZone6_tools::loadSettings(QString _path)
 	m_pr_params->v_recirc_min = v_recirc_min;
 
 	//int v_recirc_default = m_settings->value("pr_limits/v_recirc_default", "-115").toInt(&ok);
-	int v_recirc_default = m_settings->value("pv_standardAndRegular/v_recirc", "-115").toInt(&ok);
+	int v_recirc_default = m_settings->value("pv_standardAndRegular/v_recirc", "-85").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< " v_recirc_default corrupted in setting file, using default value " << std::endl;
-		v_recirc_default = -115;
+		v_recirc_default = -85;
 	}
 	ui_tools->spinBox_v_recirc_default->setValue(v_recirc_default);
 	m_pr_params->v_recirc_default = v_recirc_default;
@@ -1059,11 +1069,11 @@ bool BioZone6_tools::loadSettings(QString _path)
 	ui_tools->spinBox_ds_increment->setValue(base_ds_increment);
 	m_pr_params->base_ds_increment = base_ds_increment;
 
-	int base_fs_increment = m_settings->value("pr_limits/base_fs_increment", "5").toInt(&ok);
+	int base_fs_increment = m_settings->value("pr_limits/base_fs_increment", "10").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< " base_fs_increment corrupted in setting file, using default value " << std::endl;
-		base_fs_increment = 5;
+		base_fs_increment = 10;
 	}
 	ui_tools->spinBox_fs_increment->setValue(base_fs_increment);
 	m_pr_params->base_fs_increment = base_fs_increment;
@@ -1077,255 +1087,255 @@ bool BioZone6_tools::loadSettings(QString _path)
 	ui_tools->spinBox_v_increment->setValue(base_v_increment);
 	m_pr_params->base_v_increment = base_v_increment;
 
-	int p_on_sAs = m_settings->value("pv_standardAndSlow/p_on", "190").toInt(&ok);
+	int p_on_sAs = m_settings->value("pv_standardAndSlow/p_on", "120").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_standardAndSlow/p_on corrupted in setting file, using default value " << std::endl;
-		p_on_sAs = 190;
+		p_on_sAs = 120;
 	}
 	ui_tools->spinBox_sAs_Pon_def->setValue(p_on_sAs);
 	m_pr_params->p_on_sAs = p_on_sAs;
 
-	int p_off_sAs = m_settings->value("pv_standardAndSlow/p_off", "21").toInt(&ok);
+	int p_off_sAs = m_settings->value("pv_standardAndSlow/p_off", "7").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_standardAndSlow/p_off corrupted in setting file, using default value " << std::endl;
-		p_off_sAs = 21;
+		p_off_sAs = 7;
 	}
 	ui_tools->spinBox_sAs_Poff_def->setValue(p_off_sAs);
 	m_pr_params->p_off_sAs = p_off_sAs;
 
-	int v_switch_sAs = m_settings->value("pv_standardAndSlow/v_switch", "-115").toInt(&ok);
+	int v_switch_sAs = m_settings->value("pv_standardAndSlow/v_switch", "-70").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_standardAndSlow/v_switch corrupted in setting file, using default value " << std::endl;
-		v_switch_sAs = -115;
+		v_switch_sAs = -70;
 	}
 	ui_tools->spinBox_sAs_Vs_def->setValue(v_switch_sAs);
 	m_pr_params->v_switch_sAs = v_switch_sAs;
 
-	int v_recirc_sAs = m_settings->value("pv_standardAndSlow/v_recirc", "-115").toInt(&ok);
+	int v_recirc_sAs = m_settings->value("pv_standardAndSlow/v_recirc", "-60").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_standardAndSlow/v_recirc corrupted in setting file, using default value " << std::endl;
-		v_recirc_sAs = -115;
+		v_recirc_sAs = -60;
 	}
 	ui_tools->spinBox_sAs_Vr_def->setValue(v_recirc_sAs);
 	m_pr_params->v_recirc_sAs = v_recirc_sAs;
 
 
-	int p_on_sAr = m_settings->value("pv_standardAndRegular/p_on", "190").toInt(&ok);
+	int p_on_sAr = m_settings->value("pv_standardAndRegular/p_on", "160").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_standardAndRegular/p_on corrupted in setting file, using default value " << std::endl;
-		p_on_sAr = 190;
+		p_on_sAr = 160;
 	}
 	ui_tools->spinBox_sAr_Pon_def->setValue(p_on_sAr);
 	m_pr_params->p_on_sAr = p_on_sAr;
 
-	int p_off_sAr = m_settings->value("pv_standardAndRegular/p_off", "21").toInt(&ok);
+	int p_off_sAr = m_settings->value("pv_standardAndRegular/p_off", "12").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_standardAndRegular/p_off corrupted in setting file, using default value " << std::endl;
-		p_off_sAr = 21;
+		p_off_sAr = 12;
 	}
 	ui_tools->spinBox_sAr_Poff_def->setValue(p_off_sAr);
 	m_pr_params->p_off_sAr = p_off_sAr;
 
-	int v_switch_sAr = m_settings->value("pv_standardAndRegular/v_switch", "-115").toInt(&ok);
+	int v_switch_sAr = m_settings->value("pv_standardAndRegular/v_switch", "-100").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_standardAndRegular/v_switch corrupted in setting file, using default value " << std::endl;
-		v_switch_sAr = -115;
+		v_switch_sAr = -100;
 	}
 	ui_tools->spinBox_sAr_Vs_def->setValue(v_switch_sAr);
 	m_pr_params->v_switch_sAr = v_switch_sAr;
 
-	int v_recirc_sAr = m_settings->value("pv_standardAndRegular/v_recirc", "-115").toInt(&ok);
+	int v_recirc_sAr = m_settings->value("pv_standardAndRegular/v_recirc", "-85").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_standardAndRegular/v_recirc corrupted in setting file, using default value " << std::endl;
-		v_recirc_sAr = -115;
+		v_recirc_sAr = -85;
 	}
 	ui_tools->spinBox_sAr_Vr_def->setValue(v_recirc_sAr);
 	m_pr_params->v_recirc_sAr = v_recirc_sAr;
 
-	int p_on_lAs = m_settings->value("pv_largeAndSlow/p_on", "190").toInt(&ok);
+	int p_on_lAs = m_settings->value("pv_largeAndSlow/p_on", "140").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_largeAndSlow/p_on corrupted in setting file, using default value " << std::endl;
-		p_on_lAs = 190;
+		p_on_lAs = 140;
 	}
 	ui_tools->spinBox_lAs_Pon_def->setValue(p_on_lAs);
 	m_pr_params->p_on_lAs = p_on_lAs;
 
-	int p_off_lAs = m_settings->value("pv_largeAndSlow/p_off", "21").toInt(&ok);
+	int p_off_lAs = m_settings->value("pv_largeAndSlow/p_off", "8").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_largeAndSlow/p_off corrupted in setting file, using default value " << std::endl;
-		p_off_lAs = 21;
+		p_off_lAs = 8;
 	}
 	ui_tools->spinBox_lAs_Poff_def->setValue(p_off_lAs);
 	m_pr_params->p_off_lAs = p_off_lAs;
 
-	int v_switch_lAs = m_settings->value("pv_largeAndSlow/v_switch", "-115").toInt(&ok);
+	int v_switch_lAs = m_settings->value("pv_largeAndSlow/v_switch", "-72").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_largeAndSlow/v_switch corrupted in setting file, using default value " << std::endl;
-		v_switch_lAs = -115;
+		v_switch_lAs = -72;
 	}
 	ui_tools->spinBox_lAs_Vs_def->setValue(v_switch_lAs);
 	m_pr_params->v_switch_lAs = v_switch_lAs;
 
-	int v_recirc_lAs = m_settings->value("pv_largeAndSlow/v_recirc", "-115").toInt(&ok);
+	int v_recirc_lAs = m_settings->value("pv_largeAndSlow/v_recirc", "-68").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_largeAndSlow/v_recirc corrupted in setting file, using default value " << std::endl;
-		v_recirc_lAs = -115;
+		v_recirc_lAs = -68;
 	}
 	ui_tools->spinBox_lAs_Vr_def->setValue(v_recirc_lAs);
 	m_pr_params->v_recirc_lAs = v_recirc_lAs;
 
-	int p_on_lAr = m_settings->value("pv_largeAndRegular/p_on", "190").toInt(&ok);
+	int p_on_lAr = m_settings->value("pv_largeAndRegular/p_on", "170").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_largeAndRegular/p_on corrupted in setting file, using default value " << std::endl;
-		p_on_lAr = 190;
+		p_on_lAr = 170;
 	}
 	ui_tools->spinBox_lAr_Pon_def->setValue(p_on_lAr);
 	m_pr_params->p_on_lAr = p_on_lAr;
 
-	int p_off_lAr = m_settings->value("pv_largeAndRegular/p_off", "21").toInt(&ok);
+	int p_off_lAr = m_settings->value("pv_largeAndRegular/p_off", "10").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_largeAndRegular/p_off corrupted in setting file, using default value " << std::endl;
-		p_off_lAr = 21;
+		p_off_lAr = 10;
 	}
 	ui_tools->spinBox_lAr_Poff_def->setValue(p_off_lAr);
 	m_pr_params->p_off_lAr = p_off_lAr;
 
-	int v_switch_lAr = m_settings->value("pv_largeAndRegular/v_switch", "-115").toInt(&ok);
+	int v_switch_lAr = m_settings->value("pv_largeAndRegular/v_switch", "-90").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_largeAndRegular/v_switch corrupted in setting file, using default value " << std::endl;
-		v_switch_lAr = -115;
+		v_switch_lAr = -90;
 	}
 	ui_tools->spinBox_lAr_Vs_def->setValue(v_switch_lAr);
 	m_pr_params->v_switch_lAr = v_switch_lAr;
 
-	int v_recirc_lAr = m_settings->value("pv_largeAndRegular/v_recirc", "-115").toInt(&ok);
+	int v_recirc_lAr = m_settings->value("pv_largeAndRegular/v_recirc", "-85").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_largeAndRegular/v_recirc corrupted in setting file, using default value " << std::endl;
-		v_recirc_lAr = -115;
+		v_recirc_lAr = -85;
 	}
 	ui_tools->spinBox_lAr_Vr_def->setValue(v_recirc_lAr);
 	m_pr_params->v_recirc_lAr = v_recirc_lAr;
 
-	int p_on_p1 = m_settings->value("pv_preset1/p_on", "190").toInt(&ok);
+	int p_on_p1 = m_settings->value("pv_preset1/p_on", "55").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_preset1/p_on corrupted in setting file, using default value " << std::endl;
-		p_on_p1 = 190;
+		p_on_p1 = 55;
 	}
 	ui_tools->spinBox_p_on_preset1->setValue(p_on_p1);
 	m_pr_params->p_on_preset1 = p_on_p1; 
 
-	int p_off_p1 = m_settings->value("pv_preset1/p_off", "21").toInt(&ok);
+	int p_off_p1 = m_settings->value("pv_preset1/p_off", "12").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_preset1/p_off corrupted in setting file, using default value " << std::endl;
-		p_off_p1 = 21;
+		p_off_p1 = 12;
 	}
 	ui_tools->spinBox_p_off_preset1->setValue(p_off_p1);
 	m_pr_params->p_off_preset1 = p_off_p1;
 
-	int v_switch_p1 = m_settings->value("pv_preset1/v_switch", "-115").toInt(&ok);
+	int v_switch_p1 = m_settings->value("pv_preset1/v_switch", "-100").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_preset1/v_switch corrupted in setting file, using default value " << std::endl;
-		v_switch_p1 = -115;
+		v_switch_p1 = -100;
 	}
 	ui_tools->spinBox_v_switch_preset1->setValue(v_switch_p1);
 	m_pr_params->v_switch_preset1 = v_switch_p1;
 
-	int v_recirc_p1 = m_settings->value("pv_preset1/v_recirc", "-115").toInt(&ok);
+	int v_recirc_p1 = m_settings->value("pv_preset1/v_recirc", "-85").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_preset1/v_recirc corrupted in setting file, using default value " << std::endl;
-		v_recirc_p1 = -115;
+		v_recirc_p1 = -85;
 	}
 	ui_tools->spinBox_v_recirc_preset1->setValue(v_recirc_p1);
 	m_pr_params->v_recirc_preset1 = v_recirc_p1;
 
-	int p_on_p2 = m_settings->value("pv_preset2/p_on", "190").toInt(&ok);
+	int p_on_p2 = m_settings->value("pv_preset2/p_on", "110").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_preset2/p_on corrupted in setting file, using default value " << std::endl;
-		p_on_p2 = 190;
+		p_on_p2 = 110;
 	}
 	ui_tools->spinBox_p_on_preset2->setValue(p_on_p2);
 	m_pr_params->p_on_preset2 = p_on_p2;
 
-	int p_off_p2 = m_settings->value("pv_preset2/p_off", "21").toInt(&ok);
+	int p_off_p2 = m_settings->value("pv_preset2/p_off", "24").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_preset2/p_off corrupted in setting file, using default value " << std::endl;
-		p_off_p2 = 21;
+		p_off_p2 = 24;
 	}
 	ui_tools->spinBox_p_off_preset2->setValue(p_off_p2);
 	m_pr_params->p_off_preset2 = p_off_p2;
 
-	int v_switch_p2 = m_settings->value("pv_preset2/v_switch", "-115").toInt(&ok);
+	int v_switch_p2 = m_settings->value("pv_preset2/v_switch", "-200").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_preset2/v_switch corrupted in setting file, using default value " << std::endl;
-		v_switch_p2 = -115;
+		v_switch_p2 = -200;
 	}
 	ui_tools->spinBox_v_switch_preset2->setValue(v_switch_p2);
 	m_pr_params->v_switch_preset2 = v_switch_p2;
 
-	int v_recirc_p2 = m_settings->value("pv_preset2/v_recirc", "-115").toInt(&ok);
+	int v_recirc_p2 = m_settings->value("pv_preset2/v_recirc", "-170").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_preset2/v_recirc corrupted in setting file, using default value " << std::endl;
-		v_recirc_p2 = -115;
+		v_recirc_p2 = -170;
 	}
 	ui_tools->spinBox_v_recirc_preset2->setValue(v_recirc_p2);
 	m_pr_params->v_recirc_preset2 = v_recirc_p2;
 
-	int p_on_p3 = m_settings->value("pv_preset3/p_on", "190").toInt(&ok);
+	int p_on_p3 = m_settings->value("pv_preset3/p_on", "160").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_preset3/p_on corrupted in setting file, using default value " << std::endl;
-		p_on_p3 = 190;
+		p_on_p3 = 160;
 	}
 	ui_tools->spinBox_p_on_preset3->setValue(p_on_p3);
 	m_pr_params->p_on_preset3 = p_on_p3;
 
-	int p_off_p3 = m_settings->value("pv_preset3/p_off", "21").toInt(&ok);
+	int p_off_p3 = m_settings->value("pv_preset3/p_off", "14").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_preset3/p_off corrupted in setting file, using default value " << std::endl;
-		p_off_p3 = 21;
+		p_off_p3 = 14;
 	}
 	ui_tools->spinBox_p_off_preset3->setValue(p_off_p3);
 	m_pr_params->p_off_preset3 = p_off_p3;
 
-	int v_switch_p3 = m_settings->value("pv_preset3/v_switch", "-115").toInt(&ok);
+	int v_switch_p3 = m_settings->value("pv_preset3/v_switch", "-110").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_preset3/v_switch corrupted in setting file, using default value " << std::endl;
-		v_switch_p3 = -115;
+		v_switch_p3 = -110;
 	}
 	ui_tools->spinBox_v_switch_preset3->setValue(v_switch_p3);
 	m_pr_params->v_switch_preset3 = v_switch_p3;
 
-	int v_recirc_p3 = m_settings->value("pv_preset3/v_recirc", "-115").toInt(&ok);
+	int v_recirc_p3 = m_settings->value("pv_preset3/v_recirc", "-90").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< "pv_preset3/v_recirc corrupted in setting file, using default value " << std::endl;
-		v_recirc_p3 = -115;
+		v_recirc_p3 = -90;
 	}
 	ui_tools->spinBox_v_recirc_preset3->setValue(v_recirc_p1);
 	m_pr_params->v_recirc_preset3 = v_recirc_p3;
@@ -1393,7 +1403,7 @@ bool BioZone6_tools::loadSettings(QString _path)
 
 
 	//Read solution volumes block
-	int vol_sol1 = m_settings->value("solutions/volWell1", "30").toInt(&ok);
+	int vol_sol1 = m_settings->value("solutions/volWell1", "25").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE 
 			<< " volume of solution 1 corrupted in setting file, using default value " << std::endl;
@@ -1401,7 +1411,7 @@ bool BioZone6_tools::loadSettings(QString _path)
 	ui_tools->spinBox_vol_sol1->setValue(vol_sol1);
 	m_solutionParams->vol_well1 = vol_sol1;
 
-	int vol_sol2 = m_settings->value("solutions/volWell2", "30").toInt(&ok);
+	int vol_sol2 = m_settings->value("solutions/volWell2", "25").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< " volume of solution 2 corrupted in setting file, using default value " << std::endl;
@@ -1409,7 +1419,7 @@ bool BioZone6_tools::loadSettings(QString _path)
 	ui_tools->spinBox_vol_sol2->setValue(vol_sol2);
 	m_solutionParams->vol_well2 = vol_sol2;
 
-	int vol_sol3 = m_settings->value("solutions/volWell3", "30").toInt(&ok);
+	int vol_sol3 = m_settings->value("solutions/volWell3", "25").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< " volume of solution 3 corrupted in setting file, using default value " << std::endl;
@@ -1418,7 +1428,7 @@ bool BioZone6_tools::loadSettings(QString _path)
 	m_solutionParams->vol_well3 = vol_sol3;
 
 
-	int vol_sol4 = m_settings->value("solutions/volWell4", "30").toInt(&ok);
+	int vol_sol4 = m_settings->value("solutions/volWell4", "25").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< " volume of solution 4 corrupted in setting file, using default value " << std::endl;
@@ -1426,7 +1436,7 @@ bool BioZone6_tools::loadSettings(QString _path)
 	ui_tools->spinBox_vol_sol4->setValue(vol_sol4);
 	m_solutionParams->vol_well4 = vol_sol4;
 
-	int vol_sol5 = m_settings->value("solutions/volWell5", "30").toInt(&ok);
+	int vol_sol5 = m_settings->value("solutions/volWell5", "25").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< " volume of solution 5 corrupted in setting file, using default value " << std::endl;
@@ -1434,7 +1444,7 @@ bool BioZone6_tools::loadSettings(QString _path)
 	ui_tools->spinBox_vol_sol5->setValue(vol_sol5);
 	m_solutionParams->vol_well5 = vol_sol5;
 
-	int vol_sol6 = m_settings->value("solutions/volWell6", "30").toInt(&ok);
+	int vol_sol6 = m_settings->value("solutions/volWell6", "25").toInt(&ok);
 	if (!ok) {
 		std::cerr << HERE
 			<< " volume of solution 6 corrupted in setting file, using default value " << std::endl;
@@ -1495,19 +1505,19 @@ bool BioZone6_tools::loadSettings(QString _path)
 
 
 
-	double pulseDuration1 = m_settings->value("solutions/pulseDuration1", "10.0").toDouble();
+	double pulseDuration1 = m_settings->value("solutions/pulseDuration1", "5.0").toDouble();
 	ui_tools->doubleSpinBox_pulse_sol1->setValue(pulseDuration1);
 	m_solutionParams->pulse_duration_well1 = pulseDuration1; 
 
-	double pulseDuration2 = m_settings->value("solutions/pulseDuration2", "10.0").toDouble();
+	double pulseDuration2 = m_settings->value("solutions/pulseDuration2", "5.0").toDouble();
 	ui_tools->doubleSpinBox_pulse_sol2->setValue(pulseDuration2);
 	m_solutionParams->pulse_duration_well2 = pulseDuration2;
 	
-	double pulseDuration3 = m_settings->value("solutions/pulseDuration3", "10.0").toDouble();
+	double pulseDuration3 = m_settings->value("solutions/pulseDuration3", "5.0").toDouble();
 	ui_tools->doubleSpinBox_pulse_sol3->setValue(pulseDuration3);
 	m_solutionParams->pulse_duration_well3 = pulseDuration3;
 	
-	double pulseDuration4 = m_settings->value("solutions/pulseDuration4", "10.0").toDouble();
+	double pulseDuration4 = m_settings->value("solutions/pulseDuration4", "5.0").toDouble();
 	ui_tools->doubleSpinBox_pulse_sol4->setValue(pulseDuration4);
 	m_solutionParams->pulse_duration_well4 = pulseDuration4;
 	
@@ -1550,6 +1560,7 @@ bool BioZone6_tools::loadSettings(QString _path)
 	m_solutionParams->continuous_flowing_sol6 = disableTimer_s6;
 	// continuous flowing
 
+	this->applyPressed();
 	return true;
 }
 
@@ -1565,9 +1576,7 @@ bool BioZone6_tools::saveSettings(QString _file_name)
 	settings->setValue("default/comment", ui_tools->lineEdit_comment->text());
 	// language = 
 	settings->setValue("default/language", ui_tools->comboBox_language->currentText());
-	// automatic updates =
-	settings->setValue("GUI/AutomaticUpdates", int(ui_tools->comboBox_automaticUpdates->currentIndex()));
-
+	
 	// [COM]
 	// ComName = COM_
 	settings->setValue("COM/ComName", QString::fromStdString(m_comSettings->getName())); 
@@ -1590,6 +1599,8 @@ bool BioZone6_tools::saveSettings(QString _file_name)
 	settings->setValue("GUI/DumpHistoryToFile", int(ui_tools->checkBox_dumpToFile->isChecked())); 
 	settings->setValue("GUI/SpeechActive", int(ui_tools->checkBox_enableSynthesis->isChecked()));
 	settings->setValue("GUI/OutFilePath", QString(ui_tools->lineEdit_msg_out_file_path->text()));
+	// automatic updates =
+	settings->setValue("GUI/AutomaticUpdates", int(ui_tools->comboBox_automaticUpdates->currentIndex()));
 
 	// [pr_limits]
 	// p_on_max = 

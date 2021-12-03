@@ -39,7 +39,6 @@ BioZone6_GUI::BioZone6_GUI(QMainWindow *parent) :
 	m_sol4_color(QColor::fromRgb(130, 255, 0)),
 	qerr(NULL),
 	qout(NULL),
-	m_settings_string ("/settings/settings.ini"),
 	m_ext_data_folder_string("/Ext_data/"),
     m_internal_protocol_string("/internal/"),
     m_preset_protocols_string("/presetProtocols/"),
@@ -1122,7 +1121,7 @@ void BioZone6_GUI::toolApply()
 		m_ppc1->setTipParameters(my_tip.length_to_tip, my_tip.length_to_zone);
 	}
 
-	setUserFilesPath(m_base_biozone_path);
+	//setUserFilesPath(m_base_biozone_path);
 
 	m_ppc1->setCOMport(m_comSettings->getName());
 	m_ppc1->setBaudRate((int)m_comSettings->getBaudRate());
@@ -1437,6 +1436,11 @@ void BioZone6_GUI::dumpLogs()
 
 }
 
+void BioZone6_GUI::setUserSettingPath(QString _path)
+{
+	m_settings_path = _path;
+	m_dialog_tools->setLoadSettingsFileName(m_settings_path);
+}
 
 void BioZone6_GUI::setUserFilesPath(QString _path)
 {
@@ -1450,7 +1454,8 @@ void BioZone6_GUI::setUserFilesPath(QString _path)
 	m_base_biozone_path = _path;
 	m_tip_selection_string = QString::fromStdString(m_ppc1->getTip()->tip_setting_path);  // /tips/Standard/   	
 	//m_settings_path = _path + m_tip_selection_string + m_settings_string;
-	m_settings_path = _path + m_settings_string;
+	//m_settings_path = _path + m_settings_string;
+	
 
 	m_ext_data_path = m_base_biozone_path + m_ext_data_folder_string;
 
@@ -1466,7 +1471,6 @@ void BioZone6_GUI::setUserFilesPath(QString _path)
 		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_LnR_path;
 	if (ui->pushButton_largeAndSlow->isChecked())
 		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_LnS_path;
-
 
 	this->readProtocolFolder(m_protocols_path);  // look for files in the folder
 	m_dialog_tools->setLoadSettingsFileName(m_settings_path);

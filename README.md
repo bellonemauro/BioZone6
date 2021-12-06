@@ -19,12 +19,12 @@ The external dependences for this applications are:
   - <a href="http://www.cmake.org">CMake</a> to generate the solution for your system and build. 
   - To install on some previous windows version you may need to update your Universal C Runtime in Windows <a href="https://support.microsoft.com/en-us/help/2999226/update-for-universal-c-runtime-in-windows">here</a>
 
-zzz
+
 # Building Instructions:
 
 Use CMake to generate the solution for your system, see http://www.cmake.org
 It is advised to set your build folder OUT of the source code folder, the build should be independent from the code. 
-ss
+
 
 ### Windows 
 in the case you don't have environmental variables set you should find manually some dependences path:

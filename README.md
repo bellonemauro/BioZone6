@@ -24,7 +24,7 @@ The external dependences for this applications are:
 
 Use CMake to generate the solution for your system, see http://www.cmake.org
 It is advised to set your build folder OUT of the source code folder, the build should be independent from the code. 
-
+ss
 
 ### Windows 
 in the case you don't have environmental variables set you should find manually some dependences path:

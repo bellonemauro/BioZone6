@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE prt>
 <!--Fluicell xml protocol file for BioZone 6 - https://www.fluicell.com/-->
-<!--File created on Mon Feb 15 2021  13:06:59 -->
+<!--File created on Thu Dec 9 2021  11:47:57 -->
 <Protocol version="1.1">
     <allOff value="" message="AllOff"/>
     <setPoff value="8" message=""/>
     <setPon value="45" message=""/>
+    <showPopUp value="5" message=" Standby operation progress"/>
     <wait value="5" message=""/>
     <setVswitch value="-50" message=""/>
     <setVrecirc value="-50" message=""/>

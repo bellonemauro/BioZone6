@@ -531,7 +531,12 @@ void BioZone6_GUI::stopFlow()
 	QString currentProtocolFileName = m_internal_protocol_path; 
 	currentProtocolFileName.append("stopFlow.prt");
 	if (QFile::exists(currentProtocolFileName)) {
+		
+		//QMessageBox::information(this, m_str_warning,
+		//	"FOUND" + tr("<br>%1")
+		//	.arg(QDir::toNativeSeparators(currentProtocolFileName)));
 		this->runProtocolFile(currentProtocolFileName);
+
 	}
 	else
 	{

@@ -1153,6 +1153,23 @@ void BioZone6_GUI::toolApply()
 	s.append(m_dialog_tools->getUserName());
 	ui->label_user->setText(s);
 
+	// TODO: code replication, fix this
+	m_tip_selection_string = QString::fromStdString(m_ppc1->getTip()->tip_setting_path);  // /tips/Standard/   	
+	m_ext_data_path = m_base_biozone_path + m_ext_data_folder_string;
+
+	m_protocols_path = m_base_biozone_path + m_tip_selection_string + m_preset_protocols_string;
+	m_internal_protocol_path = m_protocols_path + m_internal_protocol_string;
+	m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_SnR_path;
+
+	if (ui->pushButton_standardAndRegular->isChecked())
+		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_SnR_path;
+	if (ui->pushButton_standardAndSlow->isChecked())
+		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_SnS_path;
+	if (ui->pushButton_largeAndRegular->isChecked())
+		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_LnR_path;
+	if (ui->pushButton_largeAndSlow->isChecked())
+		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_LnS_path;
+
 }
 
 

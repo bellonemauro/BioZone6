@@ -228,6 +228,8 @@ bool BioZone6_GUI::protocolValidityCheck(QTreeWidget* _tree,
 	std::vector<fluicell::PPC1api6dataStructures::command>* _protocol)
 {
 	//TODO: awaiting for a list of validity checks
+
+	// check for last message to be ask(__ANY MESSAGE__)
 	return true;
 }
 
@@ -593,35 +595,37 @@ void BioZone6_GUI::createOperationalModeCommand(int _p_on, int _p_off, int _v_s,
 
 
 	//protocolTreeWidgetItem* item1 = new protocolTreeWidgetItem();
-	protocolTreeWidgetItem* item2 = new protocolTreeWidgetItem();
-	protocolTreeWidgetItem* item3 = new protocolTreeWidgetItem();
-	protocolTreeWidgetItem* item4 = new protocolTreeWidgetItem();
-	protocolTreeWidgetItem* item5 = new protocolTreeWidgetItem();
-	protocolTreeWidgetItem* item6 = new protocolTreeWidgetItem();
+	protocolTreeWidgetItem* vacuum_recirc_cmd = new protocolTreeWidgetItem();
+	protocolTreeWidgetItem* vacuum_switch_cmd = new protocolTreeWidgetItem(); 
+	protocolTreeWidgetItem* waiting_cmd = new protocolTreeWidgetItem();
+	protocolTreeWidgetItem* pressure_on_cmd = new protocolTreeWidgetItem();
+	protocolTreeWidgetItem* pressure_off_cmd = new protocolTreeWidgetItem();
+	
 
 	//item1->setText(editorParams::c_command, QString::number(protocolCommands::allOff));
+	vacuum_recirc_cmd->setText(editorParams::c_command, QString::number(protocolCommands::setVrecirc));
+	vacuum_recirc_cmd->setText(editorParams::c_value, QString::number(_v_r));
 
-	item2->setText(editorParams::c_command, QString::number(protocolCommands::setPon));
-	item2->setText(editorParams::c_value, QString::number(_p_on));
+	vacuum_switch_cmd->setText(editorParams::c_command, QString::number(protocolCommands::setVswitch));
+	vacuum_switch_cmd->setText(editorParams::c_value, QString::number(_v_s));
 
-	item3->setText(editorParams::c_command, QString::number(protocolCommands::setPoff));
-	item3->setText(editorParams::c_value, QString::number(_p_off));
 
-	item4->setText(editorParams::c_command, QString::number(protocolCommands::wait));
-	item4->setText(editorParams::c_value, QString::number(5));
+	waiting_cmd->setText(editorParams::c_command, QString::number(protocolCommands::wait));
+	waiting_cmd->setText(editorParams::c_value, QString::number(5));
 
-	item5->setText(editorParams::c_command, QString::number(protocolCommands::setVrecirc));
-	item5->setText(editorParams::c_value, QString::number(_v_r));
 
-	item6->setText(editorParams::c_command, QString::number(protocolCommands::setVswitch));
-	item6->setText(editorParams::c_value, QString::number(_v_s));
+	pressure_on_cmd->setText(editorParams::c_command, QString::number(protocolCommands::setPon));
+	pressure_on_cmd->setText(editorParams::c_value, QString::number(_p_on));
+
+	pressure_off_cmd->setText(editorParams::c_command, QString::number(protocolCommands::setPoff));
+	pressure_off_cmd->setText(editorParams::c_value, QString::number(_p_off));
 
 	//_command_vector->push_back(item1);
-	_command_vector->push_back(item2);
-	_command_vector->push_back(item3);
-    _command_vector->push_back(item4);
-	_command_vector->push_back(item5);
-	_command_vector->push_back(item6);
+	_command_vector->push_back(vacuum_recirc_cmd);
+	_command_vector->push_back(vacuum_switch_cmd);
+    _command_vector->push_back(waiting_cmd);
+	_command_vector->push_back(pressure_on_cmd);
+	_command_vector->push_back(pressure_off_cmd);
 
 }
 

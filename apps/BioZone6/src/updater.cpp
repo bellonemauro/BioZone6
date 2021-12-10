@@ -22,6 +22,7 @@ BioZone6_updater::BioZone6_updater(QWidget *parent):
 	m_temp_folder("/biozone6_tmp"),
 	m_is_window_active(false),
 	m_fluicell_url("https://fluicell.com/"),
+#pragma message("BROKEN LINK TO UPDATER")
 	m_update_info_url("https://raw.githubusercontent.com/bellonemauro/Labonatip2.0/master/update_data.xml")
 {
 	//Main things to add: 

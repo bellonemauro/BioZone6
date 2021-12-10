@@ -847,8 +847,6 @@ private:
   */
   int getOnSolutionIndex();
 
-  bool stopAllOtherButton(int _notThisOne = 0);
-
 
   /** \brief Protocol validity check
   *

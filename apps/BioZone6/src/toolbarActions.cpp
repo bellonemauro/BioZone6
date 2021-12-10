@@ -8,7 +8,6 @@
 *  | Released under GNU GPL License.                                           |
 *  +---------------------------------------------------------------------------+ */
 
-
 #include "BioZone6_GUI.h"
 
 void BioZone6_GUI::loadPressed()
@@ -35,8 +34,6 @@ bool BioZone6_GUI::loadProtocol()
 		"BioZone6 protocol File (*.prt);; All Files(*.*)", 0);
 
 	if (file_name.isEmpty()) {
-		//QMessageBox::warning(this, m_str_warning,
-		//	m_str_file_not_found + "<br>" + file_name);
 		return false;
 	}
 	

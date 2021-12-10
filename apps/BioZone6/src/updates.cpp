@@ -1133,6 +1133,161 @@ void BioZone6_GUI::updateMacroTimeStatus(const double &_status)
 }
 
 
+void BioZone6_GUI::updateTimingSliders()
+{
+	QProgressBar* _bar;
+	QPushButton* _button;
+	double status;
+	bool continuous_flowing = false;
+	double release_time = 0.0;
+
+	switch (m_flowing_solution)
+	{
+	case 1: {
+		_bar = ui->progressBar_solution1;
+		_button = ui->pushButton_solution1;
+		status = m_pipette_status->rem_vol_well1;
+		continuous_flowing = m_solutionParams->continuous_flowing_sol1;
+		release_time = m_solutionParams->pulse_duration_well1;
+		break;
+	}
+	case 2: {
+		_bar = ui->progressBar_solution2;
+		_button = ui->pushButton_solution2;
+		status = m_pipette_status->rem_vol_well2;
+		continuous_flowing = m_solutionParams->continuous_flowing_sol2;
+		release_time = m_solutionParams->pulse_duration_well2;
+		break;
+	}
+	case 3: {
+		_bar = ui->progressBar_solution3;
+		_button = ui->pushButton_solution3;
+		status = m_pipette_status->rem_vol_well3;
+		continuous_flowing = m_solutionParams->continuous_flowing_sol3;
+		release_time = m_solutionParams->pulse_duration_well3;
+		break;
+	}
+	case 4: {
+		_bar = ui->progressBar_solution4;
+		_button = ui->pushButton_solution4;
+		status = m_pipette_status->rem_vol_well4;
+		continuous_flowing = m_solutionParams->continuous_flowing_sol4;
+		release_time = m_solutionParams->pulse_duration_well4;
+		break;
+	}
+	case 5: {
+		_bar = ui->progressBar_solution5;
+		_button = ui->pushButton_solution5;
+		status = m_pipette_status->rem_vol_well5;
+		continuous_flowing = m_solutionParams->continuous_flowing_sol5;
+		release_time = m_solutionParams->pulse_duration_well5;
+		break;
+	}
+	case 6: {
+		_bar = ui->progressBar_solution6;
+		_button = ui->pushButton_solution6;
+		status = m_pipette_status->rem_vol_well6;
+		continuous_flowing = m_solutionParams->continuous_flowing_sol6;
+		release_time = m_solutionParams->pulse_duration_well6;
+		break;
+	}
+
+	default: {
+		std::cerr << HERE
+			<< " error --- no valid m_flowing_solution value " << std::endl;
+		m_update_flowing_sliders->stop();  // stop the timer to make sure the function is not recalled if the solutions are not flowing
+		return;
+	}
+	}
+
+	if (m_timer_solution < m_time_multipilcator) {
+		m_update_flowing_sliders->start();
+		//int status = int(100 * m_timer_solution / m_time_multipilcator);
+		//_bar->setValue(100 - status); 
+		QString s;
+		if (!continuous_flowing) {
+			s.append(m_str_pulse_remaining_time + "\n");
+			//s.append(QString::number(m_flowing_solution));
+			//s.append(" empty in \n");
+			int remaining_time_in_sec = (m_time_multipilcator - m_timer_solution);
+			int remaining_hours = floor(remaining_time_in_sec / 3600); // 3600 sec in a hour
+			int remaining_mins = floor((remaining_time_in_sec % 3600) / 60); // 60 minutes in a hour
+			int remaining_secs = remaining_time_in_sec - remaining_hours * 3600 - remaining_mins * 60; // 60 minutes in a hour
+			s.append(QString::number(remaining_hours));
+			s.append(" h ");
+			s.append(QString::number(remaining_mins));
+			s.append(" min ");
+			s.append(QString::number(remaining_secs));
+			s.append(" sec ");
+			ui->textEdit_emptyTime->show();
+			ui->textEdit_emptyTime->setText(s);
+			m_timer_solution++;
+
+			if (m_pipette_active)
+				updateDrawing(m_ppc1->getZoneSizePerc());
+			else
+				updateDrawing(m_ds_perc);
+			//updateDrawing(ui->lcdNumber_dropletSize_percentage->value());
+
+		// show the warning label
+			if (status < MIN_WARNING_VOLUME) {
+				ui->label_warningIcon->show();
+				ui->label_warning->setText(m_str_warning_solution_end);
+				ui->label_warning->show();
+			}
+			return;
+		}
+		else
+		{
+			if (!m_macroRunner_thread->isRunning())
+				s.append(m_str_pulse_continuous_flowing);
+			ui->textEdit_emptyTime->show();
+			ui->textEdit_emptyTime->setText(s);
+
+			// show the warning label
+			if (status < MIN_WARNING_VOLUME) {
+				ui->label_warningIcon->show();
+				ui->label_warning->setText(m_str_warning_solution_end);
+				ui->label_warning->show();
+			}
+			return;
+		}
+	}
+	else  // here we are ending the release process of the solution
+	{
+		double solution_release_time = release_time; // m_dialog_tools->getSolutionTime();
+		m_time_multipilcator = (int)solution_release_time;
+		double rest = solution_release_time - m_time_multipilcator;
+		QThread::msleep(rest * 1000);
+		// TODO: here we wait the remaining time for the last digit
+		//       however, this is a shitty solution and it must be
+		//       changed to a proper timer and interrupt architecture
+
+		m_update_flowing_sliders->stop();
+		m_timer_solution = 0;
+
+		if (m_pipette_active)
+		{
+			//m_ppc1->closeAllValves(); //automatic shutdown of pumps when the solution ends
+		}
+		if (!m_macroRunner_thread->isRunning())
+			setEnableSolutionButtons(true);
+		_button->setChecked(false);
+		this->onPushButtonSolutionX(_button, m_flowing_solution);
+
+		ui->widget_solutionArrow->setVisible(false);
+
+		m_pen_line.setColor(Qt::transparent);
+		updateDrawing(m_ds_perc);// (-1); // remove the droplet from the drawing
+		//updateDrawing(ui->lcdNumber_dropletSize_percentage->value());
+
+		ui->label_warningIcon->hide();
+		ui->label_warning->hide();
+		ui->textEdit_emptyTime->hide();
+		return;
+	}
+}
+
 void BioZone6_GUI::updateFlowControlPercentages()
 {
 	updateFlows();

@@ -9,7 +9,6 @@
 *  +---------------------------------------------------------------------------+ */
 
 #include <QtWidgets>
-
 #include "XmlProtocolReader.h"
 
 XmlProtocolReader::XmlProtocolReader(QTreeWidget* treeWidget)

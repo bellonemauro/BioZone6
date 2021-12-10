@@ -77,37 +77,6 @@ void BioZone6_GUI::updatePressureVacuum()
 		m_fs_perc = m_ppc1->getFlowSpeedPerc();
 		m_v_perc = m_ppc1->getVacuumPerc();
 
-		// show the percentage in the display only if in the range [0,1000]
-		/*if (m_ds_perc >= 0 && m_ds_perc < 1000) {
-			ui->lcdNumber_dropletSize_percentage->display(m_ds_perc);
-		}
-		else { //otherwise it shows display error = "E"
-			ui->lcdNumber_dropletSize_percentage->display(display_e);
-		}
-
-		if (m_fs_perc >= 0 && m_fs_perc < 1000) {
-			ui->lcdNumber_flowspeed_percentage->display(m_fs_perc);
-		}
-		else {
-			ui->lcdNumber_flowspeed_percentage->display(display_e);
-		}
-
-		if (m_v_perc >= 0 && m_v_perc < 1000) {
-			ui->lcdNumber_vacuum_percentage->display(m_v_perc);
-		}
-		else {
-			ui->lcdNumber_vacuum_percentage->display(display_e);
-		}
-
-		if (m_pipette_status->v_switch_set_point == 0 &&
-			m_pipette_status->v_recirc_set_point == 0 &&
-			m_pipette_status->pon_set_point == 0 &&
-			m_pipette_status->poff_set_point == 0)
-		{
-			ui->lcdNumber_dropletSize_percentage->display(0);
-			ui->lcdNumber_flowspeed_percentage->display(0);
-			ui->lcdNumber_vacuum_percentage->display(0);
-		}*/
 	}// end if m_simulation
 }
 
@@ -341,14 +310,6 @@ bool BioZone6_GUI::isExceptionTriggered() // return true if the exception is tri
 	return false;
 }
 
-void BioZone6_GUI::setLedColor(QLabel* led, QPixmap* color)
-{
-	// TODO: I do not like this, I should define a stucture delegate to QLabel as alias of QLed
-	const QPixmap* map = led->pixmap();
-	//if (map)
-		if (map != color) // this is clearly not working !
-			led->setPixmap(*color);
-}
 
 void BioZone6_GUI::updatePPC1Leds()
 {
@@ -363,18 +324,11 @@ void BioZone6_GUI::updatePPC1Leds()
 		{
 			// the first is the communication state in the main GUI
 			if (m_ppc1->getCommunicationState() == true) {
-				//this->setStatusLed(true);
-				//TODO: here the led are redrawn constantly causing a waste of performance
-				//this->setLedColor(ui->status_PPC1_led, led_green);
 				status_bar_led->setColor(QFled::ColorType::green);
-				//ui->status_PPC1_led->setPixmap(*led_green);
-				// It is better to avoid to change the LED directly, 
-				// better to use the function setStatusLed(true/false)
 				ui->status_PPC1_label->setText(m_str_PPC1_status_con);
 			}
 			else
 			{
-				//setStatusLed(false); // TODO check this setLedStatus
 				status_bar_led->setColor(QFled::ColorType::red);
 				ui->status_PPC1_label->setText(m_str_PPC1_status_unstable_con); 
 			}
@@ -939,11 +893,6 @@ void BioZone6_GUI::updateWaste()
 		ui->progressBar_solution6->setValue(int(perc));
 	}
 
-
-	//m_pipette_status->rem_vol_well5 = m_pipette_status->rem_vol_well5 +
-	//	0.001 * m_pipette_status->flow_well5;
-	//m_pipette_status->rem_vol_well6 = m_pipette_status->rem_vol_well6 +
-	//	0.001 * m_pipette_status->flow_well6;
 	m_pipette_status->rem_vol_well7 = m_pipette_status->rem_vol_well7 +
 		0.001 * m_pipette_status->flow_well7;
 	m_pipette_status->rem_vol_well8 = m_pipette_status->rem_vol_well8 +
@@ -959,8 +908,6 @@ void BioZone6_GUI::updateWaste()
 
 	// only the minimum of the remaining solution is shown and important
 	std::vector<double> v1;
-	//v1.push_back(m_solutionParams->vol_well5 - m_pipette_status->rem_vol_well5);
-	//v1.push_back(m_solutionParams->vol_well6 - m_pipette_status->rem_vol_well6);
 	v1.push_back(m_solutionParams->vol_well7 - m_pipette_status->rem_vol_well7);
 	v1.push_back(m_solutionParams->vol_well8 - m_pipette_status->rem_vol_well8);
 
@@ -1210,7 +1157,6 @@ void BioZone6_GUI::updateFlowControlPercentages()
 		//calculate vacuum percentage
 		m_v_perc = 100.0 * m_pipette_status->v_recirc_set_point / (-m_pr_params->v_recirc_default);
 		//ui->lcdNumber_vacuum_percentage->display(m_v_perc);
-
 	}
 }
 

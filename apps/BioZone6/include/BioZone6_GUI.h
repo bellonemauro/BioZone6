@@ -952,8 +952,6 @@ private:
 
   void checkButtonWithoutSignals(QPushButton *_button, bool _enable);
 
-  void setLedColor(QLabel* led, QPixmap* color);
-
   /** \brief Update the leds of pressures and vacuum
   */
   void updatePPC1Leds();

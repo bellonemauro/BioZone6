@@ -66,9 +66,9 @@ namespace fluicell
 		}
 	};
 
-	/**  \brief Simple API for the communication with the Fluicell PPC1 controller
+	/**  \brief Simple API for the communication with the Fluicell PPC1-6CH controller
 	*
-	*  The PPC1 controller allows the control of microfluids in the Fluicell biozone system, 
+	*  The PPC1-6CH controller allows the control of microfluids in the Fluicell biozone system, 
 	*  more details <a href="http://fluicell.com/thebiopensystem/"> here </a>
 	*
 	*
@@ -128,7 +128,6 @@ namespace fluicell
 	*
 	* <b>Changes history</b>
 	*		- MAY/2017: Creation (MB).
-	*  \ingroup __
 	*/
 	class PPC1api6 
 	{

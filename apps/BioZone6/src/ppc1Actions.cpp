@@ -15,11 +15,6 @@ void BioZone6_GUI::newTip()
 {
 	std::cout << HERE << std::endl;
 
-	//QString currentProtocolFileName = QDir::homePath();
-	//QString currentProtocolFileName = m_protocol_path + 
-	//	QString::fromStdString(m_ppc1->getTip()->tip_setting_path);// QDir::homePath();
-	//currentProtocolFileName.append("/presetProtocols/internal/");
-	
 	QString currentProtocolFileName = m_internal_protocol_path;
 	currentProtocolFileName.append("initialize.prt");
 	if (QFile::exists(currentProtocolFileName)) {
@@ -33,102 +28,6 @@ void BioZone6_GUI::newTip()
 	}
 
 	return; 
-	/*
-	std::cout << HERE << std::endl;
-
-	setEnableMainWindow(false);
-
-	//Ask: Place the pipette into the holder and tighten.THEN PRESS OK.
-	this->askMessage(m_str_newtip_msg1);
-	QApplication::setOverrideCursor(Qt::WaitCursor);   
-
-	// reset wells and solutions
-	emptyWells();
-	refillSolution();
-
-	//vf0
-	closeAllValves();
-
-	//D0
-	updatePonSetPoint(0.0);
-
-	//C0
-	updatePoffSetPoint(0.0);
-
-	//B0
-	updateVswitchSetPoint(0.0);
-
-	//A0
-	updateVrecircSetPoint(0.0);
-
-	//Wait 5 seconds
-	if (!visualizeProgressMessage(5, m_str_initialization)) return;
-
-	//D200
-	updatePonSetPoint(200.0);
-
-	//Wait 5 seconds
-	if (!visualizeProgressMessage(5, m_str_newtip_msg2)) return;
-
-	//vff
-	if (m_pipette_active) {
-		m_ppc1->openAllValves();
-	}
-
-	//Ask : wait until a droplet appears at the tip of the pipette and THEN PRESS OK.
-	QApplication::restoreOverrideCursor();    //close transform the cursor for waiting mode
-	this->askMessage(m_str_newtip_msg3);
-	QApplication::setOverrideCursor(Qt::WaitCursor);    //transform the cursor for waiting mode
-
-	//Wait 40 seconds
-	if (!visualizeProgressMessage(40, m_str_newtip_msg4)) return;
-
-	//vf0
-	if (m_pipette_active) {
-		m_ppc1->closeAllValves();
-	}
-
-	//D0
-	updatePonSetPoint(0.0);
-
-	//Wait 10 seconds
-	if (!visualizeProgressMessage(10, m_str_newtip_msg5)) return;
-
-	//Ask : Remove the droplet using a lens tissue and put the pipette into solution.THEN PRESS OK.
-	QApplication::restoreOverrideCursor();    //close transform the cursor for waiting mode
-	this->askMessage(m_str_newtip_msg6);
-	this->askMessage(m_str_newtip_msg7);
-	QApplication::setOverrideCursor(Qt::WaitCursor);    //transform the cursor for waiting mode
-
-	//B - 200
-	updateVswitchSetPoint(200.0);
-
-	//A - 200
-	updateVrecircSetPoint(200.0);
-
-	//Wait 90 seconds
-	if (!visualizeProgressMessage(90, m_str_newtip_msg8)) return;
-
-	//C21
-	updatePoffSetPoint(m_pr_params->p_off_default );
-
-	//D190
-	updatePonSetPoint(m_pr_params->p_on_default );
-
-	//Wait 5 seconds
-	if (!visualizeProgressMessage(5, m_str_newtip_msg9)) return;
-
-	//B - 115
-	updateVswitchSetPoint(-m_pr_params->v_switch_default);
-
-	//A - 115
-	updateVrecircSetPoint(-m_pr_params->v_recirc_default );
-
-	//Ask: Pipette is ready for operation.PRESS OK TO START.
-	QApplication::restoreOverrideCursor();    //close transform the cursor for waiting mode
-	this->askMessage(m_str_newtip_msg10);
-	
-	setEnableMainWindow(true);*/
 
 }
 
@@ -337,7 +236,15 @@ void BioZone6_GUI::runProtocolFile(QString _protocol_path) {
 		ui->actionShudown->setEnabled(false);
 		ui->label_runMacro->setText(m_str_label_stop_protocol);
 	}
-	
+	else {
+	std::cout << HERE 
+		<< " a protocol is running, your protocol was added to the stack "
+		<< _protocol_path.toStdString()
+		<< std::endl;
+		m_run_protocol_list.push_back(_protocol_path);
+	}
+
+
 }
 
 
@@ -479,24 +386,19 @@ void BioZone6_GUI::protocolFinished(const QString &_result) {
 	m_chart_view->updateChartProtocol(m_protocol);
 	m_running_protocol_file_name = "";
 
+	// this implement a simple FIFO queue for running multiple protocols
+	if (!m_run_protocol_list.isEmpty())
+	{
+		QString next_protocol = m_run_protocol_list.takeFirst();
+		std::cout << HERE
+			<< " running the next protocol in the stack" 
+			<< next_protocol.toStdString()
+			<< std::endl;
+		runProtocolFile(next_protocol);
+	}
+
 }
 
-/* DEPRECATED on 12032021 ---- clean this out
-void BioZone6_GUI::updateBUGGYsetValues()
-{
-	//TODO: this is truly a horrible solution, there is a mismatch between 
-	//      the set_values at the end of a protocol and the set_values a little bit after
-	//      this causes a mismatch between the updated GUI sliders and the real set points
-	return;
-	if (!m_simulationOnly) {
-	updateVrecircSetPoint(-m_ppc1->getVrecircSetPoint());
-	updateVswitchSetPoint(-m_ppc1->getVswitchSetPoint());
-	updatePoffSetPoint(m_ppc1->getPoffSetPoint());
-	updatePonSetPoint(m_ppc1->getPonSetPoint());
-}
-	m_workaround_setValues->stop();
-
-}*/
 
 void BioZone6_GUI::operationalMode() {
 
@@ -531,10 +433,6 @@ void BioZone6_GUI::stopFlow()
 	QString currentProtocolFileName = m_internal_protocol_path; 
 	currentProtocolFileName.append("stopFlow.prt");
 	if (QFile::exists(currentProtocolFileName)) {
-		
-		//QMessageBox::information(this, m_str_warning,
-		//	"FOUND" + tr("<br>%1")
-		//	.arg(QDir::toNativeSeparators(currentProtocolFileName)));
 		this->runProtocolFile(currentProtocolFileName);
 
 	}
@@ -553,12 +451,6 @@ void BioZone6_GUI::standby()
 {
 	std::cout << HERE << std::endl;
 
-	//QString currentProtocolFileName = QDir::homePath();
-	//currentProtocolFileName.append("/Documents/BioZone6/presetProtocols/internal/");
-	//QString currentProtocolFileName = m_protocol_path +
-	//	QString::fromStdString(m_ppc1->getTip()->tip_setting_path);// QDir::homePath();
-	//currentProtocolFileName.append("/presetProtocols/internal/");
-	
 	QString currentProtocolFileName = m_internal_protocol_path;
 	currentProtocolFileName.append("standby.prt");
 	if (QFile::exists(currentProtocolFileName)) {

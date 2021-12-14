@@ -436,11 +436,8 @@ void fluicell::PPC1api6::updateFlows(const fluicell::PPC1api6dataStructures::PPC
 		_PPC1_status.flow_rate_6 = _PPC1_status.solution_usage_off;
 	}
 
-	//_PPC1_status.flow_rate_5 = _PPC1_status.inflow_switch / 2.0;
-	//_PPC1_status.flow_rate_6 = _PPC1_status.inflow_switch / 2.0;
-	//_PPC1_status.flow_rate_7 = _PPC1_status.inflow_recirculation / 2.0;
-	_PPC1_status.flow_rate_7 = _PPC1_status.inflow_switch / 2.0;
-	_PPC1_status.flow_rate_8 = _PPC1_status.inflow_recirculation / 2.0;
+	_PPC1_status.flow_rate_7 = _PPC1_status.inflow_switch; // / 2.0;
+	_PPC1_status.flow_rate_8 = _PPC1_status.inflow_recirculation; // / 2.0;
 
 }
 

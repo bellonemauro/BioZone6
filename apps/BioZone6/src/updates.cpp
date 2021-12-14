@@ -548,7 +548,7 @@ void BioZone6_GUI::updateFlows()
 
 	// update the tree widget
 #pragma message("TODO: this was commented on 04122020 as the calculation is wrong, uncomment when the calculation is available")
-	/*ui->treeWidget_flowInfo->topLevelItem(0)->setText(1,
+	ui->treeWidget_flowInfo->topLevelItem(0)->setText(1,
 		QString::number(m_pipette_status->outflow_tot, 'g', 3));
 	ui->treeWidget_flowInfo->topLevelItem(1)->setText(1,
 		QString::number(m_pipette_status->inflow_recirculation, 'g', 4));
@@ -571,7 +571,7 @@ void BioZone6_GUI::updateFlows()
 	ui->treeWidget_flowInfo->topLevelItem(10)->setText(1,
 		QString::number(m_pipette_status->flow_well7, 'g', 2));
 	ui->treeWidget_flowInfo->topLevelItem(11)->setText(1,
-		QString::number(m_pipette_status->flow_well8, 'g', 2));*/
+		QString::number(m_pipette_status->flow_well8, 'g', 2));
 
 	return;
 }
@@ -893,10 +893,11 @@ void BioZone6_GUI::updateWaste()
 		ui->progressBar_solution6->setValue(int(perc));
 	}
 
-	m_pipette_status->rem_vol_well7 = m_pipette_status->rem_vol_well7 +
-		0.001 * m_pipette_status->flow_well7;
-	m_pipette_status->rem_vol_well8 = m_pipette_status->rem_vol_well8 +
-		0.001 * m_pipette_status->flow_well8;
+#pragma message("TODO: this was done on 13122021 as a dirty fix to the calculation")
+		m_pipette_status->rem_vol_well7 = m_pipette_status->rem_vol_well7 +
+			0.001 * m_pipette_status->flow_well7; // 12 is the flow in nL/s that is an estimation of the non-active (passive) flow
+		m_pipette_status->rem_vol_well8 = m_pipette_status->rem_vol_well8 +
+			0.001 * m_pipette_status->flow_well8;  //12
 
 	// show the warning label
 	if (m_pipette_status->rem_vol_well7 > MAX_WASTE_WARNING_VOLUME ||
@@ -943,7 +944,7 @@ void BioZone6_GUI::updateWaste()
 	}
 #pragma message("TODO: this was commented on 04122020 as the calculation is wrong, uncomment when the calculation is available")
 	int v = m_pipette_status->rem_vol_well1 * 10; // this is to set a single decimal digit
-	/*ui->treeWidget_flowInfo->topLevelItem(12)->setText(1, QString::number(v / 10.0));
+	ui->treeWidget_flowInfo->topLevelItem(12)->setText(1, QString::number(v / 10.0));
 	v = m_pipette_status->rem_vol_well2 * 10;
 	ui->treeWidget_flowInfo->topLevelItem(13)->setText(1, QString::number(v / 10.0));
 	v = m_pipette_status->rem_vol_well3 * 10;
@@ -957,7 +958,7 @@ void BioZone6_GUI::updateWaste()
 	v = m_pipette_status->rem_vol_well7 * 10;
 	ui->treeWidget_flowInfo->topLevelItem(18)->setText(1, QString::number(v / 10.0));
 	v = m_pipette_status->rem_vol_well8 * 10;
-	ui->treeWidget_flowInfo->topLevelItem(19)->setText(1, QString::number(v / 10.0));*/
+	ui->treeWidget_flowInfo->topLevelItem(19)->setText(1, QString::number(v / 10.0));
 
 	double value = 100.0 * m_pipette_status->rem_vol_well7 / m_solutionParams->vol_well7;
 	ui->progressBar_switch7->setValue(value);

@@ -8,9 +8,7 @@
 *  | Released under GNU GPL License.                                           |
 *  +---------------------------------------------------------------------------+ */
 
-
 #include "BioZone6_GUI.h"
-
 
 QString BioZone6_GUI::generateStyleSheet(const int _r, const int _g, const int _b)
 {

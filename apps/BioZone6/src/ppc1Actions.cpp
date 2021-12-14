@@ -243,8 +243,6 @@ void BioZone6_GUI::runProtocolFile(QString _protocol_path) {
 		<< std::endl;
 		m_run_protocol_list.push_back(_protocol_path);
 	}
-
-
 }
 
 
@@ -386,7 +384,7 @@ void BioZone6_GUI::protocolFinished(const QString &_result) {
 	m_chart_view->updateChartProtocol(m_protocol);
 	m_running_protocol_file_name = "";
 
-	// this implement a simple FIFO queue for running multiple protocols
+	// this implements a simple FIFO queue for running multiple protocols
 	if (!m_run_protocol_list.isEmpty())
 	{
 		QString next_protocol = m_run_protocol_list.takeFirst();
@@ -396,7 +394,6 @@ void BioZone6_GUI::protocolFinished(const QString &_result) {
 			<< std::endl;
 		runProtocolFile(next_protocol);
 	}
-
 }
 
 
@@ -424,11 +421,6 @@ void BioZone6_GUI::operationalMode() {
 void BioZone6_GUI::stopFlow()
 {
 	std::cout << HERE << std::endl;
-	//QString currentProtocolFileName = QDir::homePath();
-	//currentProtocolFileName.append("/Documents/BioZone6/presetProtocols/internal/");
-	//QString currentProtocolFileName = m_protocol_path + 
-	//	QString::fromStdString(m_ppc1->getTip()->tip_setting_path);// QDir::homePath();
-	//currentProtocolFileName.append("/presetProtocols/internal/");
 
 	QString currentProtocolFileName = m_internal_protocol_path; 
 	currentProtocolFileName.append("stopFlow.prt");

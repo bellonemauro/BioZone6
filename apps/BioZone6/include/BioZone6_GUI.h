@@ -845,7 +845,10 @@ private:
   /** \brief Get the index of the current ON solution, returns 0 if no solution is ON
   *
   */
-  int getOnSolutionIndex();
+  int 
+	  getOnSolutionIndex();
+
+  void checkForOtherONbuttons(int _this_button_idx = 0);
 
 
   /** \brief Protocol validity check

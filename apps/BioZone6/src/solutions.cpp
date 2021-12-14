@@ -151,51 +151,7 @@ void BioZone6_GUI::onPushButtonSolution1()
 { 
 	std::cout << HERE << std::endl;
     
-	/*this->stopAllOtherButton(1);
-	QThread::msleep(100);
-	if (m_macroRunner_thread->isRunning()) {
-		while (m_macroRunner_thread->isRunning())
-		QThread::msleep(1000);
-	}
-	*/
-	//if (ui->pushButton_solution2->isChecked() ||
-	//	ui->pushButton_solution3->isChecked() ||
-	//	ui->pushButton_solution4->isChecked() ||
-	//	ui->pushButton_solution5->isChecked() ||
-	//	ui->pushButton_solution6->isChecked()
-	//	) 
-	//{
-		if (ui->pushButton_solution2->isChecked())
-		{
-			ui->pushButton_solution2->setChecked(false);
-			this->onPushButtonSolutionX(ui->pushButton_solution2, 2);
-		}
-		if (ui->pushButton_solution3->isChecked())
-		{
-			ui->pushButton_solution3->setChecked(false);
-			this->onPushButtonSolutionX(ui->pushButton_solution3, 3);
-		}
-		if (ui->pushButton_solution4->isChecked())
-		{
-			ui->pushButton_solution4->setChecked(false);
-			this->onPushButtonSolutionX(ui->pushButton_solution4, 4);
-		}
-		if (ui->pushButton_solution5->isChecked())
-		{
-			ui->pushButton_solution5->setChecked(false);
-			this->onPushButtonSolutionX(ui->pushButton_solution5, 5);
-		}
-		if (ui->pushButton_solution6->isChecked())
-		{
-			ui->pushButton_solution6->setChecked(false);
-			this->onPushButtonSolutionX(ui->pushButton_solution6, 6);
-		}
-
-		//QMessageBox::information(this, m_str_information,
-		//	"A solution is ON, turn it OFF first");
-		//ui->pushButton_solution1->setChecked(false);
-		//return;
-	//}
+	this->checkForOtherONbuttons(1);
 	this->onPushButtonSolutionX(ui->pushButton_solution1, 1);
 }
 
@@ -203,43 +159,7 @@ void BioZone6_GUI::onPushButtonSolution2()
 {
 	std::cout << HERE << std::endl;
 
-	/*if (ui->pushButton_solution1->isChecked() ||
-		ui->pushButton_solution3->isChecked() ||
-		ui->pushButton_solution4->isChecked() ||
-		ui->pushButton_solution5->isChecked() ||
-		ui->pushButton_solution6->isChecked()
-		) 
-	{
-		QMessageBox::information(this, m_str_information,
-			"A solution is ON, turn it OFF first");
-		ui->pushButton_solution2->setChecked(false);
-		return;
-	}*/
-	if (ui->pushButton_solution1->isChecked())
-	{
-		ui->pushButton_solution1->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution1, 1);
-	}
-	if (ui->pushButton_solution3->isChecked())
-	{
-		ui->pushButton_solution3->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution3, 3);
-	}
-	if (ui->pushButton_solution4->isChecked())
-	{
-		ui->pushButton_solution4->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution4, 4);
-	}
-	if (ui->pushButton_solution5->isChecked())
-	{
-		ui->pushButton_solution5->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution5, 5);
-	}
-	if (ui->pushButton_solution6->isChecked())
-	{
-		ui->pushButton_solution6->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution6, 6);
-	}
+	this->checkForOtherONbuttons(2);
 	this->onPushButtonSolutionX(ui->pushButton_solution2, 2);
 }
 
@@ -247,43 +167,7 @@ void BioZone6_GUI::onPushButtonSolution3()
 {
 	std::cout << HERE << std::endl;
 
-	/*if (ui->pushButton_solution1->isChecked() ||
-		ui->pushButton_solution2->isChecked() ||
-		ui->pushButton_solution4->isChecked() ||
-		ui->pushButton_solution5->isChecked() ||
-		ui->pushButton_solution6->isChecked()
-		) 
-	{
-		QMessageBox::information(this, m_str_information,
-			"A solution is ON, turn it OFF first");
-		ui->pushButton_solution3->setChecked(false);
-		return;
-	}*/
-	if (ui->pushButton_solution1->isChecked())
-	{
-		ui->pushButton_solution1->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution1, 1);
-	}
-	if (ui->pushButton_solution2->isChecked())
-	{
-		ui->pushButton_solution2->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution2, 2);
-	}
-	if (ui->pushButton_solution4->isChecked())
-	{
-		ui->pushButton_solution4->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution4, 4);
-	}
-	if (ui->pushButton_solution5->isChecked())
-	{
-		ui->pushButton_solution5->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution5, 5);
-	}
-	if (ui->pushButton_solution6->isChecked())
-	{
-		ui->pushButton_solution6->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution6, 6);
-	}
+	this->checkForOtherONbuttons(3);
 	this->onPushButtonSolutionX(ui->pushButton_solution3, 3);
 }
 
@@ -291,43 +175,7 @@ void BioZone6_GUI::onPushButtonSolution4()
 {
 	std::cout << HERE << std::endl;
 
-	/*if (ui->pushButton_solution1->isChecked() ||
-		ui->pushButton_solution2->isChecked() ||
-		ui->pushButton_solution3->isChecked() ||
-		ui->pushButton_solution5->isChecked() ||
-		ui->pushButton_solution6->isChecked()
-		) 
-	{
-		QMessageBox::information(this, m_str_information,
-			"A solution is ON, turn it OFF first");
-		ui->pushButton_solution4->setChecked(false);
-		return;
-	}*/
-	if (ui->pushButton_solution1->isChecked())
-	{
-		ui->pushButton_solution1->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution1, 1);
-	}
-	if (ui->pushButton_solution2->isChecked())
-	{
-		ui->pushButton_solution2->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution2, 2);
-	}
-	if (ui->pushButton_solution3->isChecked())
-	{
-		ui->pushButton_solution3->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution3, 3);
-	}
-	if (ui->pushButton_solution5->isChecked())
-	{
-		ui->pushButton_solution5->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution5, 5);
-	}
-	if (ui->pushButton_solution6->isChecked())
-	{
-		ui->pushButton_solution6->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution6, 6);
-	}
+	this->checkForOtherONbuttons(4);
 	this->onPushButtonSolutionX(ui->pushButton_solution4, 4);
 }
 
@@ -335,43 +183,7 @@ void BioZone6_GUI::onPushButtonSolution5()
 {
 	std::cout << HERE << std::endl;
 
-	/*if (ui->pushButton_solution1->isChecked() ||
-		ui->pushButton_solution2->isChecked() ||
-		ui->pushButton_solution3->isChecked() ||
-		ui->pushButton_solution4->isChecked() ||
-		ui->pushButton_solution6->isChecked()
-		) 
-	{
-		QMessageBox::information(this, m_str_information,
-			"A solution is ON, turn it OFF first");
-		ui->pushButton_solution5->setChecked(false);
-		return;
-	}*/
-	if (ui->pushButton_solution1->isChecked())
-	{
-		ui->pushButton_solution1->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution1, 1);
-	}
-	if (ui->pushButton_solution2->isChecked())
-	{
-		ui->pushButton_solution2->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution2, 2);
-	}
-	if (ui->pushButton_solution3->isChecked())
-	{
-		ui->pushButton_solution3->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution3, 3);
-	}
-	if (ui->pushButton_solution4->isChecked())
-	{
-		ui->pushButton_solution4->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution4, 4);
-	}
-	if (ui->pushButton_solution6->isChecked())
-	{
-		ui->pushButton_solution6->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution6, 6);
-	}
+	this->checkForOtherONbuttons(5);
 	this->onPushButtonSolutionX(ui->pushButton_solution5, 5);
 }
 
@@ -379,43 +191,7 @@ void BioZone6_GUI::onPushButtonSolution6()
 {
 	std::cout << HERE << std::endl;
 
-	/*if (ui->pushButton_solution1->isChecked() ||
-		ui->pushButton_solution2->isChecked() ||
-		ui->pushButton_solution3->isChecked() ||
-		ui->pushButton_solution4->isChecked() ||
-		ui->pushButton_solution5->isChecked()
-		) 
-	{
-		QMessageBox::information(this, m_str_information,
-			"A solution is ON, turn it OFF first");
-		ui->pushButton_solution6->setChecked(false);
-		return;
-	}*/
-	if (ui->pushButton_solution1->isChecked())
-	{
-		ui->pushButton_solution1->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution1, 1);
-	}
-	if (ui->pushButton_solution2->isChecked())
-	{
-		ui->pushButton_solution2->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution2, 2);
-	}
-	if (ui->pushButton_solution3->isChecked())
-	{
-		ui->pushButton_solution3->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution3, 3);
-	}
-	if (ui->pushButton_solution4->isChecked())
-	{
-		ui->pushButton_solution4->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution4, 4);
-	}
-	if (ui->pushButton_solution5->isChecked())
-	{
-		ui->pushButton_solution5->setChecked(false);
-		this->onPushButtonSolutionX(ui->pushButton_solution5, 5);
-	}
+	this->checkForOtherONbuttons(6);
 	this->onPushButtonSolutionX(ui->pushButton_solution6, 6);
 }
 
@@ -497,7 +273,7 @@ void BioZone6_GUI::solution2(bool _enable)
 	this->setEnableSolutionButtons(false);
 
 	// if enable is false just turn off and exit
-	if (!_enable)//ui->pushButton_solution6->isChecked())
+	if (!_enable)
 	{
 		ui->pushButton_solution2->setChecked(_enable);
 		m_update_flowing_sliders->stop();
@@ -560,7 +336,7 @@ void BioZone6_GUI::solution3(bool _enable)
 	this->setEnableSolutionButtons(false);
 
 	// if enable is false just turn off and exit
-	if (!_enable)//ui->pushButton_solution6->isChecked())
+	if (!_enable)
 	{
 		ui->pushButton_solution3->setChecked(_enable); 
 		m_update_flowing_sliders->stop();
@@ -622,7 +398,7 @@ void BioZone6_GUI::solution4(bool _enable)
 	this->setEnableSolutionButtons(false);
 
 	// if enable is false just turn off and exit
-	if (!_enable)//ui->pushButton_solution6->isChecked())
+	if (!_enable)
 	{
 		ui->pushButton_solution4->setChecked(_enable); 
 		m_update_flowing_sliders->stop();
@@ -670,8 +446,6 @@ void BioZone6_GUI::solution4(bool _enable)
 }
 
 
-
-
 void BioZone6_GUI::solution5(bool _enable)
 {
 	std::cout << HERE << std::endl;
@@ -686,7 +460,7 @@ void BioZone6_GUI::solution5(bool _enable)
 	this->setEnableSolutionButtons(false);
 
 	// if enable is false just turn off and exit
-	if (!_enable)//ui->pushButton_solution6->isChecked())
+	if (!_enable)
 	{
 		ui->pushButton_solution5->setChecked(_enable); 
 		m_update_flowing_sliders->stop();
@@ -747,7 +521,7 @@ void BioZone6_GUI::solution6(bool _enable)
 	this->setEnableSolutionButtons(false);
 
 	// if enable is false just turn off and exit
-	if (!_enable)//ui->pushButton_solution6->isChecked())
+	if (!_enable)
 	{
 		ui->pushButton_solution6->setChecked(_enable); 
 		m_update_flowing_sliders->stop();
@@ -795,7 +569,6 @@ void BioZone6_GUI::solution6(bool _enable)
 }
 
 
-
 int BioZone6_GUI::getOnSolutionIndex()
 {
 	// This function assumes that no solutions can be ON 
@@ -816,3 +589,37 @@ int BioZone6_GUI::getOnSolutionIndex()
 
 }
 
+void BioZone6_GUI::checkForOtherONbuttons(int _this_button_idx)
+{
+
+	if (ui->pushButton_solution1->isChecked() && _this_button_idx != 1)
+	{
+		ui->pushButton_solution1->setChecked(false);
+		this->onPushButtonSolutionX(ui->pushButton_solution1, 1);
+	}
+	if (ui->pushButton_solution2->isChecked() && _this_button_idx != 2)
+	{
+		ui->pushButton_solution2->setChecked(false);
+		this->onPushButtonSolutionX(ui->pushButton_solution2, 2);
+	}
+	if (ui->pushButton_solution3->isChecked() && _this_button_idx != 3)
+	{
+		ui->pushButton_solution3->setChecked(false);
+		this->onPushButtonSolutionX(ui->pushButton_solution3, 3);
+	}
+	if (ui->pushButton_solution4->isChecked() && _this_button_idx != 4)
+	{
+		ui->pushButton_solution4->setChecked(false);
+		this->onPushButtonSolutionX(ui->pushButton_solution4, 4);
+	}
+	if (ui->pushButton_solution5->isChecked() && _this_button_idx != 5)
+	{
+		ui->pushButton_solution5->setChecked(false);
+		this->onPushButtonSolutionX(ui->pushButton_solution5, 5);
+	}
+	if (ui->pushButton_solution6->isChecked() && _this_button_idx != 6)
+	{
+		ui->pushButton_solution6->setChecked(false);
+		this->onPushButtonSolutionX(ui->pushButton_solution6, 6);
+	}
+}

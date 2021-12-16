@@ -687,7 +687,7 @@ private slots:
 	bool openXml(QString _filename, QTreeWidget* _widget);
 
 
-
+	void setFlowParams();
 
 protected:
 // event control

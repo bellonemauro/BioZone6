@@ -16,9 +16,6 @@
 #include <iostream>
 #include <string>
 
-//#include "ui_protocolEditor.h"
-//#include "protocolWizard.h"
-
 #include <QMainWindow>
 #include <QtCharts/QChartView>
 #include <QtCharts/QLineSeries>

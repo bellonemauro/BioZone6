@@ -278,38 +278,6 @@ bool protocolTreeWidgetItem::checkValidity( int _column)
 		this->setText(editorParams::c_value, QString("")); // it removes whatever is there
 		return true;
 	}
-	//case protocolCommands::button1:
-	//case protocolCommands::button2:
-	//case protocolCommands::button3:
-	//case protocolCommands::button4:
-	//case protocolCommands::button5:
-	/*case protocolCommands::button6: {
-		// check pump button : 0 = stop, 1 = pump
-		// if the value is not valid, reset to zero
-		dynamic_cast<QTreeWidgetItem*>(this)->setToolTip(editorParams::c_command, m_tt_cmd_button);
-		if (number != 1) {
-			this->setText(editorParams::c_value, QString("0"));
-			return false;
-		}
-		return true;
-	}*/
-	case 454545://protocolCommands::ramp: 
-	{
-		// if the number if lower than 0,
-		// the value becomes automatically positive
-		dynamic_cast<QTreeWidgetItem*>(this)->setToolTip(editorParams::c_command, m_tt_cmd_ramp);
-		if (number < 1) {
-			number = -number;
-			this->setText(editorParams::c_value, QString::number(number));
-		}
-		// if is not the range
-		if (//number < m_pr_params->p_off_min ||
-			number > m_pr_params->p_on_max) {
-			this->setText(editorParams::c_value, QString::number(m_pr_params->p_on_max));
-			return false;
-		}
-		return true;
-	}
 	case protocolCommands::operational: {
 		// no need to check here
 		dynamic_cast<QTreeWidgetItem*>(this)->setToolTip(editorParams::c_command, m_tt_cmd_operational);
@@ -473,14 +441,6 @@ QString protocolTreeWidgetItem::getRangeColumn( int _idx)
 		// Comment	
 		return QString("-");
 	}
-	//case protocolCommands::button1: // Button1
-	//case protocolCommands::button2: // Button2
-	//case protocolCommands::button3: // Button3
-	//case protocolCommands::button4: // Button4
-	//case protocolCommands::button5: // Button5
-	//case protocolCommands::button6: {// Button6	
-	//	return QString("1/0 pump/stop");
-	//}
 	case protocolCommands::operational: {
 		// function
 		return QString("SnR, LnR, SnS, LnS");

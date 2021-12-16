@@ -450,7 +450,7 @@ namespace fluicell { namespace PPC1api6dataStructures
 				length_to_tip (DEFAULT_LENGTH_TO_TIP_STANDARD),
 				length_to_zone (DEFAULT_LENGTH_TO_ZONE_STANDARD),
 				tip_setting_path("/tips/Standard/"),
-				type (tip::tipType::Standard)
+				type (tipType::Standard)
 				{}
 
 			void useStandardTip()
@@ -468,6 +468,7 @@ namespace fluicell { namespace PPC1api6dataStructures
 				tip_setting_path = "/tips/Wide/";
 				type = tipType::Wide;
 			}
+			
 			void useIonOptixTip()
 			{
 				length_to_tip = DEFAULT_LENGTH_TO_TIP_ION;
@@ -475,6 +476,19 @@ namespace fluicell { namespace PPC1api6dataStructures
 				tip_setting_path = "/tips/IonOptix/";
 				type = tipType::IonOptix;
 			}
+
+			void setLengthToTip(double _length_to_tip = DEFAULT_LENGTH_TO_TIP_STANDARD)
+			{
+				length_to_tip = _length_to_tip;
+			}
+			
+			void setLengthToZone(double _length_to_zone = DEFAULT_LENGTH_TO_ZONE_STANDARD)
+			{
+				length_to_zone = _length_to_zone;
+			}
+
+			double getLenghtToTip() { return length_to_tip; }
+			double getLenghtToZone() { return length_to_zone; }
 		};
 
 	/**  \brief Serial device info data structure

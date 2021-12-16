@@ -255,15 +255,6 @@ void BioZone6_GUI::shutdown() {
 		QMessageBox::Ok);
 	if (resBtn != QMessageBox::Cancel) {
 
-		//RUN THE FOLLOWING MACRO:
-		//	allOff()
-		//	setPon(0)
-		//	setPoff(0)
-		//	sleep(10)
-		//	setVswitch(0)
-		//	setVrecirc(0)
-		//	sleep(15)
-		//	pumpsOff()
 		QApplication::setOverrideCursor(Qt::WaitCursor);   
 
 		if (m_pipette_active) {

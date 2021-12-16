@@ -321,7 +321,6 @@ void BioZone6_GUI::solution2(bool _enable)
 }
 
 
-
 void BioZone6_GUI::solution3(bool _enable)
 {
 	std::cout << HERE << std::endl;

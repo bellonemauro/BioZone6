@@ -32,6 +32,9 @@ fluicell::PPC1api6::PPC1api6() :
 {
 	// set default values for pressures and vacuums
 	setDefaultPV();
+	setSquareChannelMod();
+	setPipeDiameter();
+	setDynamicViscosity();
 	
 	// set default filter values
 	m_filter_enabled = true;

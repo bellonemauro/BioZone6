@@ -441,28 +441,28 @@ void BioZone6_GUI::updateFlows()
 		// calculate inflow
 		m_pipette_status->delta_pressure = 100.0 * v_r;
 		m_pipette_status->inflow_recirculation = 
-			2.0 * m_ppc1->getFlowSimple(m_pipette_status->delta_pressure, m_ppc1->getLegthToTip());
+			2.0 * m_ppc1->getFlowSimple(m_pipette_status->delta_pressure, m_ppc1->getLengthToTip());
 
 		m_pipette_status->delta_pressure = 100.0 * (v_r + 
-			2.0 * p_off * (1 - m_ppc1->getLegthToZone() / m_ppc1->getLegthToTip()));
+			2.0 * p_off * (1 - m_ppc1->getLengthToZone() / m_ppc1->getLengthToTip()));
 		m_pipette_status->inflow_switch = 
-			2.0 * m_ppc1->getFlowSimple(m_pipette_status->delta_pressure, m_ppc1->getLegthToTip());
+			2.0 * m_ppc1->getFlowSimple(m_pipette_status->delta_pressure, m_ppc1->getLengthToTip());
 
 		m_pipette_status->delta_pressure = 100.0 * 2.0 * p_off;
 		m_pipette_status->solution_usage_off = 
-			m_ppc1->getFlowSimple(m_pipette_status->delta_pressure, 2 * m_ppc1->getLegthToZone());
+			m_ppc1->getFlowSimple(m_pipette_status->delta_pressure, 2 * m_ppc1->getLengthToZone());
 
 		m_pipette_status->delta_pressure = 100.0 * p_on;
 		m_pipette_status->solution_usage_on = 
-			m_ppc1->getFlowSimple(m_pipette_status->delta_pressure, m_ppc1->getLegthToTip());
+			m_ppc1->getFlowSimple(m_pipette_status->delta_pressure, m_ppc1->getLengthToTip());
 
 		m_pipette_status->delta_pressure = 100.0 * (p_on + p_off * 3.0 - v_s * 2.0);   // TODO magic numbers
 		m_pipette_status->outflow_on = 
-			m_ppc1->getFlowSimple(m_pipette_status->delta_pressure, m_ppc1->getLegthToTip());
+			m_ppc1->getFlowSimple(m_pipette_status->delta_pressure, m_ppc1->getLengthToTip());
 
 		m_pipette_status->delta_pressure = 100.0 * (p_off * 4.0 - v_s * 2.0);
 		m_pipette_status->outflow_off = 2.0 * m_ppc1->getFlowSimple(
-			m_pipette_status->delta_pressure, 2 * m_ppc1->getLegthToZone());
+			m_pipette_status->delta_pressure, 2 * m_ppc1->getLengthToZone());
 
 		// this is to avoid NAN on the ratio
         if (m_pipette_status->inflow_recirculation == 0) 

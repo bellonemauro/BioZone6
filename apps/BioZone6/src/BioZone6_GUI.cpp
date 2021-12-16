@@ -746,6 +746,10 @@ void BioZone6_GUI::initConnects()
 		SIGNAL(clicked()), this,
 		SLOT(cleanHistory()));
 
+	connect(ui->pushButton_setFlowCalcParams,
+		SIGNAL(clicked()), this,
+		SLOT(setFlowParams()));
+
 	// connect sliders
 	connect(ui->horizontalSlider_p_on, 
 		SIGNAL(valueChanged(int)), this, 
@@ -861,6 +865,23 @@ void BioZone6_GUI::initConnects()
 
 	connect(ui->pushButton_loop,
 		SIGNAL(clicked()), this, SLOT(createNewLoop()));
+
+}
+
+void BioZone6_GUI::setFlowParams()
+{
+
+	double lenght_to_tip = ui->doubleSpinBox_lTp->value();
+	double lenght_to_zone = ui->doubleSpinBox_lTz->value();
+	double pipe_diameter = ui->doubleSpinBox_pd->value();
+	double dynamic_viscosity = ui->doubleSpinBox_dv->value();
+	double square_channel_mod = ui->doubleSpinBox_scm->value();
+
+	m_ppc1->setLengthToTip(lenght_to_tip);
+	m_ppc1->setLengthToZone(lenght_to_zone);
+	m_ppc1->setPipeDiameter(pipe_diameter);
+	m_ppc1->setDynamicViscosity(dynamic_viscosity);
+	m_ppc1->setSquareChannelMod(square_channel_mod);
 
 }
 

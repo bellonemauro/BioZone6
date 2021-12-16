@@ -236,7 +236,7 @@ void BioZone6_GUI::runProtocolFile(QString _protocol_path) {
 		ui->actionShudown->setEnabled(false);
 		ui->label_runMacro->setText(m_str_label_stop_protocol);
 	}
-	else {
+	else { // if a protocol is already running we add it to a stack
 	std::cout << HERE 
 		<< " a protocol is running, your protocol was added to the stack "
 		<< _protocol_path.toStdString()
@@ -457,5 +457,3 @@ void BioZone6_GUI::standby()
 
 	return;
 }
-
-

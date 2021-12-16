@@ -1754,17 +1754,14 @@ bool BioZone6_tools::saveSettings(QString _file_name)
 
 void BioZone6_tools::enableTipSetting()
 {
-
 	if (askPasswordToUnlock())
 	{
 		this->unlockProtectedSettings(true);
-
 	}
 	else
 	{
 		this->unlockProtectedSettings(false);
 	}
-
 }
 
 bool BioZone6_tools::askPasswordToUnlock()

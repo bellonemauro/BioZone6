@@ -313,6 +313,11 @@ namespace fluicell
 		bool m_filter_enabled;              //!< if active enable data filtering from PPC1
 		int m_filter_size;                  //!< if m_filter_enabled active define the number of samples to be considered in the filter
 
+		double m_square_channel_mod;
+		double m_pipe_diameter;
+		double m_dynamic_viscosity;
+
+
 		bool m_excep_handler;  // normally false, it will be true in case of exception
 							   //TODO: this is an easy and dirty way of forwarding exceptions, find the proper solution to it
 
@@ -667,10 +672,10 @@ namespace fluicell
 			double _delta_pressure = -14600.0,
 			double _pipe_length = 0.124	) const
 		{
-			double square_channel_mod = 1.128;
-			double pipe_diameter = 0.00003;
-			double dynamic_viscosity = 0.00089;
-			return getFlow(square_channel_mod, pipe_diameter, _delta_pressure, dynamic_viscosity, _pipe_length);
+		    //double square_channel_mod = 1.128;
+			//double pipe_diameter = 0.00003;
+			//double dynamic_viscosity = 0.00089;
+			return getFlow(m_square_channel_mod, m_pipe_diameter, _delta_pressure, m_dynamic_viscosity, _pipe_length);
 
 		}
 
@@ -793,7 +798,7 @@ namespace fluicell
 		*
 		*  \return length to tip
 		**/
-		double getLegthToTip()  const {
+		double getLengthToTip()  const {
 			return m_tip->length_to_tip;
 		}
 
@@ -801,9 +806,30 @@ namespace fluicell
 		*
 		*  \return length to zone
 		**/
-		double getLegthToZone()  const {
+		double getLengthToZone()  const {
 			return m_tip->length_to_zone;
 		}
+
+		void setLengthToTip(double _length_to_tip)
+		{
+			m_tip->setLengthToTip(_length_to_tip);
+		}
+		void setLengthToZone(double _length_to_zone)
+		{
+			m_tip->setLengthToZone(_length_to_zone);
+		}
+
+		void setSquareChannelMod(double _square_channel_mod = 1.128)
+		{  m_square_channel_mod = _square_channel_mod; }
+
+		void setPipeDiameter(double _pipe_diameter = 0.00003) 
+		{  m_pipe_diameter = _pipe_diameter; }
+		void setDynamicViscosity(double _dynamic_viscosity = 0.00089) 
+		{  m_dynamic_viscosity = _dynamic_viscosity; }
+
+		double getSquareChannelMod() { return m_square_channel_mod; }   
+		double getPipeDiameter() { return m_pipe_diameter; }
+		double getDynamicViscosity() { return m_dynamic_viscosity; }
 
 		/**  \brief Get device serial number
 		  *
@@ -1086,6 +1112,7 @@ namespace fluicell
 		*  \return a copy of the data member
 		**/
 		const fluicell::PPC1api6dataStructures::PPC1api6_status* getPipetteStatus() const { return m_PPC1_status; }
+
    };
 
 }

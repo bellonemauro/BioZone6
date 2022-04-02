@@ -2,7 +2,7 @@
 <!DOCTYPE prt>
 <!--Fluicell xml protocol file for BioZone 6 - https://www.fluicell.com/-->
 <!--File created on Wed Nov 17 2021  15:27:47 -->
-<Protocol version="1.1">
+<BioZoneProtocol version="1.1">
     <allOff value="" message=" "/>
     <solution2 value="1" message=" "/>
     <setPon value="70" message=" "/>
@@ -16,4 +16,4 @@
     <setPoff value="12" message=" "/>
     <wait value="0.4" message=" "/>
     <setPon value="150" message=" "/>
-</Protocol>
+</BioZoneProtocol>

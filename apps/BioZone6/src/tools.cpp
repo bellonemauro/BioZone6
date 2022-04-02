@@ -280,6 +280,7 @@ void BioZone6_tools::okPressed() {
 	checkHistory ();
 
 	this->applyPressed();
+	emit ok();
 	this->close();
 }
 

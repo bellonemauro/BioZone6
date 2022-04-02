@@ -52,6 +52,7 @@ class BioZone6_tools : public  QMainWindow
 	* 
 	*/
 	signals :
+		void ok();    //!< signal generated when ok is pressed
 		void apply(); //!< signal generated when apply is pressed
 		void cancel(); //!< signal generated when cancel is pressed
 		void emptyWaste(); //!< signal generated when empty wells is pressed

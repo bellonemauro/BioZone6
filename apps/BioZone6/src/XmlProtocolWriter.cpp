@@ -30,7 +30,7 @@ bool XmlProtocolWriter::writeFile(QIODevice *device)
     QString toPrint = "File created on " + QDate::currentDate().toString() + "  "
         + QTime::currentTime().toString() + " ";
     xml.writeComment(toPrint);
-    xml.writeStartElement(QStringLiteral("Protocol"));
+    xml.writeStartElement(swProtocolAttribute());
     xml.writeAttribute(versionAttribute(), QStringLiteral("1.1"));
     for (int i = 0; i < treeWidget->topLevelItemCount(); ++i)
         writeItem(treeWidget->topLevelItem(i));

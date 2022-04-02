@@ -717,6 +717,7 @@ void BioZone6_GUI::onTabEditorChanged(int _idx)
 
 			QString fileContent = ui->textBrowser_XMLcode->toPlainText();
 			file.write(fileContent.toUtf8());
+			//delete &file;
 		}
 
 		ui->treeWidget_macroTable->clear();
@@ -739,7 +740,7 @@ void BioZone6_GUI::onTabEditorChanged(int _idx)
 	}
 	case 2:
 	{ // we are now in the machine code 
-		std::cerr << HERE <<
+		std::cout << HERE <<
 			" machine code clicked " << std::endl;
 		// this is to update the tree if something was modified in the xml editor without passing to the tree first
 		if (m_last_treeWidget_editor_idx == 1) 
@@ -767,7 +768,7 @@ void BioZone6_GUI::onTabEditorChanged(int _idx)
 
 		// this lines look like a repetition but it is required to 
 		// make the switch among tabs working properly always
-		// so we take the commands from the macro table
+		// so we take the commands from the protocol table
 		// save to file
 		this->saveXml(save_tmp_file, ui->treeWidget_macroTable);
 

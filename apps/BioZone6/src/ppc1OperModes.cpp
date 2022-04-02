@@ -12,7 +12,7 @@
 #include "BioZone6_GUI.h"
 
 
-void BioZone6_GUI::setStandardAndSlow()
+void BioZone6_GUI::setStandardAndSlow(bool _verbose )
 {
 	std::cout << HERE << std::endl;
 
@@ -50,15 +50,18 @@ void BioZone6_GUI::setStandardAndSlow()
 		//	"/presetProtocols/internal/ButtonsPRTFiles/StandardAndSlow/";
 		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_SnS_path;
 
-		if (getOnSolutionIndex() != 0)
+		if (_verbose)
 		{
-			QMessageBox::warning(this, m_str_warning,
-				"A solution is ON, the solution will be OFF once the new setting is applied by pushing the operational button");
-			//TODO: set the string 
-		}
-		else {
-			QMessageBox::information(this, m_str_information,
-				m_new_settings_applied);
+			if (getOnSolutionIndex() != 0)
+			{
+				QMessageBox::warning(this, m_str_warning,
+					"A solution is ON, the solution will be OFF once the new setting is applied by pushing the operational button");
+				//TODO: set the string 
+			}
+			else {
+				QMessageBox::information(this, m_str_information,
+					m_new_settings_applied);
+			}
 		}
 	}
 	else {
@@ -66,7 +69,7 @@ void BioZone6_GUI::setStandardAndSlow()
 	}
 }
 
-void BioZone6_GUI::setStandardAndRegular()
+void BioZone6_GUI::setStandardAndRegular(bool _verbose )
 {
 	std::cout << HERE << std::endl;
 	
@@ -103,15 +106,18 @@ void BioZone6_GUI::setStandardAndRegular()
 		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_SnR_path;// "/ButtonsPRTFiles/StandardAndRegular/";
 
 
-		if (getOnSolutionIndex() != 0)
+		if (_verbose)
 		{
-			QMessageBox::warning(this, m_str_warning,
-				"A solution is ON, the solution will be OFF once the new setting is applied by pushing the operational button");
-			//TODO: set the string 
-		}
-		else {
-			QMessageBox::information(this, m_str_information,
-				m_new_settings_applied);
+			if (getOnSolutionIndex() != 0)
+			{
+				QMessageBox::warning(this, m_str_warning,
+					"A solution is ON, the solution will be OFF once the new setting is applied by pushing the operational button");
+				//TODO: set the string 
+			}
+			else {
+				QMessageBox::information(this, m_str_information,
+					m_new_settings_applied);
+			}
 		}
 	}
 	else {
@@ -119,7 +125,7 @@ void BioZone6_GUI::setStandardAndRegular()
 	}
 }
 
-void BioZone6_GUI::setLargeAndSlow()
+void BioZone6_GUI::setLargeAndSlow(bool _verbose )
 {
 	std::cout << HERE << std::endl;
 	
@@ -154,15 +160,18 @@ void BioZone6_GUI::setLargeAndSlow()
 		//	"/presetProtocols/internal/ButtonsPRTFiles/LargeAndSlow/";
 		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_LnS_path;// 
 
-		if (getOnSolutionIndex() != 0)
+		if (_verbose)
 		{
-			QMessageBox::warning(this, m_str_warning,
-				"A solution is ON, the solution will be OFF once the new setting is applied by pushing the operational button");
-			//TODO: set the string 
-		}
-		else {
-			QMessageBox::information(this, m_str_information,
-				m_new_settings_applied);
+			if (getOnSolutionIndex() != 0)
+			{
+				QMessageBox::warning(this, m_str_warning,
+					"A solution is ON, the solution will be OFF once the new setting is applied by pushing the operational button");
+				//TODO: set the string 
+			}
+			else {
+				QMessageBox::information(this, m_str_information,
+					m_new_settings_applied);
+			}
 		}
 	}
 	else {
@@ -170,7 +179,7 @@ void BioZone6_GUI::setLargeAndSlow()
 	}
 }
 
-void BioZone6_GUI::setLargeAndRegular()
+void BioZone6_GUI::setLargeAndRegular(bool _verbose )
 {
 	std::cout << HERE << std::endl;
 
@@ -205,17 +214,19 @@ void BioZone6_GUI::setLargeAndRegular()
 		//	"/presetProtocols/internal/ButtonsPRTFiles/LargeAndRegular/";
 		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_LnR_path;// 
 
-		if (getOnSolutionIndex() != 0)
+		if (_verbose)
 		{
-			QMessageBox::warning(this, m_str_warning,
-				"A solution is ON, the solution will be OFF once the new setting is applied by pushing the operational button");
-			//TODO: set the string 
+			if (getOnSolutionIndex() != 0)
+			{
+				QMessageBox::warning(this, m_str_warning,
+					"A solution is ON, the solution will be OFF once the new setting is applied by pushing the operational button");
+				//TODO: set the string 
+			}
+			else {
+				QMessageBox::information(this, m_str_information,
+					m_new_settings_applied);
+			}
 		}
-		else {
-			QMessageBox::information(this, m_str_information,
-				m_new_settings_applied);
-		}
-
 	}
 	else {
 		ui->pushButton_largeAndRegular->setChecked(true);

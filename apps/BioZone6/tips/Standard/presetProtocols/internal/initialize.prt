@@ -2,7 +2,7 @@
 <!DOCTYPE prt>
 <!--Fluicell xml protocol file for BioZone 6 - https://www.fluicell.com/-->
 <!--File created on Wed Nov 17 2021  15:23:46 -->
-<Protocol version="1.1">
+<BioZoneProtocol version="1.1">
     <ask value="" message="Place the tip into the holder and tighten. THEN PRESS OK"/>
     <allOff value="" message="AllOff()"/>
     <pumpsOff value="" message="pumpOff"/>
@@ -51,4 +51,4 @@
     <wait value="2" message=" "/>
     <allOff value="" message=" "/>
     <ask value="" message="BZ tip is ready for operation. Press OK to start, then position the tip for operation."/>
-</Protocol>
+</BioZoneProtocol>

@@ -28,6 +28,9 @@ public:
 
     QString errorString() const;
 
+    // TODO: the protocol reader and writer re-define the same attribute, 
+    //       the best way would be to re-define a superclass to avoid double definitions
+    static inline QString swProtocolAttribute() { return QStringLiteral("BioZoneProtocol"); }
     static inline QString valueAttribute() { return QStringLiteral("value"); }
     static inline QString messageAttribute() { return QStringLiteral("message"); }
     static inline QString versionAttribute() { return QStringLiteral("version"); }

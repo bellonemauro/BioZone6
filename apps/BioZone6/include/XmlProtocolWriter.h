@@ -24,6 +24,7 @@ public:
     explicit XmlProtocolWriter(const QTreeWidget *treeWidget);
     bool writeFile(QIODevice *device);
 
+	static inline QString swProtocolAttribute() { return QStringLiteral("BioZoneProtocol"); }
 	static inline QString valueAttribute() { return QStringLiteral("value"); }
 	static inline QString messageAttribute() { return QStringLiteral("message"); }
 	static inline QString versionAttribute() { return QStringLiteral("version"); }

@@ -26,11 +26,20 @@ bool XmlProtocolReader::read(QIODevice *device, protocolTreeWidgetItem* after_it
 	m_after_item = after_item;
 	m_row = treeWidget->topLevelItemCount()-1;//    treeWidget->currentIndex().row();
     if (xml.readNextStartElement()) {
-        if (xml.name() == QLatin1String("Protocol")
-            && xml.attributes().value(versionAttribute()) == QLatin1String("1.1")) {
+        if ((xml.name() == QLatin1String("BioZoneProtocol") || xml.name() == QLatin1String("Protocol"))
+            && xml.attributes().value(versionAttribute()) == QLatin1String("1.1") ) {
             readPRT();
-        } else {
-            xml.raiseError(QObject::tr("The file is not a PRT version 1.1 file."));
+        } 
+		else 
+		{
+			if (xml.name() == QLatin1String("Protocol") )
+			{
+				xml.raiseError(QObject::tr("This protocol seems to be in a previous format."));
+			}
+			else 
+			{
+				xml.raiseError(QObject::tr("The file is not a PRT version 1.1 file."));
+			}
         }
     }
 

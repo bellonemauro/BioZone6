@@ -508,7 +508,9 @@ private slots:
 	*/
 	void toolApply();
 
-	
+	/** \brief Catch the ok signal from tool dialog
+	*/
+	void toolOk();
 
 	/** \brief Load icon pressed
 	*
@@ -645,10 +647,10 @@ private slots:
 	*
 	* \note
 	*/
-	void setStandardAndSlow();
-	void setStandardAndRegular();
-	void setLargeAndSlow();
-	void setLargeAndRegular();
+	void setStandardAndSlow(bool _verbose = true);
+	void setStandardAndRegular(bool _verbose = true);
+	void setLargeAndSlow(bool _verbose = true);
+	void setLargeAndRegular(bool _verbose = true);
 
 	/** \brief Plus minus button for vacuum and pressures in operational modes
 	*

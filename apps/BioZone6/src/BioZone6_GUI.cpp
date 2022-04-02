@@ -782,6 +782,10 @@ void BioZone6_GUI::initConnects()
 	connect(m_dialog_tools, 
 		SIGNAL(apply()), this, 
 		SLOT(toolApply()));
+
+	connect(m_dialog_tools,
+		SIGNAL(ok()), this,
+		SLOT(toolOk()));
 	
 	connect(m_dialog_tools,
 		SIGNAL(checkUpdatesNow()), this,
@@ -1158,7 +1162,7 @@ void BioZone6_GUI::toolApply()
 	ui->treeWidget_params->topLevelItem(1)->setText(1, m_solutionParams->sol2);
 	ui->treeWidget_params->topLevelItem(2)->setText(1, m_solutionParams->sol3);
 	ui->treeWidget_params->topLevelItem(3)->setText(1, m_solutionParams->sol4);
-	ui->treeWidget_params->topLevelItem(4)->setText(1, m_solutionParams->sol5); 
+	ui->treeWidget_params->topLevelItem(4)->setText(1, m_solutionParams->sol5);
 	ui->treeWidget_params->topLevelItem(5)->setText(1, m_solutionParams->sol6);
 
 	ui->treeWidget_params->topLevelItem(6)->setText(1, QString::number(m_pr_params->p_on_default));
@@ -1183,16 +1187,48 @@ void BioZone6_GUI::toolApply()
 	m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_SnR_path;
 
 	if (ui->pushButton_standardAndRegular->isChecked())
+	{
 		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_SnR_path;
+		//this->setStandardAndRegular();
+	}
 	if (ui->pushButton_standardAndSlow->isChecked())
+	{
 		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_SnS_path;
-	if (ui->pushButton_largeAndRegular->isChecked())
+		//this->setStandardAndSlow();
+	}
+	if (ui->pushButton_largeAndRegular->isChecked()) 
+	{
 		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_LnR_path;
+		//this->setLargeAndRegular();
+	}
 	if (ui->pushButton_largeAndSlow->isChecked())
+	{
 		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_LnS_path;
+		//this->setLargeAndSlow();
+	}
 
 }
 
+void BioZone6_GUI::toolOk()
+{
+	bool verbose = false; 
+	if (ui->pushButton_standardAndRegular->isChecked())
+	{
+		this->setStandardAndRegular(verbose);
+	}
+	if (ui->pushButton_standardAndSlow->isChecked())
+	{
+		this->setStandardAndSlow(verbose);
+	}
+	if (ui->pushButton_largeAndRegular->isChecked())
+	{
+		this->setLargeAndRegular(verbose);
+	}
+	if (ui->pushButton_largeAndSlow->isChecked())
+	{
+		this->setLargeAndSlow(verbose);
+	}
+}
 
 void BioZone6_GUI::setEnableMainWindow(bool _enable) {
 
@@ -1314,7 +1350,7 @@ void BioZone6_GUI::about() {
 
 	QMessageBox messageBox;
 	QString msg_title = "About Fluicell BioZone6 ";
-	QString msg_content = tr("<b>BioZone6</b> is a "
+	QString msg_content = QStringLiteral("<b>BioZone6</b> is a "
 		"<a href='http://fluicell.com/'>Fluicell</a> AB software <br>"
 		"Copyright Fluicell AB, Sweden 2020 <br> <br>"
 		"Flöjelbergsgatan 8C<br>"

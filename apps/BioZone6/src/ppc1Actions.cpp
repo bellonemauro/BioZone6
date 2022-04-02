@@ -258,8 +258,9 @@ void BioZone6_GUI::protocolFinished(const QString &_result) {
 	// restore settings that have been overlapped during the protocol running
 	//this->toolApply();
 	*m_solutionParams = m_dialog_tools->getSolutionsParams();
+	*m_pr_params = m_dialog_tools->getPr_params();
 
-	if (message.contains("ON_Button", Qt::CaseSensitive))
+	if (message.contains("ON_Button", Qt::CaseSensitive) && ui->spinBox_PonOM->value()!= 0)
 	{
 		//QMessageBox::information(this, m_str_information, message);
 
@@ -268,11 +269,20 @@ void BioZone6_GUI::protocolFinished(const QString &_result) {
 		updatePonSetPoint(Pon_adapted);
 		
 		//double Vr_adapted = m_pipette_status->v_recirc_set_point - adaptation_value;
-		double Vr_adapted = -m_pr_params->v_recirc_default - adaptation_value;
+		double Vr_adapted = -m_pipette_status->v_recirc_set_point - adaptation_value;
 		updateVrecircSetPoint(Vr_adapted);
 
 	}
 
+	// if we are running an OFF_Button protocol we get back to the operational values
+	// this was updated according to our discussion on 22-03-2022
+	if (message.contains("OFF_Button", Qt::CaseSensitive))
+	{
+		updateVrecircSetPoint(-m_pr_params->v_recirc_default);
+		updateVswitchSetPoint(-m_pr_params->v_switch_default);
+		updatePonSetPoint(m_pr_params->p_on_default); 
+		updatePoffSetPoint(m_pr_params->p_off_default);
+	}
 
 
 	// restore GUI 

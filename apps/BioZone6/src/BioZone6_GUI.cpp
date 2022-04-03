@@ -1663,6 +1663,7 @@ bool BioZone6_GUI::openXml(QString _filename, QTreeWidget* _widget)
 		std::cerr << HERE << " impossible to open the file " << std::endl;
 		return false;
 	}
+	
 	if (!reader.read(&file, 0))// dynamic_cast<protocolTreeWidgetItem*>(_widget->currentItem())))
 	{
 		QMessageBox::warning(this, m_str_warning,
@@ -1671,6 +1672,16 @@ bool BioZone6_GUI::openXml(QString _filename, QTreeWidget* _widget)
 				reader.errorString()));
 		return true;
 	}
+
+	
+	if (reader.isOldProtocolAttribute())
+	{
+	QMessageBox::warning(this, m_str_warning,
+		m_str_no_file_loaded + tr("<br> you did a mess <br>%1:\n%2.")
+		.arg(QDir::toNativeSeparators(_filename),
+			reader.errorString()));
+	}
+
 	return false;
 }
 

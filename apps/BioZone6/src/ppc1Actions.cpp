@@ -268,8 +268,7 @@ void BioZone6_GUI::protocolFinished(const QString &_result) {
 		double Pon_adapted = m_pipette_status->pon_set_point + adaptation_value;
 		updatePonSetPoint(Pon_adapted);
 		
-		//double Vr_adapted = m_pipette_status->v_recirc_set_point - adaptation_value;
-		double Vr_adapted = -m_pipette_status->v_recirc_set_point - adaptation_value;
+		double Vr_adapted = m_pipette_status->v_recirc_set_point - adaptation_value;
 		updateVrecircSetPoint(Vr_adapted);
 
 	}

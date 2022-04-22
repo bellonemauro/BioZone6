@@ -912,6 +912,7 @@ void BioZone6_GUI::initCustomStrings()
 	m_str_basic = tr("Basic");
 	m_str_operation_cancelled = tr("Operation cancelled");
 	m_str_no_file_loaded = tr("No file loaded");
+	m_str_xml_file_in_old_format = tr("This protocol file is saved using a deprecated format, \nplease check that it was read correctly and save the protocol to adapt to the new format");
 	m_str_information = tr("Information");
 	m_str_warning = tr("Warning");
 	m_str_error = tr("Error");
@@ -1350,14 +1351,14 @@ void BioZone6_GUI::about() {
 
 	QMessageBox messageBox;
 	QString msg_title = "About Fluicell BioZone6 ";
-	QString msg_content = QStringLiteral("<b>BioZone6</b> is a "
-		"<a href='http://fluicell.com/'>Fluicell</a> AB software <br>"
-		"Copyright Fluicell AB, Sweden 2020 <br> <br>"
+	QString msg_content = tr("BioZone6 is part of the <br> Fluicell Lab-on-a-tip technology family,<br>"
+		"Copyrighted Sweden 2022.<br><br>"
+		"BioZone6®, Fluicell®, Lab-on-a-tip® <br>are all registered trademarks of Fluicell AB, Sweden <br> <br>"
 		"Flöjelbergsgatan 8C<br>"
 		"SE-431 37 Mölndal, Sweden<br>"
 		"Tel: +46 76 208 3354 <br>"
 		"e-mail: info@fluicell.com <br><br>"
-		"Developer:<a href='http://www.maurobellone.com'>Mauro Bellone</a> <br>"
+		"Developer: Mauro Bellone <br>"
 		"Version: ");
 	msg_content.append(m_version);
 	messageBox.setText(msg_content);
@@ -1677,9 +1678,7 @@ bool BioZone6_GUI::openXml(QString _filename, QTreeWidget* _widget)
 	if (reader.isOldProtocolAttribute())
 	{
 	QMessageBox::warning(this, m_str_warning,
-		m_str_no_file_loaded + tr("<br> you did a mess <br>%1:\n%2.")
-		.arg(QDir::toNativeSeparators(_filename),
-			reader.errorString()));
+		m_str_xml_file_in_old_format);
 	}
 
 	return false;

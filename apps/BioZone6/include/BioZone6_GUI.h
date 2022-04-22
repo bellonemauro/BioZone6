@@ -1082,6 +1082,7 @@ private:
   QString m_str_basic;
   QString m_str_operation_cancelled;
   QString m_str_no_file_loaded;
+  QString m_str_xml_file_in_old_format;
   QString m_str_information;
   QString m_str_warning;
   QString m_str_error;

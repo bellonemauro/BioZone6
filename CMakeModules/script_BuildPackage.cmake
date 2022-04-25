@@ -92,7 +92,7 @@ set( CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
 	SetOutPath \\\"$INSTDIR\\\\BioZone6\\\"
 	CreateShortCut \\\"$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\BioZone6.lnk\\\" \\\"$INSTDIR\\\\BioZone6\\\\BioZone6.exe\\\" 
 	SetOutPath \\\"$INSTDIR\\\\serial_console\\\"
-	CreateShortCut \\\"$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\serial_console.lnk\\\" \\\"$INSTDIR\\\\serial_console\\\\serial_console.exe\\\" 
+	CreateShortCut \\\"$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\Serial console.lnk\\\" \\\"$INSTDIR\\\\serial_console\\\\serial_console.exe\\\" 
 	SetOutPath \\\"$INSTDIR\\\"")
 	
 set(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")

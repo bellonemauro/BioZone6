@@ -670,11 +670,11 @@ void BioZone6_GUI::protocolsMenu(const QPoint & _pos)
 	connect(show_in_folder, SIGNAL(triggered()),
 		this, SLOT(OnShowInFolderClicked())); 
 	
-	QAction *delete_protocol = new QAction(
-		QIcon(":/icons/delete.png"), tr("&Delete"), this);
-	delete_protocol->setStatusTip(tr("new sth"));
-	connect(delete_protocol, SIGNAL(triggered()),
-		this, SLOT(deleteProtocol()));
+	//QAction *delete_protocol = new QAction(
+	//	QIcon(":/icons/delete.png"), tr("&Delete"), this);
+	//delete_protocol->setStatusTip(tr("new sth"));
+	//connect(delete_protocol, SIGNAL(triggered()),
+	//	this, SLOT(deleteProtocol()));
 
 	QAction *help = new QAction(
 		QIcon(":/icons/about.png"), tr("&Help"), this);
@@ -683,7 +683,7 @@ void BioZone6_GUI::protocolsMenu(const QPoint & _pos)
 
 	QMenu menu(this);
 	menu.addAction(show_in_folder);
-	menu.addAction(delete_protocol);
+	//menu.addAction(delete_protocol);
 	menu.addAction(help);
 
 	QPoint pt(_pos);
@@ -827,6 +827,7 @@ void BioZone6_GUI::helpTriggered() {
 	this->about();
 }
 
+// MB: 20220524 this function is deprecated and disconnected to prevent users to accidentally delete protocol files
 void BioZone6_GUI::deleteProtocol()
 {
 	std::cout << HERE << std::endl;

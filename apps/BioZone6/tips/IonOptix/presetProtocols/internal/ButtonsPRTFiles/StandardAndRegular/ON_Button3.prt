@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE prt>
 <!--Fluicell xml protocol file for BioZone 6 - https://www.fluicell.com/-->
-<!--File created on Wed Nov 17 2021  15:36:05 -->
+<!--File created on Fri Mar 18 2022  15:03:44 -->
 <BioZoneProtocol version="1.1">
+    <setPon value="0" message=" "/>
     <allOff value="" message=" "/>
     <solution3 value="1" message=" "/>
-    <setPon value="70" message=" "/>
+    <setPon value="80" message=" "/>
     <wait value="1" message=" "/>
-    <setPon value="85" message=" "/>
-    <setPoff value="4" message=" "/>
+    <setPon value="95" message=" "/>
+    <setPoff value="6" message=" "/>
     <wait value="1" message=" "/>
-    <setPon value="105" message=" "/>
-    <wait value="2" message=" "/>
-    <setPon value="170" message=" "/>
-    <setPoff value="12" message=" "/>
-    <wait value="0.4" message=" "/>
-    <setPon value="150" message=" "/>
+    <setPon value="130" message=" "/>
+    <wait value="1.5" message=" "/>
+    <setVrecirc value="-300" message=" "/>
+    <setVswitch value="-40" message=" "/>
+    <setPon value="270" message=" "/>
+    <setPoff value="10" message=" "/>
+    <wait value="0.7" message=" "/>
+    <setPon value="110" message=" "/>
+    <setPoff value="11" message=" "/>
+    <setVrecirc value="-90" message=" "/>
+    <setVswitch value="-60" message=" "/>
+    <wait value="0.5" message=" "/>
 </BioZoneProtocol>

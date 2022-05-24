@@ -150,7 +150,7 @@ void BioZone6_GUI::saveSettingsFile() {
 	std::cout << HERE << std::endl;
 
 	QString _path = QFileDialog::getSaveFileName(this, 
-		m_str_save_profile, m_protocols_path,  // dialog to open files
+		m_str_save_profile, m_settings_path,  // dialog to open files
 		"Profile file (*.ini);; All Files(*.*)", 0);
 
 	if (_path.isEmpty()) { 

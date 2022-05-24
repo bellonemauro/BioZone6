@@ -977,17 +977,17 @@ void BioZone6_GUI::moveDown()
 	int row = ui->treeWidget_macroTable->currentIndex().row();
 	int number_of_items = ui->treeWidget_macroTable->topLevelItemCount();
 
-	if (move_item && row >= 0 && row < number_of_items - 1)
+	//TODO: here there is an issue with the command, if we try to move 
+	if (move_item && row >= 0 )//&& row < number_of_items - 1)
 	{
 		moveDownCommand *cmd;
-		protocolTreeWidgetItem *parent =
-			dynamic_cast<protocolTreeWidgetItem *> (
-				ui->treeWidget_macroTable->currentItem()->parent());
 
+		protocolTreeWidgetItem* parent =
+			dynamic_cast<protocolTreeWidgetItem*> (
+				ui->treeWidget_macroTable->currentItem()->parent());
 		// if the item has a parent
 		if (parent) {
-			cmd = new moveDownCommand(ui->treeWidget_macroTable,
-				parent);
+			cmd = new moveDownCommand(ui->treeWidget_macroTable, parent);
 		}
 		else {
 			cmd = new moveDownCommand(ui->treeWidget_macroTable);

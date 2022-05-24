@@ -489,24 +489,31 @@ void moveDownCommand::redo()
 		m_move_item =
 			dynamic_cast<protocolTreeWidgetItem *> (
 				m_parent->child(m_row));
-
-		// take the child at the row
-		m_parent->takeChild(m_row); 
-		// add the selected item one row before
-		m_parent->insertChild(m_row + 1, m_move_item); 
+		
+		int child_count = m_parent->childCount()-1; // this avoids the moving in the last step, but I do not like this solution
+		if (m_row < child_count) {
+			// take the child at the row
+			m_parent->takeChild(m_row);
+			// add the selected item one row before
+			m_parent->insertChild(m_row + 1, m_move_item);
+		}
 	}
 	else {
 		m_move_item =
-			dynamic_cast<protocolTreeWidgetItem *> (
+			dynamic_cast<protocolTreeWidgetItem*> (
 				m_tree_widget->topLevelItem(m_row));
 
-		// if we are on the top level, just take the item 
-		m_tree_widget->takeTopLevelItem(m_row);
-		// and add the selected item one row before
-		m_tree_widget->insertTopLevelItem(m_row + 1, m_move_item);
+		int total_elements = m_tree_widget->topLevelItemCount()-1; // this avoids the moving in the last step, but I do not like this solution
+		if (m_row < total_elements)
+		{
+			// if we are on the top level, just take the item 
+			m_tree_widget->takeTopLevelItem(m_row);
+			// and add the selected item one row before
+			m_tree_widget->insertTopLevelItem(m_row + 1, m_move_item);
 
-		this->setText("Moved top level item at row " + QString::number(m_row) +
-			" to row " + QString::number(m_row + 1));
+			this->setText("Moved top level item at row " + QString::number(m_row) +
+				" to row " + QString::number(m_row + 1));
+		}
 	}
 }
 

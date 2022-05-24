@@ -834,10 +834,11 @@ void BioZone6_GUI::initConnects()
 		SIGNAL(currentChanged(int)),
 		this, SLOT(onTabEditorChanged(int)));
 
-
+	//ui->pushButton_undo->setEnabled(false); // TODO: disabled for now as it does not work
 	connect(ui->pushButton_undo,
 		SIGNAL(clicked()), this, SLOT(undo()));
 
+	//ui->pushButton_redo->setEnabled(false); // TODO: disabled for now as it does not work
 	connect(ui->pushButton_redo,
 		SIGNAL(clicked()), this, SLOT(redo()));
 

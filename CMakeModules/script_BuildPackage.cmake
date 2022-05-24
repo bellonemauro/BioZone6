@@ -27,7 +27,7 @@ set(CPACK_PACKAGE_NAME "BioZone6")
 set(CPACK_PACKAGE_VENDOR "Fluicell AB")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Fluicell BioZone6")
 set(CPACK_NSIS_CONTACT "Mauro Bellone bellonemauro@gmail.com" )
-set(CPACK_PACKAGE_INSTALL_DIRECTORY "Fluicell")# @_VERSION@")
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "FluicellBioZone")# @_VERSION@")
 
 # this allows to check older installations and properly remove them
 set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL "ON") 

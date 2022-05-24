@@ -16,6 +16,7 @@
 #include <iostream>
 #include <streambuf>
 #include <string>
+#include <QMutexLocker>
 
 #include "qtextedit.h"
 
@@ -30,7 +31,8 @@ public:
 	/** \brief Constructor
 	*
 	*/
-	 explicit QDebugStream(std::ostream &stream, QTextEdit* text_edit) : m_stream(stream)
+	 explicit QDebugStream(std::ostream &stream, QTextEdit* text_edit) : 
+		 m_stream(stream)
 	 {
 	  log_window = text_edit;
 	  m_old_buf = stream.rdbuf();
@@ -93,7 +95,9 @@ protected:
 				std::string toPrint = QDate::currentDate().toString().toStdString() + "  "
 					+ QTime::currentTime().toString().toStdString() + " " + m_string;
 				if (to_GUI) {
+					m_mutex.lock();
 					log_window->append(toPrint.c_str());
+					m_mutex.unlock();
 				}
 				if (to_terminal) {
 					printf("%s", toPrint.c_str());
@@ -147,6 +151,7 @@ private:
 	bool to_terminal;          //<! if true the output will also go to the terminal
 	bool to_GUI;               //<! if true the output will also go to the GUI
 	bool verbose;               //<! if true the output will also go to the GUI
+	QMutex m_mutex;
 
 	QTextEdit* log_window;     /*<! pointer to the QTextEdit object in the GUI, 
 							        this must be set upon construction */

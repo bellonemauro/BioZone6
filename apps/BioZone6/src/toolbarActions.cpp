@@ -40,6 +40,8 @@ bool BioZone6_GUI::loadProtocol()
 	if (this->openXml(file_name, ui->treeWidget_macroTable))
 	{
 		updateTreeView(ui->treeWidget_macroTable);
+		addAllCommandsToPPC1Protocol(ui->treeWidget_macroTable,
+			m_protocol);
 		m_current_protocol_file_name = file_name;
 		return true;
 	}

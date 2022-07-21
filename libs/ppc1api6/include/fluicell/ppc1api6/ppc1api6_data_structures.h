@@ -437,7 +437,7 @@ namespace fluicell { namespace PPC1api6dataStructures
 			enum tipType {
 			Standard = 0,
 			Wide = 1,
-			IonOptix = 2
+			UWZ = 2
 			};
 
 			double length_to_tip;
@@ -469,12 +469,12 @@ namespace fluicell { namespace PPC1api6dataStructures
 				type = tipType::Wide;
 			}
 			
-			void useIonOptixTip()
+			void useUWZTip()
 			{
 				length_to_tip = DEFAULT_LENGTH_TO_TIP_ION;
 				length_to_zone = DEFAULT_LENGTH_TO_ZONE_ION;
-				tip_setting_path = "/tips/IonOptix/";
-				type = tipType::IonOptix;
+				tip_setting_path = "/tips/UWZ/";
+				type = tipType::UWZ;
 			}
 
 			void setLengthToTip(double _length_to_tip = DEFAULT_LENGTH_TO_TIP_STANDARD)

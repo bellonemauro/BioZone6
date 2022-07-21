@@ -1844,7 +1844,7 @@ void BioZone6_tools::tipSelection(int _idx)
 	{   // tip flex
 		ui_tools->doubleSpinBox_lengthToTip->setValue(DEFAULT_LENGTH_TO_TIP_ION);
 		ui_tools->doubleSpinBox_lengthToZone->setValue(DEFAULT_LENGTH_TO_ZONE_ION);
-		m_tip->useIonOptixTip();
+		m_tip->useUWZTip();
 		//TODO: add save of the tip type
 		// TODO SET THE DEFAULT VALUES
 		//Standard

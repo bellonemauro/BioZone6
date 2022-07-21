@@ -111,9 +111,9 @@ void fluicell::PPC1api6::setTip(fluicell::PPC1api6dataStructures::tip::tipType _
 		m_tip->useWideTip();
 		break;
 	}
-	case fluicell::PPC1api6dataStructures::tip::tipType::IonOptix:
+	case fluicell::PPC1api6dataStructures::tip::tipType::UWZ:
 	{
-		m_tip->useIonOptixTip();
+		m_tip->useUWZTip();
 		break;
 	}
 	default:

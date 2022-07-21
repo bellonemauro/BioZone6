@@ -1,7 +1,7 @@
-/*  +---------------------------------------------------------------------------+
+﻿/*  +---------------------------------------------------------------------------+
 *  |                                                                           |
 *  |  Fluicell AB                                                              |
-*  |  Copyright 2021 � Fluicell AB, http://fluicell.com/                       |
+*  |  Copyright 2021 © Fluicell AB, http://fluicell.com/                       |
 *  |  BioZone6                                                                 |
 *  |                                                                           |
 *  | Authors: Mauro Bellone - http://www.maurobellone.com                      |
@@ -26,7 +26,6 @@
 //#include <QWhatsthis>
 #include <qwhatsthis.h>
 #include <QException>
-#include <QtTextToSpeech/QTextToSpeech>
 #include <QUndoView>
 #include <QProgressDialog>
 #include <QDir>

@@ -113,21 +113,25 @@ IF(with_QT6)
 	set(CMAKE_CXX_STANDARD_REQUIRED ON)
 	# Find includes in corresponding build directories
 	set(CMAKE_INCLUDE_CURRENT_DIR ON)
+	set (QMAKE_CFLAGS_UTF8_SOURCE "/source-charset:windows-1252")
 	
 	set(CMAKE_AUTOMOC ON)
 	set(CMAKE_AUTORCC ON)
 	set(CMAKE_AUTOUIC ON)
+	set(CMAKE_AUTOUIC_SEARCH_PATHS "./forms/")
 
-	find_package(Qt6 COMPONENTS Core Widgets Network Gui Concurrent LinguistTools REQUIRED)
+	find_package(Qt6 COMPONENTS Core Core5Compat Widgets Network Gui Concurrent LinguistTools Charts TextToSpeech REQUIRED) 
 
+	
 	# --------------------------------------
 	#  add definitions
 	# --------------------------------------
 	add_definitions (${QT_DEFINITIONS})   #required to use QT and gui
 	add_definitions (-DBIOZONE6_VERSION=${SOFTWARE_VERSION})   #required to use QT and gui
+	add_definitions (-DUSEQT6)
 
 	add_executable (${PROJECT_NAME}  	${myProject_SOURCES} ${myProject_HEADERS}
-									${myProject_FORMS_HEADERS} ${UI_RESOURCES_RCC})
+									${myProject_FORMS_HEADERS} ${myProject_UI_RESOURCES})
 	
 	set_target_properties (${PROJECT_NAME} 
 							PROPERTIES 
@@ -139,8 +143,60 @@ IF(with_QT6)
 							RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release/${PROJECT_NAME}")
 							
 	#target_link_libraries ( ${PROJECT_NAME}  ${QT_LIBRARIES} ${Qt5SerialPort_LIBRARIES})
-	target_link_libraries(${PROJECT_NAME} PRIVATE ${QT_LIBRARIES}  ${Qt6Charts_LIBRARIES} 
-							PPC1api6 serial )
+	target_link_libraries(${PROJECT_NAME} Qt6::Core Qt6::Core5Compat Qt6::Widgets Qt6::Network Qt6::Gui Qt6::Concurrent  Qt6::Charts PPC1api6 serial Qt6::TextToSpeech) 
+	
+	# differently than others, QT has the windeployqt file that takes care of dlls and other stuff
+	# see this post: http://stackoverflow.com/questions/36981942/how-to-use-add-custom-command-to-copy-dlls-using-generator-expressions
+	# Windows specific build steps
+	if(ENABLE_WINDEPLOYQT AND WIN32)
+			# Run winddeployqt if it can be found
+		find_program(WINDEPLOYQT_EXECUTABLE NAMES windeployqt HINTS ${QT6_BINARY_DIR} ENV QTDIR PATH_SUFFIXES bin)
+		if ( ENABLE_verbose )
+			message (STATUS "${PROJECT_NAME} MESSAGE: WINDEPLOYQT_EXECUTABLE is : ${WINDEPLOYQT_EXECUTABLE} \n")
+			message (STATUS "${PROJECT_NAME} MESSAGE: Current file target is : ${F} \n")
+		endif ( ENABLE_verbose )
+		add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD WORKING_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Release/${PROJECT_NAME} COMMAND ${WINDEPLOYQT_EXECUTABLE} $<TARGET_FILE:${PROJECT_NAME}> --no-translations COMMENT "Preparing Qt runtime dependencies")
+		#add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD WORKING_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Release/ COMMAND ${WINDEPLOYQT_EXECUTABLE} $<TARGET_FILE:${PROJECT_NAME}> COMMENT "Preparing Qt runtime dependencies")
+		
+		
+		# this is done to copy dll from the "iCLS client" which are required in the deployment with QNetwork for the communication
+		# they are different for 64bit and 32bit
+		if(NOT "${CMAKE_GENERATOR}" MATCHES "(Win64|IA64)")
+			set(iCLS_Client_x32_DIR "$ENV{ProgramFiles} (x86)/Intel/iCLS Client/")
+			message (STATUS "${PROJECT_NAME} MESSAGE: iCLS_Client_x32_DIR  :: ${iCLS_Client_x32_DIR} ")	
+			FILE(GLOB iCLS_Client_x32_dll "${iCLS_Client_x32_DIR}/*32.dll") 
+			
+			#TODO: here there is a static link to the program file folder 
+			#      with the "Intel/iCLS client" but there is no check for existence
+			list( LENGTH iCLS_Client_x32_dll dll_num )
+			if (dll_num EQUAL 0)
+				message (WARNING "${PROJECT_NAME} MESSAGE: no dll found in ${iCLS_Client_x32_DIR} this may cause problems in ssl connection to updates")	
+			endif()
+			 
+			 FOREACH(F ${iCLS_Client_x32_dll})
+				file(COPY "${F}" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Release/${PROJECT_NAME}/)
+				message (STATUS "            ${PROJECT_NAME} MESSAGE: copied file :: ${F} to ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Release/${PROJECT_NAME}/")
+			  ENDFOREACH(F)					
+			
+		elseif("${CMAKE_GENERATOR}" MATCHES "(Win64|IA64)")			
+			set(iCLS_Client_x64_DIR "$ENV{PROGRAMFILES}/Intel/iCLS Client/")
+			message (STATUS "${PROJECT_NAME} MESSAGE: iCLS_Client_x64_DIR  :: ${iCLS_Client_x64_DIR} ")
+			FILE(GLOB iCLS_Client_x64_dll "${iCLS_Client_x64_DIR}/*32.dll") 				
+			
+			#TODO: here there is a static link to the program file folder 
+			#      with the "Intel/iCLS client" but there is no check for existence
+			list( LENGTH iCLS_Client_x64_dll dll_num )
+			if (dll_num EQUAL 0)
+				message (WARNING "${PROJECT_NAME} MESSAGE: no dll found in ${iCLS_Client_x64_DIR} this may cause problems in ssl connection to updates")	
+			endif()
+			
+			FOREACH(F ${iCLS_Client_x64_dll})
+				file(COPY "${F}" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Release/${PROJECT_NAME}/)
+				message (STATUS "            ${PROJECT_NAME} MESSAGE: copied file :: ${F} to ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Release/${PROJECT_NAME}/")
+			ENDFOREACH(F)				
+
+		endif()	
+	endif()
 
 ELSE(with_QT6)
 

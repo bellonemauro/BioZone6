@@ -1,7 +1,7 @@
-/*  +---------------------------------------------------------------------------+
+﻿/*  +---------------------------------------------------------------------------+
 *  |                                                                           |
 *  |  Fluicell AB                                                              |
-*  |  Copyright 2021 � Fluicell AB, http://fluicell.com/                       |
+*  |  Copyright 2021 © Fluicell AB, http://fluicell.com/                       |
 *  |  BioZone6                                                                 |
 *  |                                                                           |
 *  | Authors: Mauro Bellone - http://www.maurobellone.com                      |
@@ -11,7 +11,7 @@
 #include "updater.h"
 #include "dataStructures.h"
 #include <QDesktopServices>
-#include <QDesktopWidget>
+//#include <qscreen.h>//<QDesktopWidget>
 #include <QInputDialog>
 
 BioZone6_updater::BioZone6_updater(QWidget *parent):
@@ -149,7 +149,8 @@ void BioZone6_updater::doDownload(const QUrl & _url)
 {
 
 	QNetworkRequest request(_url);
-	request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+	//request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+	request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::ManualRedirectPolicy);
 	QNetworkReply *reply = manager.get(request);
 
 	if (m_verbose) ui_updater->textEdit_details->append("Downloading file from: ");

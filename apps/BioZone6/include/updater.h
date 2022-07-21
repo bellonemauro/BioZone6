@@ -1,7 +1,7 @@
-/*  +---------------------------------------------------------------------------+
+﻿/*  +---------------------------------------------------------------------------+
 *  |                                                                           |
 *  |  Fluicell AB                                                              |
-*  |  Copyright 2021 � Fluicell AB, http://fluicell.com/                       |
+*  |  Copyright 2021 © Fluicell AB, http://fluicell.com/                       |
 *  |  BioZone6                                                                 |
 *  |                                                                           |
 *  | Authors: Mauro Bellone - http://www.maurobellone.com                      |
@@ -23,7 +23,11 @@
 #include <QMessageBox>
 #include <QDir>
 #include <QtCore>
-#include <QtNetwork>
+#include <QtNetwork/qnetworkaccessmanager.h>
+#include <QtNetwork/qnetworkreply.h>
+#include <QtNetwork/qnetworkrequest.h>
+//#include <QtNetwork>
+
 #include <QXmlStreamReader>
 
 QT_BEGIN_NAMESPACE

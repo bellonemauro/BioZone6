@@ -1,4 +1,4 @@
-/*  +---------------------------------------------------------------------------+
+﻿/*  +---------------------------------------------------------------------------+
 *  |                                                                           |
 *  |  Fluicell AB                                                              |
 *  |  Copyright 2021 © Fluicell AB, http://fluicell.com/                       |
@@ -23,11 +23,13 @@
 // extract the version string
 #define STR_HELPER(x) #x
 #define STR(x) STR_HELPER(x)
-#define VER STR(BIOZONE6_VERSION)
+#define VER STR(BIOZONE6_VERSION) 
+
+#pragma warning( disable : 4005 )
 
 #include "BioZone6_GUI.h"
 #include <QApplication>
-#include <QDesktopWidget>
+#include <QScreen>
 #include <QSplashScreen>
 #include <QTimer>
 #include <QDir>
@@ -148,10 +150,11 @@ int main(int argc, char **argv)
 		BioZone6_GUI window;
 
 		// check for high DPI screens
-		int logical_dpi_x = QApplication::desktop()->logicalDpiX();
-		int logical_dpi_y = QApplication::desktop()->logicalDpiY();
-		int physical_dpi_x = QApplication::desktop()->physicalDpiX();
-		int physical_dpi_y = QApplication::desktop()->physicalDpiY();
+		
+		int logical_dpi_x = QApplication::primaryScreen()->logicalDotsPerInchX();// ->logicalDpiX();
+		int logical_dpi_y = QApplication::primaryScreen()->logicalDotsPerInchY();//desktop()->logicalDpiY();
+		int physical_dpi_x = QApplication::primaryScreen()->physicalDotsPerInchX();// ->physicalDpiX();
+		int physical_dpi_y = QApplication::primaryScreen()->physicalDotsPerInchY();//desktop()->physicalDpiY();
 
 		// get the screen resolution of the current screen
 		// so we can resize the application in case of small screens

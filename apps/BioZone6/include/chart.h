@@ -1,7 +1,7 @@
-/*  +---------------------------------------------------------------------------+
+﻿/*  +---------------------------------------------------------------------------+
 *  |                                                                           |
 *  |  Fluicell AB                                                              |
-*  |  Copyright 2021 � Fluicell AB, http://fluicell.com/                       |
+*  |  Copyright 2021 © Fluicell AB, http://fluicell.com/                       |
 *  |  BioZone6                                                                 |
 *  |                                                                           |
 *  | Authors: Mauro Bellone - http://www.maurobellone.com                      |
@@ -40,7 +40,7 @@ public:
 	*
 	*  \return: QtCharts::QChartView the chart view
 	*/
-	QtCharts::QChartView* getChartView() {
+	QChartView* getChartView() {
 		return m_chartView;
 	}
 
@@ -186,27 +186,27 @@ private:
 	*   Append a new point to solution series
 	*
 	*/
-	void appendSolutionPoint(QtCharts::QLineSeries *_serie, double _current_time, double _value);
+	void appendSolutionPoint(QLineSeries *_serie, double _current_time, double _value);
 	
 	// data members to build the chart, 
 	// in this case private pointers to the data are preferred to have simple updates
 	// the chart is made using series of points for each line and areas for solutions
-	QtCharts::QLineSeries *m_series_Pon;         //!> Pon series 
-	QtCharts::QLineSeries *m_series_Poff;        //!> Poff series 
-	QtCharts::QLineSeries *m_series_V_switch;    //!> Vswitch series 
-	QtCharts::QLineSeries *m_series_V_recirc;    //!> Vrecirc series 
-	QtCharts::QLineSeries *m_series_solution1;   //!> Solution 1 series 
-	QtCharts::QLineSeries *m_series_solution2;   //!> Solution 2 series 
-	QtCharts::QLineSeries *m_series_solution3;   //!> Solution 3 series 
-	QtCharts::QLineSeries *m_series_solution4;   //!> Solution 4 series //TODO: add here the other solutions
-	QtCharts::QLineSeries* m_series_solution5;   //!> Solution 3 series
-	QtCharts::QLineSeries* m_series_solution6;   //!> Solution 3 series
-	QtCharts::QAreaSeries *m_area_solution1;     //!> Solution 1 area 
-	QtCharts::QAreaSeries *m_area_solution2;     //!> Solution 2 area 
-	QtCharts::QAreaSeries *m_area_solution3;     //!> Solution 3 area 
-	QtCharts::QAreaSeries* m_area_solution4;     //!> Solution 4 area 
-	QtCharts::QAreaSeries* m_area_solution5;     //!> Solution 4 area 
-	QtCharts::QAreaSeries *m_area_solution6;     //!> Solution 4 area 
+	QLineSeries *m_series_Pon;         //!> Pon series 
+	QLineSeries *m_series_Poff;        //!> Poff series 
+	QLineSeries *m_series_V_switch;    //!> Vswitch series 
+	QLineSeries *m_series_V_recirc;    //!> Vrecirc series 
+	QLineSeries *m_series_solution1;   //!> Solution 1 series 
+	QLineSeries *m_series_solution2;   //!> Solution 2 series 
+	QLineSeries *m_series_solution3;   //!> Solution 3 series 
+	QLineSeries *m_series_solution4;   //!> Solution 4 series //TODO: add here the other solutions
+	QLineSeries* m_series_solution5;   //!> Solution 3 series
+	QLineSeries* m_series_solution6;   //!> Solution 3 series
+	QAreaSeries *m_area_solution1;     //!> Solution 1 area 
+	QAreaSeries *m_area_solution2;     //!> Solution 2 area 
+	QAreaSeries *m_area_solution3;     //!> Solution 3 area 
+	QAreaSeries* m_area_solution4;     //!> Solution 4 area 
+	QAreaSeries* m_area_solution5;     //!> Solution 4 area 
+	QAreaSeries *m_area_solution6;     //!> Solution 4 area 
 	QPen *m_pen_s1;        //!> Pen for solution 1, used to allow dynamic color change 
 	QPen *m_pen_s2;        //!> Pen for solution 2, used to allow dynamic color change
 	QPen *m_pen_s3;        //!> Pen for solution 3, used to allow dynamic color change
@@ -219,15 +219,15 @@ private:
 	QColor* m_col_sol4;    //!> Color for solution 4, used to allow dynamic color change
 	QColor* m_col_sol5;    //!> Color for solution 4, used to allow dynamic color change  //TODO: the chart is not updated with the new solutions
 	QColor *m_col_sol6;    //!> Color for solution 4, used to allow dynamic color change
-	QtCharts::QLineSeries *m_series_solution;
-	QtCharts::QLineSeries *m_series_ask;           //!> Ask series
-	QtCharts::QLineSeries *m_series_sync_in;       //!> SyincIn series
-	QtCharts::QLineSeries *m_series_sync_out;      //!> SyincOut series
-	QtCharts::QLineSeries *m_time_line_b;          //!> Time line series (base)
-	QtCharts::QLineSeries *m_time_line_t;          //!> Time line series (top)
-	QtCharts::QAreaSeries *m_past_time_area;       //!> The time line is made using an area between top and base
-	QtCharts::QChart *m_chart;                     //!> The chart
-	QtCharts::QChartView *m_chartView;             //!> The chart view
+	QLineSeries *m_series_solution;
+	QLineSeries *m_series_ask;           //!> Ask series
+	QLineSeries *m_series_sync_in;       //!> SyincIn series
+	QLineSeries *m_series_sync_out;      //!> SyincOut series
+	QLineSeries *m_time_line_b;          //!> Time line series (base)
+	QLineSeries *m_time_line_t;          //!> Time line series (top)
+	QAreaSeries *m_past_time_area;       //!> The time line is made using an area between top and base
+	QChart *m_chart;                     //!> The chart
+	QChartView *m_chartView;             //!> The chart view
 
 	// this variables configure the chart in the advanced panel  
 	// to show all the data lines in different levels

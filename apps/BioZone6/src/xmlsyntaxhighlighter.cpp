@@ -1,11 +1,11 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2017 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the examples of the Qt Toolkit.
 **
-** $QT_BEGIN_LICENSE:BSD$
+** $QT_BEGIN_LICENSE:BSD$ 
 ** Commercial License Usage
 ** Licensees holding valid commercial Qt licenses may use this file in
 ** accordance with the commercial license agreement provided with the
@@ -86,21 +86,25 @@ void XmlSyntaxHighlighter::highlightBlock(const QString &text)
 {
      for (const HighlightingRule &rule : qAsConst(highlightingRules)) {
          QRegExp expression(rule.pattern);
-         int index = text.indexOf(expression);
+         //int index = text.indexOf(expression);
+         int index = expression.indexIn(text);
          while (index >= 0) {
              int length = expression.matchedLength();
              setFormat(index, length, rule.format);
-             index = text.indexOf(expression, index + length);
+             //index = text.indexOf(expression, index + length); 
+             index = expression.indexIn(text, index + length);
          }
      }
      setCurrentBlockState(0);
 
      int startIndex = 0;
      if (previousBlockState() != 1)
-         startIndex = text.indexOf(commentStartExpression);
+         //startIndex = text.indexOf(commentStartExpression);
+        startIndex = commentStartExpression.indexIn(text);
 
      while (startIndex >= 0) {
-         int endIndex = text.indexOf(commentEndExpression, startIndex);
+         //int endIndex = text.indexOf(commentEndExpression, startIndex);
+         int endIndex = commentEndExpression.indexIn(text, startIndex);
          int commentLength;
          if (endIndex == -1) {
              setCurrentBlockState(1);
@@ -110,7 +114,9 @@ void XmlSyntaxHighlighter::highlightBlock(const QString &text)
                              + commentEndExpression.matchedLength();
          }
          setFormat(startIndex, commentLength, commentFormat);
-         startIndex = text.indexOf(commentStartExpression,
+         //startIndex = text.indexOf(commentStartExpression,
+         //    startIndex + commentLength); 
+         startIndex = commentStartExpression.indexIn(text,
                                                  startIndex + commentLength);
      }
 }

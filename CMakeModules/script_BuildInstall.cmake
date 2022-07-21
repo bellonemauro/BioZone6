@@ -34,9 +34,9 @@ if (WIN32 AND NOT UNIX)
 
 	# EXTRACT_DEB_REL_DLLS looks for ALL .dlls in the specified library, 
 	# it's of for installers but maybe allow the choice of necessary dlls only is mandatory for the sake of space saving
-	EXTRACT_DEB_REL_DLLS (${QT5_BINARY_DIR} d )# --> QT5 changed the postfix ! 
+	EXTRACT_DEB_REL_DLLS (${QT6_BINARY_DIR} d )# --> QT5 changed the postfix ! 
 	if (ENABLE_verbose)
-		message (STATUS "     QT5_BINARY_DIR is : ${QT5_BINARY_DIR}") 
+		message (STATUS "     QT5_BINARY_DIR is : ${QT6_BINARY_DIR}") 
 		message (STATUS "\n\n REL DLLS are     : ${REL_DLLS}")
 		message (STATUS "\n\n DEB DLLS are     : ${DEB_DLLS}")
 	endif (ENABLE_verbose)
@@ -46,7 +46,7 @@ if (WIN32 AND NOT UNIX)
 	# Windows specific build steps
 	if(BUILD_WINDEPLOYQT AND WIN32)
 			# Run winddeployqt if it can be found
-		find_program(WINDEPLOYQT_EXECUTABLE NAMES windeployqt HINTS ${QT5_BINARY_DIR} ENV QTDIR PATH_SUFFIXES bin)
+		find_program(WINDEPLOYQT_EXECUTABLE NAMES windeployqt HINTS ${QT6_BINARY_DIR} ENV QTDIR PATH_SUFFIXES bin)
 		FILE(GLOB FILE_EXE "${PROJECT_BINARY_DIR}/bin/Release/*.exe")
 		  FOREACH(F ${FILE_EXE})
 			#INSTALL(FILES "${F}" DESTINATION ./)

@@ -1,7 +1,7 @@
-/*  +---------------------------------------------------------------------------+
+﻿/*  +---------------------------------------------------------------------------+
 *  |                                                                           |
 *  |  Fluicell AB                                                              |
-*  |  Copyright 2021 � Fluicell AB, http://fluicell.com/                       |
+*  |  Copyright 2021 © Fluicell AB, http://fluicell.com/                       |
 *  |  BioZone6                                                                 |
 *  |                                                                           |
 *  | Authors: Mauro Bellone - http://www.maurobellone.com                      |
@@ -63,7 +63,7 @@ public:
 	int getLastCommand() { return m_last_command; }
 	double getLastValue() { return m_last_value; }
 	Qt::CheckState getLastSM() { return m_last_show_msg; }
-    QString getLastMsg() { return QString(m_last_show_msg); }
+    QString getLastMsg() { return m_last_msg; }
 
 private:
 

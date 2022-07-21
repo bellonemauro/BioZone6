@@ -1,7 +1,7 @@
-/*  +---------------------------------------------------------------------------+
+﻿/*  +---------------------------------------------------------------------------+
 *  |                                                                           |
 *  |  Fluicell AB                                                              |
-*  |  Copyright 2021 � Fluicell AB, http://fluicell.com/                       |
+*  |  Copyright 2021 © Fluicell AB, http://fluicell.com/                       |
 *  |  BioZone6                                                                 |
 *  |                                                                           |
 *  | Authors: Mauro Bellone - http://www.maurobellone.com                      |
@@ -445,7 +445,7 @@ struct protocolCommands {
 		END //THIS IS TO TAKE TRACK OF ENUMERATION
 	};
 
-	static std::string protocolCommands::asString(int _idx)
+	static std::string asString(int _idx)
 	{
 		switch (_idx)
 		{

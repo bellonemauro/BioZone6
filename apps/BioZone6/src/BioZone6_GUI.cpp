@@ -1,4 +1,4 @@
-/*  +---------------------------------------------------------------------------+
+﻿/*  +---------------------------------------------------------------------------+
 *  |                                                                           |
 *  |  Fluicell AB                                                              |
 *  |  Copyright 2021 © Fluicell AB, http://fluicell.com/                       |
@@ -375,7 +375,10 @@ void BioZone6_GUI::askMessage(const QString &_message)
 	// if the speech is active, the message will be read
 	if (m_GUI_params->speechActive)  m_speech->say(_message);
 	
-	QMessageBox::question(this, m_str_ask_msg, _message, m_str_ok);
+	//QMessageBox::information(this, m_str_ask_msg, _message, m_str_ok);
+	QMessageBox mb = QMessageBox(QMessageBox::Information,
+		m_str_ask_msg, _message, QMessageBox::Ok);
+	mb.exec();
 	// an event is sent upon dialog close
 	m_macroRunner_thread->askOkEvent(true);
 	
@@ -1324,7 +1327,10 @@ void BioZone6_GUI::cleanHistory()
 			QMessageBox::Yes);
 	if (resBtn != QMessageBox::Yes) {
 	//if is not yes, the operation is cancelled
-		QMessageBox::question(this, m_str_information, m_str_operation_cancelled, m_str_ok);
+		//QMessageBox::information(this, m_str_information, m_str_operation_cancelled, m_str_ok);
+		QMessageBox mb = QMessageBox(QMessageBox::Information,
+			m_str_information, m_str_operation_cancelled, QMessageBox::Ok);
+		mb.exec();
 		return;
 	}
 	else {
@@ -1340,7 +1346,10 @@ void BioZone6_GUI::cleanHistory()
 			dir.remove(dirFile);
 		}
 		// confirm message
-		QMessageBox::question(this, m_str_information, m_str_cleaning_history_msg2, m_str_ok);
+		//QMessageBox::information(this, m_str_information, m_str_cleaning_history_msg2, m_str_ok);
+		QMessageBox mb = QMessageBox(QMessageBox::Information,
+			m_str_information, m_str_cleaning_history_msg2, QMessageBox::Ok);
+		mb.exec();
 		return;
 	}
 
@@ -1426,10 +1435,19 @@ void BioZone6_GUI::closeEvent(QCloseEvent *event) {
 
 	std::cout << HERE << std::endl;
 
-	QMessageBox::StandardButton resBtn = 
-		QMessageBox::question(this, m_str_information, m_str_areyousure,
-		QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
-		QMessageBox::Yes);
+
+	QMessageBox msgBox;
+	msgBox.setText(m_str_areyousure);
+	msgBox.setWindowTitle(m_str_information);
+	msgBox.setStandardButtons(QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes);
+	msgBox.setDefaultButton(QMessageBox::Yes);
+	msgBox.setIcon(QMessageBox::Question);
+	int resBtn = msgBox.exec();
+
+	//QMessageBox::StandardButton resBtn	=
+	//	QMessageBox::question(this, m_str_information, m_str_areyousure,
+	//	QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
+	//	QMessageBox::Yes);
 	if (resBtn != QMessageBox::Yes) {
 		event->ignore();
 	}
@@ -1437,7 +1455,12 @@ void BioZone6_GUI::closeEvent(QCloseEvent *event) {
 
 		if (m_macroRunner_thread->isRunning()) {
 			//this->runProtocol(); // this will stop the protocol if running
-			QMessageBox::question(this, m_str_information, m_str_protocol_running_stop, m_str_ok);
+			//QMessageBox::question(this, m_str_information, m_str_protocol_running_stop, m_str_ok);
+			
+			QMessageBox mb = QMessageBox(QMessageBox::Question, 
+				m_str_information, m_str_protocol_running_stop, QMessageBox::Ok);
+			mb.exec();
+
 			event->ignore();
 			return;
 		}
@@ -1563,8 +1586,11 @@ void BioZone6_GUI::closeSoftware()
 {
 	if (m_macroRunner_thread->isRunning()) {
 		//this->runProtocol(); // this will stop the macro if running
-		QMessageBox::question(this, m_str_information, m_str_protocol_running_stop, m_str_ok);
-		
+		//QMessageBox::question(this, m_str_information, m_str_protocol_running_stop, m_str_ok);
+		QMessageBox mb = QMessageBox(QMessageBox::Question,
+			m_str_information, m_str_protocol_running_stop, QMessageBox::Ok);
+		mb.exec();
+
 		return;
 	}
 	// dump log file

@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2017 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -51,7 +51,7 @@
 #ifndef XMLSYNTAXHIGHLIGHTER_H
 #define XMLSYNTAXHIGHLIGHTER_H
 
-#include <QtCore/QRegExp>
+#include <QRegExp>
 #include <QtGui/QSyntaxHighlighter>
 
 class XmlSyntaxHighlighter : public QSyntaxHighlighter

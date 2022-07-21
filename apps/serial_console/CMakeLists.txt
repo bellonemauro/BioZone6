@@ -37,17 +37,18 @@ IF(with_QT6)
 	set(CMAKE_CXX_STANDARD_REQUIRED ON)
 	# Find includes in corresponding build directories
 	set(CMAKE_INCLUDE_CURRENT_DIR ON)
+	set (QMAKE_CFLAGS_UTF8_SOURCE "/source-charset:windows-1252")
 	
 	set(CMAKE_AUTOMOC ON)
 	set(CMAKE_AUTORCC ON)
 	set(CMAKE_AUTOUIC ON)
-
-	find_package(Qt6 COMPONENTS Core Widgets Gui  REQUIRED) # here some package is missing, serialport charts and networking at least
+    
+	find_package(Qt6 COMPONENTS Core Widgets Gui  SerialPort REQUIRED) # here some package is missing, serialport charts and networking at least
 
 	add_definitions (${QT_DEFINITIONS})   #required to use QT and gui
 
 	add_executable (${PROJECT_NAME}  	${myProject_SOURCES} ${myProject_HEADERS}
-									${myProject_FORMS_HEADERS} ${UI_RESOURCES_RCC})
+									${myProject_FORMS_HEADERS} ${myProject_UI_RESOURCES})
 	
 	set_target_properties (${PROJECT_NAME} 
 							PROPERTIES 
@@ -58,9 +59,21 @@ IF(with_QT6)
 							LIBRARY_OUTPUT_DIRECTORY_RELEASE "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Release/${PROJECT_NAME}"
 							RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release/${PROJECT_NAME}")
 							
-	#target_link_libraries ( ${PROJECT_NAME}  ${QT_LIBRARIES} ${Qt5SerialPort_LIBRARIES})
-	target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Widgets Qt6::Gui Qt6::SerialPort)
-
+	target_link_libraries(${PROJECT_NAME} Qt6::Core Qt6::Widgets Qt6::Gui Qt6::SerialPort)
+	
+	# differently than others, QT has the windeployqt file that takes care of dlls and other stuff
+	# see this post: http://stackoverflow.com/questions/36981942/how-to-use-add-custom-command-to-copy-dlls-using-generator-expressions
+	# Windows specific build steps
+	if(ENABLE_WINDEPLOYQT AND WIN32)
+		# Run winddeployqt if it can be found
+	find_program(WINDEPLOYQT_EXECUTABLE NAMES windeployqt HINTS ${QT6_BINARY_DIR} ENV QTDIR PATH_SUFFIXES bin)
+	if ( ENABLE_verbose )
+		message (STATUS "${PROJECT_NAME} MESSAGE: WINDEPLOYQT_EXECUTABLE is : ${WINDEPLOYQT_EXECUTABLE} \n")
+		message (STATUS "${PROJECT_NAME} MESSAGE: Current file target is : ${F} \n")
+	endif ( ENABLE_verbose )
+	add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD WORKING_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Release/${PROJECT_NAME} COMMAND ${WINDEPLOYQT_EXECUTABLE} $<TARGET_FILE:${PROJECT_NAME}> --no-translations COMMENT "Preparing Qt runtime dependencies")
+	endif()
+	
 ELSE(with_QT6)
 	# Add options to build specific targets
 	# allows automatic linking of QT - see http://www.cmake.org/cmake/help/v3.0/policy/CMP0020.html

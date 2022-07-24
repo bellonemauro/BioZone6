@@ -31,7 +31,6 @@ ENDIF()
 # this is necessary to find in the code the ui____.h file built in the build folder
 include_directories(${PROJECT_BINARY_DIR}) 
 
-OPTION (with_QT6 "Option to build with QT6, off during porting" OFF)
 IF(with_QT6)
 	set(CMAKE_CXX_STANDARD 17)
 	set(CMAKE_CXX_STANDARD_REQUIRED ON)

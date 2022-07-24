@@ -25,8 +25,6 @@
 #define STR(x) STR_HELPER(x)
 #define VER STR(BIOZONE6_VERSION) 
 
-#pragma warning( disable : 4005 )
-
 #include "BioZone6_GUI.h"
 #include <QApplication>
 #include <QScreen>
@@ -145,7 +143,7 @@ int main(int argc, char **argv)
 
         QApplication a (argc, argv);
         // there is a problem with high dpi displays
-        a.setAttribute(Qt::AA_EnableHighDpiScaling);
+        //a.setAttribute(Qt::AA_EnableHighDpiScaling); // this is enabled by default from qt6
 		
 		BioZone6_GUI window;
 

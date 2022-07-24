@@ -318,7 +318,9 @@ void BioZone6_tools::checkHistory () {
             QMessageBox::No | QMessageBox::Yes,
             QMessageBox::Yes);
         if (resBtn != QMessageBox::Yes) {
-            QMessageBox::question(this, m_str_information, m_str_operation_cancelled, m_str_ok);
+			QMessageBox mb = QMessageBox(QMessageBox::Question,
+				m_str_information, m_str_operation_cancelled, QMessageBox::Ok);
+			mb.exec();
         }
         else {
             QDir dir(m_GUI_params->outFilePath);
@@ -328,7 +330,9 @@ void BioZone6_tools::checkHistory () {
             {
                 dir.remove(dirFile);
             }
-            QMessageBox::question(this, m_str_information, m_str_history_cleaned, m_str_ok);
+			QMessageBox mb = QMessageBox(QMessageBox::Question,
+				m_str_information, m_str_history_cleaned, QMessageBox::Ok);
+			mb.exec();
         }
 
     }

@@ -4,14 +4,14 @@
 <!--File created on Tue Mar 15 2022  17:14:33 -->
 <BioZoneProtocol version="1.1">
     <allOff value="" message=" "/>
-    <solution3 value="0" message=" "/>
+    <solution1 value="0" message=" "/>
     <setVswitch value="-250" message=" "/>    
-    <setVrecirc value="-220" message=" "/>
+    <setVrecirc value="-250" message=" "/>
     <setPoff value="0" message=" "/>
-    <wait value="4" message=" "/>
+    <wait value="3.5" message=" "/>
     <setPon value="70" message=" "/>
     <setPoff value="11" message=" "/>
-    <setVswitch value="-90" message=" "/> 
-    <setVrecirc value="-90" message=" "/>
+    <setVswitch value="-85" message=" "/> 
+    <setVrecirc value="-85" message=" "/>
     <wait value="1" message=" "/>
 </BioZoneProtocol>

@@ -7,3 +7,5 @@ porting to qt6
 V.1.0.0 first release
  bug fix 
 V.0.9.0 is the first beta release
+
+V. 1.0.3. new setting file and protocols for UWZ tip

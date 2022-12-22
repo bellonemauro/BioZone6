@@ -43,11 +43,10 @@ add_library(${PROJECT_NAME}  STATIC ${LIB_SOURCES} ${LIB_HEADERS} )
 # set the postfix _d for debug libraries 
 set_target_properties(${PROJECT_NAME}  PROPERTIES DEBUG_POSTFIX "_d")
 
-add_dependencies(${PROJECT_NAME} serial)
-target_link_libraries ( ${PROJECT_NAME}  serial)
+add_dependencies(${PROJECT_NAME} serial )
+target_link_libraries ( ${PROJECT_NAME}  serial )
 
 # allows folders for MSVC
 if (MSVC AND ENABLE_SOLUTION_FOLDERS) 
 	set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER "libraries")
 endif (MSVC AND ENABLE_SOLUTION_FOLDERS)
-

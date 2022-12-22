@@ -646,6 +646,13 @@ namespace fluicell { namespace PPC1api6dataStructures
 		*       <td> if negative then default state is 1 and pulse is 0,\n
 		*            if positive, then pulse is 1 and default is 0</td>
 		*     </tr>
+		*	  <tr>
+		*       <td> - </td>
+		*       <td> -  </td>
+		*       <td> - </td>
+		*       <td> -  </td>
+		*       <td> High level commands </td>
+		*     </tr>
 		*     <tr>
 		*       <td> 16 </td>
 		*       <td> loop  </td>
@@ -653,7 +660,21 @@ namespace fluicell { namespace PPC1api6dataStructures
 		*       <td> -  </td>
 		*       <td> number of loops </td>
 		*     </tr>
-        *    </table>
+		*	  <tr>
+		*       <td> 17 </td>
+		*       <td> operational  </td>
+		*       <td> int [1,4] </td>
+		*       <td> -  </td>
+		*       <td> 1 = SnR, 2 = LnR, 3 = SnS, 4 = LnS </td>
+		*     </tr>
+		*	  <tr>
+		*       <td> 18 </td>
+		*       <td> standby  </td>
+		*       <td> - </td>
+		*       <td> -  </td>
+		*       <td> number of loops </td>
+		*     </tr>
+		*    </table>
 		*     
 		*   <!--This is a doxygen documentation comment block
 		*    Supported commands: TODO THE GUIDE HAS TO BE CHANGED ACCORDING TO THE NEW MAPPING
@@ -678,7 +699,25 @@ namespace fluicell { namespace PPC1api6dataStructures
 		*      14          |   waitSync          |  int [0 MAX]    |  protocol stops until trigger signal is received
 		*      15          |   syncOut           |  int [0 MAX]    |  if negative then default state is 1 and pulse is 0,
 		*                  |                     |                 |  if positive, then pulse is 1 and default is 0
-		*      16          |   loop              |  int [0 MAX]    |  number of loops, not running at API level
+		*                  |                     |                 |
+		*   ---------------+---------------------+-----------------+-------------------------------------------------------------
+		*       commands that are not run in the low level but handles in the high level interface
+		*   ---------------+---------------------+-----------------+-------------------------------------------------------------
+		*                  |   loop              |  int [0 MAX]    |  number of loops, not running at API level
+		*                  |   operational       |  int [1,4]      |  Operational protocol 1 = SnR, 2 = LnR, 3 = SnS, 4 = LnS
+		*                  |   standby           |                 |  Runs the standby protocol
+		*                  |   SnR_ONbutton      |  int [1,6]      |  Runs Standand and Regular ON protocol on the well 1 to 6
+		*                  |   SnR_OFFbutton     |  int [1,6]      |  Runs Standand and Regular OFF protocol on the well 1 to 6
+		*                  |   LnR_OFFbutton     |  int [1,6]      |  Runs Large and Regular ON protocol on the well 1 to 6
+		*                  |   LnR_ONbutton      |  int [1,6]      |  Runs Large and Regular OFF protocol on the well 1 to 6
+		*                  |   SnS_OFFbutton     |  int [1,6]      |  Runs Standard and Large ON protocol on the well 1 to 6
+		*                  |   SnS_ONbutton      |  int [1,6]      |  Runs Standard and Large OFF protocol on the well 1 to 6
+		*                  |   LnS_OFFbutton     |  int [1,6]      |  Runs Large and Slow ON protocol on the well 1 to 6
+		*                  |   LnS_ONbutton      |  int [1,6]      |  Runs Large and Slow OFF protocol on the well 1 to 6
+		*                  |   comment           |     -           |  No action, just for giving notes and comments to the commands
+		*                  |   Initialize        |     -           |  Run the initialization protocol
+		*                  |   ShowPopUp         |  int n          |  Show a pop up for n seconds while the protocol keeps running
+		*                  |                     |                 |
 		*                  |                     |                 |
 		*   ---------------+---------------------+-----------------+-------------------------------------------------------------
 		* end commented section -->
@@ -751,31 +790,29 @@ namespace fluicell { namespace PPC1api6dataStructures
 
 				int inst = this->instruction;
 
-
-
 				switch (inst) {
-				case instructions::setPon: { //setPon
+				case instructions::setPon: { 
 					if (this->value < MIN_CHAN_D ||
 						this->value > MAX_CHAN_D)
 						return false; // out of bound
 					else
 						return true;
 				}
-				case instructions::setPoff: {//setPoff
+				case instructions::setPoff: {
 					if (this->value < MIN_CHAN_C ||
 						this->value > MAX_CHAN_C) 
 						return false; // out of bound
 					else
 						return true;
 				}
-				case instructions::setVswitch: {//setVswitch
+				case instructions::setVswitch: {
 					if (this->value < MIN_CHAN_B ||
 						this->value > MAX_CHAN_B) 
 						return false; // out of bound
 					else
 						return true;
 				}
-				case instructions::setVrecirc: {//setVrecirc
+				case instructions::setVrecirc: {
 					if (this->value < MIN_CHAN_A ||
 						this->value > MAX_CHAN_A) 
 						return false; // out of bound
@@ -787,7 +824,7 @@ namespace fluicell { namespace PPC1api6dataStructures
 				case instructions::solution3:
 				case instructions::solution4:
 				case instructions::solution5:
-				case instructions::solution6: {//solution1,2,3,4,5,6
+				case instructions::solution6: {
 					if (this->value != 0 &&
 						this->value != 1 ) 
 						return false; // out of bound
@@ -801,33 +838,33 @@ namespace fluicell { namespace PPC1api6dataStructures
 					else
 						return true;
 				}
-				case instructions::showPopUp: {//showPopUp
+				case instructions::showPopUp: {
 					if (this->value < 0)
 						return false;
 					else
 						return true;
 				}
-				case instructions::ask: {//ask 
-				 //not checked for now
+				case instructions::ask: { 
+				 //nothing to check
 					return true;
 				}
-				case instructions::allOff: {//allOff 
-				 //not checked for now
+				case instructions::allOff: {
+				 //nothing to check
 					return true;
 				}
-				case instructions::pumpsOff: {//ask_msg //allOff //pumpsOff
+				case instructions::pumpsOff: {
 					// nothing to check here, the value is ignored
 					return true;
 				}
-				case instructions::waitSync: {//waitSync //TODO
+				case instructions::waitSync: { //TODO
 				//not checked for now
 					return true;
 				}
-				case instructions::syncOut: {//syncOut 
+				case instructions::syncOut: {
 				 //not checked for now
 					return true;
 				}
-				case instructions::loop: {//loop
+				case instructions::loop: {
 					if (this->value < 0) 
 						return false;
 					else
@@ -837,7 +874,6 @@ namespace fluicell { namespace PPC1api6dataStructures
 					return false;
 				}
 				}
-
 				return true;
 			}
 
@@ -878,6 +914,18 @@ namespace fluicell { namespace PPC1api6dataStructures
 				case ask: return "ask";
 				case pumpsOff: return "pumpsOff";
 				case loop: return "loop";
+				case operational: return "operational";
+				case standby: return "standby";
+				case SnR_ON_button: return "SnR_ON_button";
+				case SnR_OFF_button: return "SnR_OFF_button";
+				case LnR_ON_button: return "LnR_ON_button";
+				case LnR_OFF_button: return "LnR_OFF_button";
+				case SnS_ON_button: return "SnS_ON_button";
+				case SnS_OFF_button: return "SnS_OFF_button";
+				case LnS_ON_button: return "LnS_ON_button";
+				case LnS_OFF_button: return "LnS_OFF_button";
+				case comment: return "comment";
+				case initialize: return "initialize";
 				case END: return "END";
 				}
 				return "Invalid";

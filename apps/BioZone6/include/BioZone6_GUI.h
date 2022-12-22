@@ -129,6 +129,11 @@ private slots:
 	*/
 	void protocolsMenu(const QPoint & _pos);
 
+	/**  \brief This is just a support function to write a protocol to a tmp file avoiding code repetition
+	*
+	*/
+	bool writeTmpProtocolFile(QString _save_tmp_file);
+
 	/**  \brief Update the code on tab change
 	*
 	*/
@@ -970,7 +975,7 @@ private:
 // Class members
   Ui::BioZone6_GUI *ui;               //!< the main user interface
   BioZone6_tools * m_dialog_tools;    //!< pointer to the tools dialog
-  BioZone6_updater * m_biozone_updated;//!< pointer to the tools dialog
+  BioZone6_updater * m_biozone_updater;//!< pointer to the tools dialog
 
   QDebugStream *qout;                 //!< redirect cout for messages into the GUI
   QDebugStream *qerr;                 //!< redirect cerr for messages into the GUI

@@ -59,13 +59,13 @@ BioZone6_GUI::BioZone6_GUI(QMainWindow *parent) :
   // used in this application to allow translation
   initCustomStrings();
 
-  m_biozone_updated = new BioZone6_updater();
+  m_biozone_updater = new BioZone6_updater();
   
   // hide this field for now as the calculation is wrong
   ui->textEdit_emptyTime_waste->hide();
 
   // initialize the tools as we need the settings  // TODO: waste of performances all these objects are created twice
-  m_dialog_tools = new BioZone6_tools(); 
+  m_dialog_tools = new BioZone6_tools(this); 
   m_dialog_tools->setExtDataPath(m_ext_data_path);
   m_pipette_status = new pipetteStatus();
   m_comSettings = new COMSettings();
@@ -334,21 +334,21 @@ void BioZone6_GUI::automaticCheckForUpdates()
 {
 	m_check_updates->stop();
 
-	connect(m_biozone_updated,
+	connect(m_biozone_updater,
 		&BioZone6_updater::updateAvailable, this,
 		&BioZone6_GUI::handleUpdateAvailable);
 
-	if (!m_GUI_params->automaticUpdates_idx == 0)
+	if (m_GUI_params->automaticUpdates_idx != 0)// 0 = no updates, 1 = notify all updates, 2 = notify release only
 	{
 		// check for updates on startup
 		if (m_GUI_params->automaticUpdates_idx == 1) {
-			m_biozone_updated->setNotifyExperimental(true);
+			m_biozone_updater->setNotifyExperimental(true);
 		}
 		else {
-			m_biozone_updated->setNotifyExperimental(false);
+			m_biozone_updater->setNotifyExperimental(false);
 		}
-		m_biozone_updated->setVersion(m_version);
-		m_biozone_updated->isUpdateAvailable();
+		m_biozone_updater->setVersion(m_version);
+		m_biozone_updater->isUpdateAvailable();
 		//checkForUpdates();
 	}
 }
@@ -361,10 +361,7 @@ void BioZone6_GUI::handleUpdateAvailable()
 			m_str_update_information, 
 			QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
 			QMessageBox::Yes);
-	if (resBtn != QMessageBox::Yes) {
-		 
-	}
-	else {
+	if (resBtn == QMessageBox::Yes) {
 		checkForUpdates();
 	}
 }
@@ -509,7 +506,7 @@ void BioZone6_GUI::switchLanguage(int _value )
 		// translate other dialogs and objects
 		m_dialog_tools->switchLanguage(translation_file);
 		m_macroRunner_thread->switchLanguage(translation_file);
-		m_biozone_updated->switchLanguage(translation_file);
+		m_biozone_updater->switchLanguage(translation_file);
 	}
 	else std::cout << HERE << " translation not loaded " << std::endl;
 
@@ -547,15 +544,11 @@ bool BioZone6_GUI::eventFilter(QObject *_obj, QEvent *_event)
 		if (!m_GUI_params->enableToolTips) { 
 			return true; //this filter the event
 		}
-		else	{		
-			// standard event processing
-			return QObject::eventFilter(_obj, _event);
-		}
-	}
-	else {
 		// standard event processing
 		return QObject::eventFilter(_obj, _event);
 	}
+	// standard event processing
+	return QObject::eventFilter(_obj, _event);
 
 }
 
@@ -770,7 +763,7 @@ void BioZone6_GUI::initConnects()
 		SIGNAL(valueChanged(int)), this, 
 		SLOT(sliderSwitchChanged(int)));
 	
-	connect(m_biozone_updated,
+	connect(m_biozone_updater,
 		SIGNAL(exit()), this,
 		SLOT(closeSoftware())); 
 
@@ -1333,25 +1326,23 @@ void BioZone6_GUI::cleanHistory()
 		mb.exec();
 		return;
 	}
-	else {
-		// otherwise, delete files
-		//read history folder
-		QDir dir(m_ext_data_path);
-		// list all the file names
-		dir.setNameFilters(QStringList() << "*.txt");
-		dir.setFilter(QDir::Files);
-		// remove the files one by one
-		foreach(QString dirFile, dir.entryList())
-		{
-			dir.remove(dirFile);
-		}
-		// confirm message
-		//QMessageBox::information(this, m_str_information, m_str_cleaning_history_msg2, m_str_ok);
-		QMessageBox mb = QMessageBox(QMessageBox::Information,
-			m_str_information, m_str_cleaning_history_msg2, QMessageBox::Ok);
-		mb.exec();
-		return;
+
+	// otherwise, delete files
+	//read history folder
+	QDir dir(m_ext_data_path);
+	// list all the file names
+	dir.setNameFilters(QStringList() << "*.txt");
+	dir.setFilter(QDir::Files);
+	// remove the files one by one
+	foreach(QString dirFile, dir.entryList())
+	{
+		dir.remove(dirFile);
 	}
+	// confirm message
+	//QMessageBox::information(this, m_str_information, m_str_cleaning_history_msg2, m_str_ok);
+	QMessageBox mb = QMessageBox(QMessageBox::Information,
+		m_str_information, m_str_cleaning_history_msg2, QMessageBox::Ok);
+	mb.exec();
 
 }
  
@@ -1395,10 +1386,10 @@ void BioZone6_GUI::about() {
 
 void BioZone6_GUI::checkForUpdates() {
 
-	m_biozone_updated->setVersion(m_version);
-	m_biozone_updated->setParent(this);
-	m_biozone_updated->setWindowFlags(Qt::Window);
-	m_biozone_updated->show();
+	m_biozone_updater->setVersion(m_version);
+	m_biozone_updater->setParent(this);
+	m_biozone_updater->setWindowFlags(Qt::Window);
+	m_biozone_updater->show();
 }
 
 void BioZone6_GUI::enableTab2(bool _enable)
@@ -1450,46 +1441,47 @@ void BioZone6_GUI::closeEvent(QCloseEvent *event) {
 	//	QMessageBox::Yes);
 	if (resBtn != QMessageBox::Yes) {
 		event->ignore();
+		return; 
 	}
-	else {
 
-		if (m_macroRunner_thread->isRunning()) {
-			//this->runProtocol(); // this will stop the protocol if running
-			//QMessageBox::question(this, m_str_information, m_str_protocol_running_stop, m_str_ok);
+	if (m_macroRunner_thread->isRunning()) {
+		//this->runProtocol(); // this will stop the protocol if running
 			
-			QMessageBox mb = QMessageBox(QMessageBox::Question, 
-				m_str_information, m_str_protocol_running_stop, QMessageBox::Ok);
-			mb.exec();
+		QMessageBox mb = QMessageBox(QMessageBox::Question, 
+			m_str_information, m_str_protocol_running_stop, QMessageBox::Ok);
+		mb.exec();
 
-			event->ignore();
-			return;
-		}
-		// dump log file
-		if (m_GUI_params->dumpHistoryToFile)
-		{
-			// save log data, messages from the console ect. 
-			dumpLogs();
-		}
-		if (m_ppc1->isConnected()) {
-			
-			m_ppc1->stop();
-			m_ppc1->disconnectCOM(); //if is active, disconnect
-		}
-
-		// this is to make sure that the buttons are unchecked on close event
-		// thus the default values are back to normal and the setting file is properly written
-		ui->pushButton_standardAndSlow->setChecked(false);
-		this->setStandardAndSlow();
-		ui->pushButton_standardAndRegular->setChecked(false);
-		this->setStandardAndRegular();
-		ui->pushButton_largeAndRegular->setChecked(false);
-		this->setLargeAndRegular();
-		ui->pushButton_largeAndSlow->setChecked(false);
-		this->setLargeAndSlow();
-
-		delete m_dialog_tools;
-		event->accept();
+		event->ignore();
+		return;
 	}
+
+	// dump log file
+	if (m_GUI_params->dumpHistoryToFile)
+	{
+		// save log data, messages from the console ect. 
+		dumpLogs();
+	}
+
+	if (m_ppc1->isConnected()) {
+			
+		m_ppc1->stop();
+		m_ppc1->disconnectCOM(); //if is active, disconnect
+	}
+
+	// this is to make sure that the buttons are unchecked on close event
+	// thus the default values are back to normal and the setting file is properly written
+	ui->pushButton_standardAndSlow->setChecked(false);
+	this->setStandardAndSlow();
+	ui->pushButton_standardAndRegular->setChecked(false);
+	this->setStandardAndRegular();
+	ui->pushButton_largeAndRegular->setChecked(false);
+	this->setLargeAndRegular();
+	ui->pushButton_largeAndSlow->setChecked(false);
+	this->setLargeAndSlow();
+
+	delete m_dialog_tools;
+	event->accept();
+	
 }
 
 void BioZone6_GUI::dumpLogs()
@@ -1741,7 +1733,7 @@ BioZone6_GUI::~BioZone6_GUI()
   delete m_no_edit_delegate;
   delete m_no_edit_delegate2;
   delete m_spinbox_delegate;
-  delete m_biozone_updated;
+  delete m_biozone_updater;
   delete ui;
   qApp->quit();
 }

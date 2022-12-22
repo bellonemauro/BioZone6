@@ -10,9 +10,15 @@
 #include "fluicell/ppc1api6/ppc1api6.h"
 #include <iomanip>
 
+
 #ifdef VLD_MEMORY_CHECK
  #include <vld.h>
 #endif
+
+/*
+ Thought about adding an external xml reader in the low level to be able to use the protocols in the api through a reader without the GUI
+ // xmlreader.h // from here https://github.com/YLoveDBule/ShootGame/blob/6ede88734187b2c893ebf2d00919bc6a648b0142/Classes/XmlReader/XmlReader.h
+ */
 
 // this macro is used to print function name and usefull debug information 
 #define HERE std::string(__FUNCTION__ + std::string(" at line ") + std::to_string(__LINE__))
@@ -868,50 +874,32 @@ bool fluicell::PPC1api6::runCommand(fluicell::PPC1api6dataStructures::command _c
 	}
 	case fluicell::PPC1api6dataStructures::command::instructions::solution1: {//solution1
 		if (!closeAllValves())return false;
-		int v = static_cast<int>(_cmd.getValue());
-		bool valve_status;
-		if (v == 0)valve_status = false;
-		else valve_status = true;
+		bool valve_status = static_cast<bool>(_cmd.getValue());
 		return setValve_l(valve_status);
 	}
 	case fluicell::PPC1api6dataStructures::command::instructions::solution2: {//solution2
 		if (!closeAllValves())return false;
-		int v = static_cast<int>(_cmd.getValue());
-		bool valve_status;
-		if (v == 0)valve_status = false;
-		else valve_status = true;
+		bool valve_status = static_cast<bool>(_cmd.getValue());
 		return setValve_k(valve_status);
 	}
 	case fluicell::PPC1api6dataStructures::command::instructions::solution3: {//solution3
 		if (!closeAllValves())return false;
-		int v = static_cast<int>(_cmd.getValue());
-		bool valve_status;
-		if (v == 0)valve_status = false;
-		else valve_status = true;
+		bool valve_status = static_cast<bool>(_cmd.getValue());
 		return setValve_j(valve_status);
 	}
 	case fluicell::PPC1api6dataStructures::command::instructions::solution4: {//solution4
 		if (!closeAllValves())return false;
-		int v = static_cast<int>(_cmd.getValue());
-		bool valve_status;
-		if (v == 0)valve_status = false;
-		else valve_status = true;
+		bool valve_status = static_cast<bool>(_cmd.getValue());
 		return setValve_i(valve_status);
 	}
 	case fluicell::PPC1api6dataStructures::command::instructions::solution5: {//solution5
 		if (!closeAllValves())return false;
-		int v = static_cast<int>(_cmd.getValue());
-		bool valve_status;
-		if (v == 0)valve_status = false;
-		else valve_status = true;
+		bool valve_status = static_cast<bool>(_cmd.getValue());
 		return setValve_e(valve_status);
 	}
 	case fluicell::PPC1api6dataStructures::command::instructions::solution6: {//solution6
 		if (!closeAllValves())return false;
-		int v = static_cast<int>(_cmd.getValue());
-		bool valve_status;
-		if (v == 0)valve_status = false;
-		else valve_status = true;
+		bool valve_status = static_cast<bool>(_cmd.getValue());
 		return setValve_f(valve_status);
 	}
 	case fluicell::PPC1api6dataStructures::command::instructions::setPon: { //setPon

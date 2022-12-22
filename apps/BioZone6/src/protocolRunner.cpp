@@ -230,112 +230,120 @@ void BioZone6_protocolRunner::run()
 	try
 	{
 		// the ppc1api and protocol must be initialized 
-		if (m_ppc1 && m_protocol)
+
+		if (!m_ppc1 || !m_protocol)
 		{
-			std::cout << HERE  << " protocol size " << m_protocol->size() << std::endl;
-
-			// compute the duration of the macro
-			m_protocol_duration = m_ppc1->protocolDuration(*m_protocol);
-			m_time_elapsed = 0.0;
-
-			// for all the commands in the protocol
-			for (size_t i = 0; i < m_protocol->size(); i++)
-			{
-				// if we get the terminationHandler the thread is stopped
-				if (!m_threadTerminationHandler) {
-					result = m_str_stopped; 
-					emit resultReady(result);
-					return;
-				}
-
-				if (m_simulation_only)
-				{
-					// in simulation we set the status message
-					QString message = QString::fromStdString(m_protocol->at(i).getStatusMessage());
-					message.append(" >>> command :  ");
-					message.append(QString::fromStdString(m_protocol->at(i).getCommandAsString()));
-					message.append(" value ");
-					message.append(QString::number(m_protocol->at(i).getValue()));
-					message.append(" status message ");
-					message.append(QString::fromStdString(m_protocol->at(i).getStatusMessage()));
-					emit sendStatusMessage(message);
-
-					// the command is simulated
-					simulateCommand(m_protocol->at(i));
-
-				}// end simulation only
-				else {
-					// if we are not in simulation and the ppc1 is running 
-					// the commands will be sent to the ppc1 api
-					if (m_ppc1->isRunning()) {
-						
-						// at GUI level only ask_msg and wait are handled
-						if (m_protocol->at(i).getInstruction() ==
-							ppc1Cmd::ask) {
-							QString msg = QString::fromStdString(m_protocol->at(i).getStatusMessage());
-
-							emit sendAskMessage(msg); // send ask message event
-							m_ask_ok = false;
-							while (!m_ask_ok) {  // wait until the signal ok is pressed on the GUI
-								msleep(500);
-							}
-						}
-
-						// If the command is to wait, we do it here
-						if (m_protocol->at(i).getInstruction() == ppc1Cmd::wait) 
-						{	
-							double val = m_protocol->at(i).getValue();
-							simulateWait(val);
-						}
-						if (m_protocol->at(i).getInstruction() == ppc1Cmd::showPopUp)
-						{
-							int val = static_cast<int>(m_protocol->at(i).getValue());
-							QString msg = QString::fromStdString(m_protocol->at(i).getStatusMessage());
-							emit(sendWaitAsk(val, msg));
-						}
-						//TODO: the waitSync works properly in the ppc1api, however, when the command is run
-						 //      the ppc1api stops waiting for the signal and the GUI looks freezing without any message
-						//if (m_protocol->at(i).getInstruction() == // If the command is to wait, we do it here
-						//	pCmd::waitSync) {
-
-						//	emit sendAskMessage("wait sync will run now another message will appear when the sync signal is detected");
-						//	if (!m_ppc1->runCommand(m_protocol->at(i))) // otherwise we run the actual command on the PPC1 
-						//	{
-						//		cerr << HERE 
-						//			<< " ---- error --- MESSAGE:"
-						//			<< " error in ppc1api PPC1api::runCommand" << endl;
-						//	}
-						//	emit sendAskMessage("sync arrived");
-						//}
-						else {
-							if (!m_ppc1->runCommand(m_protocol->at(i))) // otherwise we run the actual command on the PPC1 
-							{
-								std::cerr << HERE << " ---- error --- MESSAGE:"
-									<< " error in ppc1api PPC1api::runCommand" << std::endl;
-							}
-						}
-					}
-					else {
-						std::cerr << HERE << "  ---- error --- MESSAGE:"
-							 << " ppc1 is NOT running " << std::endl;
-
-						result = m_str_not_connected; 
-						emit resultReady(result);
-						return;
-					}
-				}
-			}//end for protocol
-			simulateWait(0.2); // TODO: fix this number
-			// TODO: this small wait time at the end of the protocol allows for pressure values to
-			// be correclty applied and updated
-		}
-		else {
 			std::cerr << HERE << "  ---- error --- MESSAGE: null pointer " << std::endl;
-			result = m_str_failed; 
+			result = m_str_failed;
 
 			emit resultReady(result);
 			return;
 		}
+
+        // if we are here we have a valid protocol and a valid m_ppc1
+		std::cout << HERE  << " protocol size " << m_protocol->size() << std::endl;
+
+		// compute the duration of the protocol
+		m_protocol_duration = m_ppc1->protocolDuration(*m_protocol);
+		m_time_elapsed = 0.0;
+
+		// for all the commands in the protocol
+		for (size_t i = 0; i < m_protocol->size(); i++)
+		{
+			// if we get the terminationHandler the thread is stopped
+			if (!m_threadTerminationHandler) {
+				result = m_str_stopped; 
+				emit resultReady(result);
+				return;
+			}
+
+			if (m_simulation_only)
+			{
+				// in simulation we set the status message
+				QString message = QString::fromStdString(m_protocol->at(i).getStatusMessage());
+				message.append(" >>> command :  ");
+				message.append(QString::fromStdString(m_protocol->at(i).getCommandAsString()));
+				message.append(" value ");
+				message.append(QString::number(m_protocol->at(i).getValue()));
+				message.append(" status message ");
+				message.append(QString::fromStdString(m_protocol->at(i).getStatusMessage()));
+				emit sendStatusMessage(message);
+
+				// the command is simulated
+				simulateCommand(m_protocol->at(i));
+
+			}// end simulation only
+			else 
+			{
+				// if we are not in simulation and the ppc1 is running 
+				// the commands will be sent to the ppc1 api
+				// checking the running status of the PPC1 ensures that no bugs happens if the unit crashes for any reason
+				if (!m_ppc1->isRunning()) {
+					std::cerr << HERE << "  ---- error --- MESSAGE:"
+						<< " ppc1 is NOT running " << std::endl;
+
+					result = m_str_not_connected;
+					emit resultReady(result);
+					return;
+				}
+				
+				// if we are here then everything is fine and the ppc1 unit is working properly
+						
+				// at GUI level only high level commands are handled i.e. ask, wait, showPopUp
+				if (m_protocol->at(i).getInstruction() == ppc1Cmd::ask) 
+				{
+					QString msg = QString::fromStdString(m_protocol->at(i).getStatusMessage());
+
+					emit sendAskMessage(msg); // send ask message event
+					m_ask_ok = false;
+					while (!m_ask_ok) {  // wait until the signal ok is pressed on the GUI
+						msleep(500);
+					}
+					continue;
+				}
+
+				// If the command is to wait, we do it here
+				if (m_protocol->at(i).getInstruction() == ppc1Cmd::wait) 
+				{	
+					double val = m_protocol->at(i).getValue();
+					simulateWait(val);
+					continue;
+				}
+				if (m_protocol->at(i).getInstruction() == ppc1Cmd::showPopUp)
+				{
+					int val = static_cast<int>(m_protocol->at(i).getValue());
+					QString msg = QString::fromStdString(m_protocol->at(i).getStatusMessage());
+					emit(sendWaitAsk(val, msg));
+					continue;
+				}
+				//TODO: the waitSync works properly in the ppc1api, however, when the command is run
+					//      the ppc1api stops waiting for the signal and the GUI looks freezing without any message
+				//if (m_protocol->at(i).getInstruction() == // If the command is to wait, we do it here
+				//	pCmd::waitSync) {
+
+				//	emit sendAskMessage("wait sync will run now another message will appear when the sync signal is detected");
+				//	if (!m_ppc1->runCommand(m_protocol->at(i))) // otherwise we run the actual command on the PPC1 
+				//	{
+				//		cerr << HERE 
+				//			<< " ---- error --- MESSAGE:"
+				//			<< " error in ppc1api PPC1api::runCommand" << endl;
+				//	}
+				//	emit sendAskMessage("sync arrived");
+				//}
+				else {
+					if (!m_ppc1->runCommand(m_protocol->at(i))) // otherwise we run the actual command on the PPC1 
+					{
+						std::cerr << HERE << " ---- error --- MESSAGE:"
+							<< " error in ppc1api PPC1api::runCommand" << std::endl;
+					}
+				}
+				
+			}
+		}//end for protocol
+		simulateWait(0.2); // TODO: fix this number
+		// TODO: this small wait time at the end of the protocol allows for pressure values to
+		// be correclty applied and updated
+		
 		emit timeStatus(100); 
 		result = m_str_success; 
 		emit resultReady(result);

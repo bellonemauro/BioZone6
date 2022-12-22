@@ -38,7 +38,7 @@ void BioZone6_GUI::readProtocolFolder(QString _path)
 		ui->treeWidget_protocol_folder->addTopLevelItem(item);
 	}
 
-	for (int i = 0; i < protocol_list.size(); i++) // starting from 2 it will not add ./ and ../
+	for (int i = 0; i < protocol_list.size(); i++) 
 	{
 		QTreeWidgetItem* item = new QTreeWidgetItem();
 		item->setText(0, protocol_list.at(i));
@@ -75,9 +75,8 @@ void BioZone6_GUI::onProtocolClicked(QTreeWidgetItem *item, int column)
 		readProtocolFolder(protocol_path);
 		return;
 	}
-	else
-	{
-	  // a protocol was clicked
+
+	// a protocol was clicked
 	m_current_protocol_file_name = textOfItem;
 	// append the path
 	
@@ -86,8 +85,9 @@ void BioZone6_GUI::onProtocolClicked(QTreeWidgetItem *item, int column)
 
 	ui->tabWidget_editor->setCurrentIndex(0);
 
-	QMessageBox::StandardButton resBtn = QMessageBox::Yes;
+	QMessageBox::StandardButton resBtn = QMessageBox::Yes; 
 
+	// the message appears only if the protocol is not empty
 	if (ui->treeWidget_macroTable->topLevelItemCount() > 0)
 	{
 		resBtn = QMessageBox::question(this, m_str_warning,
@@ -95,46 +95,28 @@ void BioZone6_GUI::onProtocolClicked(QTreeWidgetItem *item, int column)
 			QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
 			QMessageBox::Yes);
 	}
-	
-	if (resBtn == QMessageBox::Yes) {
-		// read the clicked protocol and add it to the current 
-		QApplication::setOverrideCursor(Qt::WaitCursor);   
-		//m_reader->readProtocol(ui->treeWidget_macroTable, protocol_path);
-		this->openXml(protocol_path, ui->treeWidget_macroTable);
-		updateTreeView(ui->treeWidget_macroTable);
-		addAllCommandsToPPC1Protocol(ui->treeWidget_macroTable,
-			m_protocol);
-		m_current_protocol_file_name = protocol_path;
-		QApplication::restoreOverrideCursor();   
-	}
+
 	if (resBtn == QMessageBox::No)
 	{
 		// clear the current protocol and load the clicked protocol instead
-		QApplication::setOverrideCursor(Qt::WaitCursor);
-		clearAllCommands(); 
-		//m_reader->readProtocol(ui->treeWidget_macroTable, protocol_path);
-		this->openXml(protocol_path, ui->treeWidget_macroTable); 
-		updateTreeView(ui->treeWidget_macroTable);
-		addAllCommandsToPPC1Protocol(ui->treeWidget_macroTable,
-			m_protocol);
-		m_current_protocol_file_name = protocol_path;
-		QApplication::restoreOverrideCursor();
-	}
-	if (resBtn == QMessageBox::Cancel)
-	{
-		//do nothing
-	}
+		clearAllCommands();
 	}
 
+	// read the clicked protocol and add it to the current 
+	QApplication::setOverrideCursor(Qt::WaitCursor);
+	//m_reader->readProtocol(ui->treeWidget_macroTable, protocol_path);
+	this->openXml(protocol_path, ui->treeWidget_macroTable);
+	updateTreeView(ui->treeWidget_macroTable);
 	addAllCommandsToPPC1Protocol(ui->treeWidget_macroTable,
 		m_protocol);
+	m_current_protocol_file_name = protocol_path;
+	QApplication::restoreOverrideCursor();
 }
 
 void BioZone6_GUI::updateTreeView(QTreeWidget* _tree)
 {
-	for (int i = 0;
-		i < _tree->topLevelItemCount();
-		++i) {
+	for (int i = 0; i < _tree->topLevelItemCount();	++i) 
+	{
 		// get the current item
 		protocolTreeWidgetItem* item =
 			dynamic_cast<protocolTreeWidgetItem*> (
@@ -147,45 +129,44 @@ void BioZone6_GUI::updateTreeView(QTreeWidget* _tree)
 		_tree->blockSignals(false);
 		
 
-		if (item->childCount() > 0)
-		{
-			for (int childrenCount = 0; childrenCount < item->childCount(); childrenCount++) {
-				_tree->blockSignals(true);
-				protocolTreeWidgetItem* item_child =
-					dynamic_cast<protocolTreeWidgetItem*> (
-						item->child(childrenCount));
-				item_child->setText(
-					editorParams::c_idx, QString::number(childrenCount + 1));
-				item_child->setText(editorParams::c_range, item_child->getRangeColumn(item_child->text(editorParams::c_command).toInt()));
-				item_child->checkValidity(editorParams::c_value);
-
-				if (item_child->childCount() > 0)
-					this->updateChildrenView(item_child);
-
-				_tree->blockSignals(false);
-			}
-		}
+		if (item->childCount() < 1)
+			return;
 		
-	}
-
-}
-
-void BioZone6_GUI::updateChildrenView(protocolTreeWidgetItem* _parent)
-{
-	if (_parent->childCount() > 0)
-	{
-		for (int childrenCount = 0; childrenCount < _parent->childCount(); childrenCount++) {
+		for (int child_count = 0; child_count < item->childCount(); child_count++) {
+			_tree->blockSignals(true);
 			protocolTreeWidgetItem* item_child =
 				dynamic_cast<protocolTreeWidgetItem*> (
-					_parent->child(childrenCount));
+					item->child(child_count));
 			item_child->setText(
-				editorParams::c_idx, QString::number(childrenCount + 1));
+				editorParams::c_idx, QString::number(child_count + 1));
+			item_child->setText(editorParams::c_range, item_child->getRangeColumn(item_child->text(editorParams::c_command).toInt()));
 			item_child->checkValidity(editorParams::c_value);
 
 			if (item_child->childCount() > 0)
 				this->updateChildrenView(item_child);
+
+			_tree->blockSignals(false);
 		}
 	}
+}
+
+void BioZone6_GUI::updateChildrenView(protocolTreeWidgetItem* _parent)
+{
+	if (_parent->childCount() < 1)
+		return;
+
+	for (int childrenCount = 0; childrenCount < _parent->childCount(); childrenCount++) {
+		protocolTreeWidgetItem* item_child =
+			dynamic_cast<protocolTreeWidgetItem*> (
+				_parent->child(childrenCount));
+		item_child->setText(
+			editorParams::c_idx, QString::number(childrenCount + 1));
+		item_child->checkValidity(editorParams::c_value);
+
+		if (item_child->childCount() > 0)
+			this->updateChildrenView(item_child);
+	}
+	
 }
 
 void BioZone6_GUI::addAllCommandsToPPC1Protocol(QTreeWidget* _tree,
@@ -263,9 +244,7 @@ QString BioZone6_GUI::generateDurationString(int _time)
 void BioZone6_GUI::fromTreeToItemVector(QTreeWidget* _tree,
 	std::vector<protocolTreeWidgetItem*>* _command_vector)
 {
-	for (int i = 0;
-		i < _tree->topLevelItemCount();
-		++i) {
+	for (int i = 0; i < _tree->topLevelItemCount(); ++i) {
 
 		// get the current item
 		protocolTreeWidgetItem* item =
@@ -273,14 +252,12 @@ void BioZone6_GUI::fromTreeToItemVector(QTreeWidget* _tree,
 
 		if (item->childCount() < 1) { // if no children, just add the line 
 			interpreter(item, _command_vector);
+			return;
 		}
-		else
-		{
-			// otherwise we need to traverse the subtree
-			for (int loop = 0; loop < item->text(editorParams::c_value).toInt(); loop++) {
 
-				traverseChildren(item, _command_vector);
-			}
+		// otherwise we need to traverse the subtree
+		for (int loop = 0; loop < item->text(editorParams::c_value).toInt(); loop++) {
+			traverseChildren(item, _command_vector);
 		}
 	}
 }
@@ -598,15 +575,12 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 void BioZone6_GUI::createOperationalModeCommand(int _p_on, int _p_off, int _v_s, int _v_r,
 	std::vector<protocolTreeWidgetItem*>* _command_vector)
 {
-
-
 	//protocolTreeWidgetItem* item1 = new protocolTreeWidgetItem();
 	protocolTreeWidgetItem* vacuum_recirc_cmd = new protocolTreeWidgetItem();
 	protocolTreeWidgetItem* vacuum_switch_cmd = new protocolTreeWidgetItem(); 
 	protocolTreeWidgetItem* waiting_cmd = new protocolTreeWidgetItem();
 	protocolTreeWidgetItem* pressure_on_cmd = new protocolTreeWidgetItem();
 	protocolTreeWidgetItem* pressure_off_cmd = new protocolTreeWidgetItem();
-	
 
 	//item1->setText(editorParams::c_command, QString::number(protocolCommands::allOff));
 	vacuum_recirc_cmd->setText(editorParams::c_command, QString::number(protocolCommands::setVrecirc));
@@ -614,7 +588,6 @@ void BioZone6_GUI::createOperationalModeCommand(int _p_on, int _p_off, int _v_s,
 
 	vacuum_switch_cmd->setText(editorParams::c_command, QString::number(protocolCommands::setVswitch));
 	vacuum_switch_cmd->setText(editorParams::c_value, QString::number(_v_s));
-
 
 	waiting_cmd->setText(editorParams::c_command, QString::number(protocolCommands::wait));
 	waiting_cmd->setText(editorParams::c_value, QString::number(5));
@@ -649,18 +622,17 @@ void BioZone6_GUI::traverseChildren(protocolTreeWidgetItem* _parent,
 		// if the item is a loop or a function we need to traverse the subtree
 		if (child->childCount() < 1) { // if no children, just add the line 
 			interpreter(child, _command_vector);
+			return;
 		}
-		else
-		{
-			// basically the subtree is always the same for loops or function, 
-			// just the function will be traversed only once
-			for (int loop = 0; loop < child->text(editorParams::c_value).toInt(); loop++) {
-				traverseChildren(child, _command_vector);
-			}
+
+		// basically the subtree is always the same for loops or function, 
+		// just the function will be traversed only once
+		for (int loop = 0; loop < child->text(editorParams::c_value).toInt(); loop++) {
+			traverseChildren(child, _command_vector);
 		}
 	}
-
 }
+
 
 void BioZone6_GUI::protocolsMenu(const QPoint & _pos)
 {
@@ -668,7 +640,6 @@ void BioZone6_GUI::protocolsMenu(const QPoint & _pos)
 
 	m_triggered_protocol_item = //a class member is used to pass a data between functions
 		ui->treeWidget_protocol_folder->indexAt(_pos).row();
-
 
 	QAction* show_in_folder = new QAction(
 		QIcon(":/icons/open_off.png"), tr("&Show in folder"), this);
@@ -694,8 +665,24 @@ void BioZone6_GUI::protocolsMenu(const QPoint & _pos)
 
 	QPoint pt(_pos);
 	menu.exec(ui->treeWidget_protocol_folder->mapToGlobal(_pos));
-
 }
+
+
+bool BioZone6_GUI::writeTmpProtocolFile(QString _save_tmp_file)
+{
+	QFile file(_save_tmp_file);
+	if (!file.open(QFile::WriteOnly | QFile::Text)) {
+		std::cerr << HERE <<
+			" impossible to open the temporary file for the protocol from the commander " << std::endl;
+		return false;
+	}
+
+	QString fileContent = ui->textBrowser_XMLcode->toPlainText();
+	if (file.write(fileContent.toUtf8()) > -1)
+		return true;	
+	return false;
+}
+
 
 void BioZone6_GUI::onTabEditorChanged(int _idx)
 {
@@ -713,18 +700,7 @@ void BioZone6_GUI::onTabEditorChanged(int _idx)
 	case 0:
 	{// we are now in the tree view/editor
 		m_last_treeWidget_editor_idx = _idx;
-		{// Do not remove this parentesis, the file is written on destruction which is automatically done when it goes out of scope
-			QFile file(save_tmp_file);
-			if (!file.open(QFile::WriteOnly | QFile::Text)) {
-				std::cerr << HERE <<
-					" impossible to open the temporary file for the protocol from the commander " << std::endl;
-				return;
-			}
-
-			QString fileContent = ui->textBrowser_XMLcode->toPlainText();
-			file.write(fileContent.toUtf8());
-			//delete &file;
-		}
+		writeTmpProtocolFile(save_tmp_file);
 
 		ui->treeWidget_macroTable->clear();
 		openXml(save_tmp_file, ui->treeWidget_macroTable);
@@ -753,17 +729,7 @@ void BioZone6_GUI::onTabEditorChanged(int _idx)
 		// this is to update the tree if something was modified in the xml editor without passing to the tree first
 		if (m_last_treeWidget_editor_idx == 1) 
 		{
-			{// Do not remove this parentesis, the file is written on destruction which is automatically done when it goes out of scope
-				QFile file(save_tmp_file);
-				if (!file.open(QFile::WriteOnly | QFile::Text)) {
-					std::cerr << HERE <<
-						" impossible to open the temporary file for the protocol from the commander " << std::endl;
-					return;
-				}
-
-				QString fileContent = ui->textBrowser_XMLcode->toPlainText();
-				file.write(fileContent.toUtf8());
-			}
+			writeTmpProtocolFile(save_tmp_file);
 
 			ui->treeWidget_macroTable->clear();
 			openXml(save_tmp_file, ui->treeWidget_macroTable);
@@ -850,27 +816,19 @@ void BioZone6_GUI::deleteProtocol()
 		QMessageBox::question(this, m_str_warning, m_str_remove_file,
 			QMessageBox::No | QMessageBox::Yes,
 			QMessageBox::Yes);
-	if (resBtn == QMessageBox::Yes) {
-		// continue with file removal 
-
-		QFile f(file_path);
-		if (f.exists())
-		{
-			// delete file
-			f.remove();
-			// update the folder
-			readProtocolFolder(m_protocols_path);
-		}
-		else
-		{
-			// the file does not exists
-			return;
-		}
-	}
-	else {
-		// the choice was no, nothing happens
+	if (resBtn == QMessageBox::No)
 		return;
-	}
+	
+	// if yes - continue with file removal 
+	QFile f(file_path);
+	if (!f.exists())
+		return; 
+
+	// delete file
+	f.remove();
+	// update the folder
+	readProtocolFolder(m_protocols_path);
+
 }
 
 void BioZone6_GUI::addCommand()
@@ -1053,33 +1011,32 @@ bool BioZone6_GUI::itemChanged(QTreeWidgetItem *_item, int _column)
 		dynamic_cast<protocolTreeWidgetItem *>(_item)->checkValidity(_column);
 		return true;
 	}
+
+	// if we are here the changed element has a parent 
+	if (_item->parent())
+	{
+		changedProtocolCommand * cmd =
+			new changedProtocolCommand(ui->treeWidget_macroTable,
+				dynamic_cast<protocolTreeWidgetItem *>(_item), _column,
+				dynamic_cast<protocolTreeWidgetItem *>(_item->parent()));
+
+		// push the command into the stack
+		m_undo_stack->push(cmd);
+	}
 	else
 	{
-		// if the changed element has a parent 
-		if (_item->parent())
-		{
-			changedProtocolCommand * cmd =
-				new changedProtocolCommand(ui->treeWidget_macroTable,
-					dynamic_cast<protocolTreeWidgetItem *>(_item), _column,
-					dynamic_cast<protocolTreeWidgetItem *>(_item->parent()));
+		// the command is called with null pointer on the parent
+		changedProtocolCommand * cmd =
+			new changedProtocolCommand(
+				ui->treeWidget_macroTable,
+				dynamic_cast<protocolTreeWidgetItem *>(_item),
+				_column);
 
-			// push the command into the stack
-			m_undo_stack->push(cmd);
-		}
-		else
-		{
-			// the command is called with null pointer on the parent
-			changedProtocolCommand * cmd =
-				new changedProtocolCommand(
-					ui->treeWidget_macroTable,
-					dynamic_cast<protocolTreeWidgetItem *>(_item),
-					_column);
-
-			// push the command into the stack
-			m_undo_stack->push(cmd);
-		}
-		dynamic_cast<protocolTreeWidgetItem *>(_item)->checkValidity(_column);
+		// push the command into the stack
+		m_undo_stack->push(cmd);
 	}
+	dynamic_cast<protocolTreeWidgetItem *>(_item)->checkValidity(_column);
+	
 
 	//addAllCommandsToProtocol(ui->treeWidget_macroTable, m_protocol);
 	updateTreeView(ui->treeWidget_macroTable);
@@ -1162,10 +1119,7 @@ void BioZone6_GUI::clearAllCommandsRequest()
 			m_str_clear_commands + "<br>" + m_str_areyousure,
 			QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
 			QMessageBox::Yes);
-	if (resBtn != QMessageBox::Yes) {
-		// do nothing
-	}
-	else {
+	if (resBtn == QMessageBox::Yes) {
 		clearAllCommands();
 	}
 }

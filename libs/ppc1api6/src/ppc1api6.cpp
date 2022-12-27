@@ -1122,6 +1122,7 @@ bool fluicell::PPC1api6::sendData(const std::string &_data) const
 			return true;
 		}
 		else {
+			logError(HERE, " cannot write data --- readline ");
 			return false;
 		}
 	}

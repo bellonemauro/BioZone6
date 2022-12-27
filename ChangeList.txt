@@ -1,7 +1,11 @@
-V.1.0.3 first release
+V.1.0.4 
+code cleanup
+bug fix
+
+V.1.0.3 
 update UWZ settings and default protocols
 
-V.1.0.2 first release
+V.1.0.2 
 porting to qt6
 
 V.1.0.0 first release

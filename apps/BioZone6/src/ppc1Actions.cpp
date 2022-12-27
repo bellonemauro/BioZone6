@@ -19,16 +19,12 @@ void BioZone6_GUI::newTip()
 	currentProtocolFileName.append("initialize.prt");
 	if (QFile::exists(currentProtocolFileName)) {
 		this->runProtocolFile(currentProtocolFileName);
+		return;
 	}
-	else
-	{
-		QMessageBox::warning(this, m_str_warning,
-			m_str_file_not_loaded + tr("<br>%1")
-			.arg(QDir::toNativeSeparators(currentProtocolFileName)));
-	}
-
+	QMessageBox::warning(this, m_str_warning,
+		m_str_file_not_loaded + tr("<br>%1")
+		.arg(QDir::toNativeSeparators(currentProtocolFileName)));
 	return; 
-
 }
 
 void BioZone6_GUI::runProtocol()
@@ -435,14 +431,11 @@ void BioZone6_GUI::stopFlow()
 	currentProtocolFileName.append("stopFlow.prt");
 	if (QFile::exists(currentProtocolFileName)) {
 		this->runProtocolFile(currentProtocolFileName);
-
+		return;
 	}
-	else
-	{
-		QMessageBox::warning(this, m_str_warning,
-			m_str_file_not_loaded + tr("<br>%1")
-			.arg(QDir::toNativeSeparators(currentProtocolFileName)));
-	}
+	QMessageBox::warning(this, m_str_warning,
+		m_str_file_not_loaded + tr("<br>%1")
+		.arg(QDir::toNativeSeparators(currentProtocolFileName)));
 
 	return;
 }
@@ -456,13 +449,11 @@ void BioZone6_GUI::standby()
 	currentProtocolFileName.append("standby.prt");
 	if (QFile::exists(currentProtocolFileName)) {
 		this->runProtocolFile(currentProtocolFileName);
+		return;
 	}
-	else
-	{
-		QMessageBox::warning(this, m_str_warning,
-			m_str_file_not_loaded + tr("<br>%1")
-			.arg(QDir::toNativeSeparators(currentProtocolFileName)));
-	}
+	QMessageBox::warning(this, m_str_warning,
+		m_str_file_not_loaded + tr("<br>%1")
+		.arg(QDir::toNativeSeparators(currentProtocolFileName)));
 
 	return;
 }

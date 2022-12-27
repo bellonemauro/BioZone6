@@ -111,6 +111,11 @@ public:
 	*/
 	void runProtocolFile(QString _protocol_path = "");
 
+	/**  \brief This is just a support function to write a protocol to a tmp file avoiding code repetition
+	*
+	*/
+	bool writeTmpProtocolFile(QString _save_tmp_file);
+
 private slots:
 
 	/**  \brief Load a protocol when it is clicked in the tree widget
@@ -129,10 +134,6 @@ private slots:
 	*/
 	void protocolsMenu(const QPoint & _pos);
 
-	/**  \brief This is just a support function to write a protocol to a tmp file avoiding code repetition
-	*
-	*/
-	bool writeTmpProtocolFile(QString _save_tmp_file);
 
 	/**  \brief Update the code on tab change
 	*

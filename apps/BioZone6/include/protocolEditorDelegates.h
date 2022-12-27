@@ -29,8 +29,8 @@
 #include <QStyledItemDelegate>
 
 // PPC1api 
-#include <fluicell/ppc1api6/ppc1api6.h>
-#include <serial/serial.h>
+//#include <fluicell/ppc1api6/ppc1api6.h>
+//#include <serial/serial.h>
 
 #include "dataStructures.h"
 

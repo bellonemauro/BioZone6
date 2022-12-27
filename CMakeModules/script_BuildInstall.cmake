@@ -34,9 +34,9 @@ if (WIN32 AND NOT UNIX)
 
 	# EXTRACT_DEB_REL_DLLS looks for ALL .dlls in the specified library, 
 	# it's of for installers but maybe allow the choice of necessary dlls only is mandatory for the sake of space saving
-	EXTRACT_DEB_REL_DLLS (${QT6_BINARY_DIR} d )# --> QT5 changed the postfix ! 
+	EXTRACT_DEB_REL_DLLS (${QT_BINARY_DIR} d )# --> QT5 changed the postfix ! 
 	if (ENABLE_verbose)
-		message (STATUS "     QT5_BINARY_DIR is : ${QT6_BINARY_DIR}") 
+		message (STATUS "     QT_BINARY_DIR is : ${QT_BINARY_DIR}") 
 		message (STATUS "\n\n REL DLLS are     : ${REL_DLLS}")
 		message (STATUS "\n\n DEB DLLS are     : ${DEB_DLLS}")
 	endif (ENABLE_verbose)

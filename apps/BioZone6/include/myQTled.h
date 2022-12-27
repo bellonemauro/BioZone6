@@ -55,7 +55,7 @@ struct QFled {
 	ColorType color_type;
 
 
-	QFled(QLabel* _led_label, ColorType _color_type) {
+	QFled(QLabel* _led_label, ColorType _color_type) { // ctor
 		led_label = _led_label;
 		color_type = nocolor;// _color_type;
 
@@ -115,34 +115,34 @@ struct QFled {
 
 	void setColor(ColorType _color_type)
 	{
-		if (_color_type != this->color_type)
+		if (_color_type == this->color_type)
+			return; // if it is the same nothing should be done
+
+		switch (_color_type)
 		{
-			switch (_color_type)
-			{
-			case nocolor: break;
-			case green:
-			{
-				this->color_type = green;
-				this->led_label->setPixmap(*led_green);
-				break;
-			}
-			case orange: {
-				this->color_type = orange;
-				this->led_label->setPixmap(*led_orange);
-				break;
-			}
-			case red: {
-				this->color_type = red;
-				this->led_label->setPixmap(*led_red);
-				break;
-			}
-			case grey: {
-				this->color_type = grey;
-				this->led_label->setPixmap(*led_grey);
-				break;
-			}
-			}
+		case nocolor: break;
+		case green:
+		{
+			this->color_type = green;
+			this->led_label->setPixmap(*led_green);
+			break;
 		}
+		case orange: {
+			this->color_type = orange;
+			this->led_label->setPixmap(*led_orange);
+			break;
+		}
+		case red: {
+			this->color_type = red;
+			this->led_label->setPixmap(*led_red);
+			break;
+		}
+		case grey: {
+			this->color_type = grey;
+			this->led_label->setPixmap(*led_grey);
+			break;
+		}
+		} 
 	}
 
 private:

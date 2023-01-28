@@ -35,11 +35,30 @@
 #include <QScreen>
 
 
+bool copyPath(QString src, QString dst)
+{
+	QDir dir(src);
+	if (!dir.exists())
+		return false;
+
+	foreach(QString d, dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
+		QString dst_path = dst + QDir::separator() + d;
+		dir.mkpath(dst_path);
+		copyPath( src + QDir::separator() + d, dst_path);
+	}
+
+	foreach(QString f, dir.entryList(QDir::Files)) {
+		QFile::copy(src + QDir::separator() + f, dst + QDir::separator() + f);
+	}
+	return true;
+}
+
 // if it is the first time that the software runs,
 // it will check if required paths already exist and 
 // set up useful files and folders in the user files
 // if this function return false, some path may be broken
-bool initPaths(BioZone6_GUI &_l, QString &_user_path)
+bool initPaths(BioZone6_GUI &_l, QString& _tips_user_path,
+	QString& _settings_user_path, QString& _ext_data_user_path)
 {
 	// detect the home path ... C:/users/user/
 	QString home_path = QDir::homePath();   
@@ -51,6 +70,10 @@ bool initPaths(BioZone6_GUI &_l, QString &_user_path)
 	QString app_tips_path = app_dir.path();    
 	app_tips_path.append("/tips/");
 
+	// default setting path into the installation folder
+	QString app_settings_path = app_dir.path();
+	app_settings_path.append("/settings/");
+
 	// default ext_data path into the installation folder
 	QString ext_data_path = app_dir.path();
 	ext_data_path.append("/Ext_data/");
@@ -60,9 +83,20 @@ bool initPaths(BioZone6_GUI &_l, QString &_user_path)
 	QDir home_dir;
 	if (!home_dir.exists(home_path)) {
 		std::cerr << " BioZone6 directory does not exists in the home folder .... creating it" << std::endl;
-		home_dir.mkpath(home_path);
-		std::cout << " Created directory " <<
-            home_path.toStdString() << std::endl;
+		if (home_dir.mkpath(home_path))
+		{
+			std::cout << " Directory created " <<
+				home_path.toStdString() << std::endl;
+		}
+		else
+		{
+			std::cerr << " BioZone6 wizard could not create the home folder " << std::endl;
+			QString ss = "Home documents directory does not exists in the installation folder,";
+			ss.append("BioZone6 wizard cannot run  <br>");
+			ss.append("A reinstallation of BioZone6 wizard may solve the problem ");
+			QMessageBox::warning(&_l, "ERROR", ss);
+			return false;
+		}
 	}
 	else {
 		std::cout << " Found directory " <<
@@ -87,6 +121,22 @@ bool initPaths(BioZone6_GUI &_l, QString &_user_path)
 			app_tips_path.toStdString() << std::endl;
 	}
 	
+	// check if the settings directory exists in the program files path, 
+	// if it doesn't the installation may be broken
+	QDir settings_dir;
+	settings_dir.setPath(app_settings_path);
+	if (!settings_dir.exists(app_settings_path)) {
+		std::cerr << "BioZone6 wizard settings directory does not exists" << std::endl;
+		QString ss = "Settings directory does not exists in the installation folder,";
+		ss.append("BioZone6 wizard cannot run  <br>");
+		ss.append("A reinstallation of BioZone6 wizard may solve the problem ");
+		QMessageBox::warning(&_l, "ERROR", ss);
+		return false;
+	}
+	else {
+		std::cout << " Found directory " <<
+			app_settings_path.toStdString() << std::endl;
+	}
 
 	// check if the ext_data directory exists in the program files path, 
 	// if it doesn't the installation may be broken
@@ -105,24 +155,69 @@ bool initPaths(BioZone6_GUI &_l, QString &_user_path)
             ext_data_path.toStdString() << std::endl;
 	}
 
-	// here we set the macro path in the user folder 
-	QDir protocols_user_dir;
-	QString protocols_home_path = home_path;
-	//protocols_home_path.append("/presetProtocols/");
-	if (!protocols_user_dir.exists(protocols_home_path)) // if the protocol user folder does not exist, create and copy
+
+	// here we set the tips path in the user folder 
+	QDir tips_user_dir;
+	_tips_user_path = home_path + "/tips/";
+	if (!tips_user_dir.exists(_tips_user_path)) // if the tips user folder does not exist, create and copy
 	{
-		_user_path = protocols_home_path;
-		if (!protocols_user_dir.mkpath(_user_path))
+		if (!tips_user_dir.mkpath(_tips_user_path))
 		{
-			std::cerr << "Could not create presetProtocols folder in the user directory" << std::endl;
-			QString ss = "Could not create presetProtocols folder in the user directory";
+			std::cerr << "Could not create tips folder in the user directory" << std::endl;
+			QString ss = "Could not create tips folder in the user directory";
+			QMessageBox::warning(&_l, "ERROR", ss);
+			return false;
+		}
+
+		if(!copyPath( app_tips_path ,_tips_user_path))
+		{
+			std::cerr << "Could not copy tips folder in the user directory" << std::endl;
+			QString ss = "Could not copy tips folder in the user directory";
+			QMessageBox::warning(&_l, "ERROR", ss);
+			return false;
+		}
+	}
+	
+	// here we set the setting path in the user folder 
+	QDir settings_user_dir;
+	_settings_user_path = home_path+ "/settings/";
+	if (!settings_user_dir.exists(_settings_user_path))
+	{
+		if (!settings_user_dir.mkpath(_settings_user_path)) {
+			std::cerr << "Could not create settings folder in the user directory" << std::endl;
+			QString ss = "Could not create settings folder in the user directory";
+			QMessageBox::warning(&_l, "ERROR", ss);
+			return false;
+		}
+
+		if (!copyPath(app_settings_path, _settings_user_path))
+		{
+			std::cerr << "Could not copy settings folder in the user directory" << std::endl;
+			QString ss = "Could not copy settings folder in the user directory";
+			QMessageBox::warning(&_l, "ERROR", ss);
+			return false;
+		}
+
+	}
+
+
+	// here we set the ext data path in the user folder 
+	QDir ext_data_user_dir;
+	QString ext_data_home_path = home_path;
+	ext_data_home_path.append("/Ext_data/");
+	if (!ext_data_user_dir.exists(ext_data_home_path))
+	{
+		_ext_data_user_path = ext_data_home_path;
+		if (!ext_data_user_dir.mkpath(_ext_data_user_path)) {
+			std::cerr << "Could not create ext_data folder in the user directory" << std::endl;
+			QString ss = "Could not create ext_data folder in the user directory";
 			QMessageBox::warning(&_l, "ERROR", ss);
 			return false;
 		}
 
 	}
 	else {
-		_user_path = protocols_home_path;
+		_ext_data_user_path = ext_data_home_path;
 	}
 
 
@@ -181,13 +276,18 @@ int main(int argc, char **argv)
 		}
         
         // set internal application paths
-        QString user_path;
+        //QString user_path;
+		// set internal application paths
+		QString tips_user_path;
+		QString settings_user_path;
+		QString ext_data_user_path;
 
 #ifdef _DEBUG
         std::cout << " Running with debug settings " << std::endl;
         initPaths(window, user_path);
 #else
-        if (!initPaths(window, user_path)) return 0;
+        if (!initPaths(window, tips_user_path, 
+			settings_user_path, ext_data_user_path)) return 0;
 #endif
 
 	  // detect the home path ... C:/users/user/

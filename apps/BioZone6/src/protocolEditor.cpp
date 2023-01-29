@@ -95,7 +95,9 @@ void BioZone6_GUI::onProtocolClicked(QTreeWidgetItem *item, int column)
 			QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
 			QMessageBox::Yes);
 	}
-
+	if (resBtn == QMessageBox::Cancel) {
+		return;
+	}
 	if (resBtn == QMessageBox::No)
 	{
 		// clear the current protocol and load the clicked protocol instead
@@ -130,7 +132,7 @@ void BioZone6_GUI::updateTreeView(QTreeWidget* _tree)
 		
 
 		if (item->childCount() < 1)
-			return;
+			continue;// return;
 		
 		for (int child_count = 0; child_count < item->childCount(); child_count++) {
 			_tree->blockSignals(true);
@@ -166,13 +168,12 @@ void BioZone6_GUI::updateChildrenView(protocolTreeWidgetItem* _parent)
 		if (item_child->childCount() > 0)
 			this->updateChildrenView(item_child);
 	}
-	
 }
 
 void BioZone6_GUI::addAllCommandsToPPC1Protocol(QTreeWidget* _tree,
 	std::vector<fluicell::PPC1api6dataStructures::command>* _protocol)
 {
-	std::cout << HERE << "Tree TopLevelItem count " << _tree->topLevelItemCount() << std::endl;
+	std::cout << HERE << " Tree TopLevelItem count " << _tree->topLevelItemCount() << std::endl;
 	// this should be done only in a few specific conditions
 	// 1. to update the chart
 	// 2. to run the protocol
@@ -190,7 +191,7 @@ void BioZone6_GUI::addAllCommandsToPPC1Protocol(QTreeWidget* _tree,
 	// push all the items in the protocol table into the command vector
 	fromTreeToItemVector(_tree, &command_vector);
 	
-	std::cout << HERE << "Converted command vector size " << command_vector.size() << std::endl;
+	std::cout << HERE << " Converted command vector size " << command_vector.size() << std::endl;
 
 
 	// then from the command vector are pushed to the protocol
@@ -252,7 +253,7 @@ void BioZone6_GUI::fromTreeToItemVector(QTreeWidget* _tree,
 
 		if (item->childCount() < 1) { // if no children, just add the line 
 			interpreter(item, _command_vector);
-			return;
+			continue;
 		}
 
 		// otherwise we need to traverse the subtree
@@ -622,7 +623,7 @@ void BioZone6_GUI::traverseChildren(protocolTreeWidgetItem* _parent,
 		// if the item is a loop or a function we need to traverse the subtree
 		if (child->childCount() < 1) { // if no children, just add the line 
 			interpreter(child, _command_vector);
-			return;
+			continue;
 		}
 
 		// basically the subtree is always the same for loops or function, 
@@ -755,6 +756,8 @@ void BioZone6_GUI::onTabEditorChanged(int _idx)
 
 		QString plainXMLcode(QString::fromUtf8(readfile.readAll()));
 		ui->textBrowser_XMLcode->setPlainText(plainXMLcode);
+
+#pragma message ("TODO: code repetition")
 
 		ui->textBrowser_machineCode->clear();
 		// we are now in the machine code editor

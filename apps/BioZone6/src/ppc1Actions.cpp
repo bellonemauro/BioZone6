@@ -106,6 +106,7 @@ void BioZone6_GUI::runProtocol()
 
 void BioZone6_GUI::runProtocolFile(QString _protocol_path) {
 
+	_protocol_path = QDir::cleanPath(_protocol_path);
 	std::cout << HERE << " :: running protocol --> " 
 		<< _protocol_path.toStdString() << std::endl;
 

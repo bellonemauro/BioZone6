@@ -4,7 +4,7 @@
 <!--File created on Tue Mar 15 2022  17:14:33 -->
 <BioZoneProtocol version="1.1">
     <allOff value="" message=" "/>
-    <solution1 value="0" message=" "/>
+    <solution2 value="0" message=" "/>
     <setVswitch value="-250" message=" "/>    
     <setVrecirc value="-250" message=" "/>
     <setPoff value="0" message=" "/>

@@ -79,7 +79,9 @@ void BioZone6_GUI::runProtocol()
 		m_macroRunner_thread->killMacro(true);
 
 		m_ppc1->setVerbose(m_pr_params->verboseOut);
-		ui->groupBox_operMode->setEnabled(true);
+		
+		if (m_GUI_params->IONoptixPoweredByFluicell == false) ui->groupBox_operMode->setEnabled(true);
+
 		ui->groupBox_PonOM->setEnabled(true);
 		ui->pushButton_operational->setEnabled(true);
 		ui->pushButton_newTip->setEnabled(true);
@@ -283,7 +285,9 @@ void BioZone6_GUI::protocolFinished(const QString &_result) {
 
 	// restore GUI 
 	ui->label_runMacro->setText(m_str_label_run_protocol);
-	ui->groupBox_operMode->setEnabled(true);
+
+	if (m_GUI_params->IONoptixPoweredByFluicell == false) ui->groupBox_operMode->setEnabled(true);
+	
 	ui->groupBox_PonOM->setEnabled(true);
 	ui->pushButton_operational->setEnabled(true);
 	ui->pushButton_newTip->setEnabled(true);

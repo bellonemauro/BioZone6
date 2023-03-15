@@ -738,6 +738,7 @@ void BioZone6_tools::getGUIsettingsFromGUI()
 	m_GUI_params->speechActive = ui_tools->checkBox_enableSynthesis->isChecked();
 	m_GUI_params->outFilePath = ui_tools->lineEdit_msg_out_file_path->text();
 	m_GUI_params->setLanguage(ui_tools->comboBox_language->currentIndex());
+	m_GUI_params->IONoptixPoweredByFluicell = ui_tools->checkBox_enableIONoptix->isChecked();
 
 }
 
@@ -943,7 +944,10 @@ bool BioZone6_tools::loadSettings(QString _path)
 	ui_tools->checkBox_enableSynthesis->setChecked(speech_active);
 	m_GUI_params->speechActive = speech_active;
 
-	
+	bool enable_IONoptix = m_settings->value("GUI/enableIONoptix", "0").toBool();
+	ui_tools->checkBox_enableIONoptix->setChecked(enable_IONoptix);
+	m_GUI_params->IONoptixPoweredByFluicell = enable_IONoptix;
+		
 	QString out_file_path = m_settings->value("GUI/OutFilePath", "./Ext_data/").toString();
 	m_GUI_params->outFilePath = out_file_path; 
 
@@ -1604,6 +1608,8 @@ bool BioZone6_tools::saveSettings(QString _file_name)
 	settings->setValue("GUI/DumpHistoryToFile", int(ui_tools->checkBox_dumpToFile->isChecked())); 
 	settings->setValue("GUI/SpeechActive", int(ui_tools->checkBox_enableSynthesis->isChecked()));
 	settings->setValue("GUI/OutFilePath", QString(ui_tools->lineEdit_msg_out_file_path->text()));
+	settings->setValue("GUI/enableIONoptix", int(ui_tools->checkBox_enableIONoptix->isChecked()));
+
 	// automatic updates =
 	settings->setValue("GUI/AutomaticUpdates", int(ui_tools->comboBox_automaticUpdates->currentIndex()));
 

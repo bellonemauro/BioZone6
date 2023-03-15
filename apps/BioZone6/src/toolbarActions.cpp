@@ -235,7 +235,12 @@ void BioZone6_GUI::simulationOnly()
 	m_macroRunner_thread->setSimulationFlag(m_simulationOnly);
 
 	ui->groupBox_action->setEnabled(m_simulationOnly || ui->actionConnectDisconnect->isChecked());
-	ui->groupBox_operMode->setEnabled(m_simulationOnly || ui->actionConnectDisconnect->isChecked());
+
+	if (m_GUI_params->IONoptixPoweredByFluicell == true) 
+		ui->groupBox_operMode->setEnabled(false);
+	else
+		ui->groupBox_operMode->setEnabled(m_simulationOnly || ui->actionConnectDisconnect->isChecked());
+	
 	ui->groupBox_PonOM->setEnabled(m_simulationOnly || ui->actionConnectDisconnect->isChecked());
 	ui->groupBox_3->setEnabled(m_simulationOnly || ui->actionConnectDisconnect->isChecked());
 	//ui->tab_2->setEnabled(m_simulationOnly || ui->actionConnectDisconnect->isChecked());
@@ -360,7 +365,12 @@ bool BioZone6_GUI::disCon(bool _connect)
 					ui->actionConnectDisconnect->setText(m_str_disconnect);
 					ui->actionSimulation->setEnabled(false);
 					ui->groupBox_action->setEnabled(true);
-					ui->groupBox_operMode->setEnabled(true);
+
+					if (m_GUI_params->IONoptixPoweredByFluicell == true) 
+						ui->groupBox_operMode->setEnabled(false);
+					else
+						ui->groupBox_operMode->setEnabled(true);
+					
 					ui->groupBox_PonOM->setEnabled(true);
 					ui->groupBox_3->setEnabled(true);
 					//ui->tab_2->setEnabled(true);

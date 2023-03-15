@@ -250,7 +250,6 @@ BioZone6_GUI::BioZone6_GUI(QMainWindow *parent) :
   ui->groupBox_action->setEnabled(false);
   ui->groupBox_operMode->setEnabled(false);
   ui->groupBox_3->setEnabled(false);
-  ui->groupBox_operMode->setEnabled(false);
   ui->groupBox_PonOM->setEnabled(false);
   enableTab2(false);
 
@@ -323,6 +322,11 @@ BioZone6_GUI::BioZone6_GUI(QMainWindow *parent) :
 
   // all the connects to signal/slots are in this function
   initConnects();
+
+  if (m_GUI_params->IONoptixPoweredByFluicell == true)
+  {
+	  ui->actionAbout->setIcon(QPixmap(":/icons/IONoptix_fluicell_logo.png"));
+  }
 
   std::cout << HERE << m_dialog_tools->getUserName().toStdString() << std::endl;
 
@@ -1205,6 +1209,21 @@ void BioZone6_GUI::toolApply()
 		//this->setLargeAndSlow();
 	}
 
+	
+	if (m_GUI_params->IONoptixPoweredByFluicell == true)
+	{
+		ui->actionAbout->setIcon(QPixmap(":/icons/IONoptix_fluicell_logo.png"));
+		ui->groupBox_operMode->setEnabled(false);
+		ui->pushButton_standardAndRegular->setChecked(true);
+	}
+	else
+	{
+		ui->actionAbout->setIcon(QPixmap(":/icons/fluicell_logo_BIG.png"));
+
+		if(ui->actionSimulation->isChecked() || ui->actionConnectDisconnect->isChecked())
+			ui->groupBox_operMode->setEnabled(true);
+	}
+
 }
 
 void BioZone6_GUI::toolOk()
@@ -1226,6 +1245,7 @@ void BioZone6_GUI::toolOk()
 	{
 		this->setLargeAndSlow(verbose);
 	}
+
 }
 
 void BioZone6_GUI::setEnableMainWindow(bool _enable) {

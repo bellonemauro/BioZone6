@@ -146,6 +146,9 @@ BioZone6_tools::BioZone6_tools(QWidget *parent):
 
     connect(ui_tools->checkBox_enableToolTips,
         SIGNAL(stateChanged(int)), this, SLOT(enableToolTip(int)));
+	
+	connect(ui_tools->checkBox_enableIONoptix,
+		SIGNAL(stateChanged(int)), this, SLOT(enableIONoptix_checked(int)));
 
     connect(ui_tools->checkBox_enablePPC1filter,
         SIGNAL(stateChanged(int)), this, SLOT(enablePPC1filtering()));
@@ -549,6 +552,17 @@ void BioZone6_tools::enableToolTip(int _inx)
 {
 	m_GUI_params->enableToolTips = ui_tools->checkBox_enableToolTips->isChecked();
 }
+
+
+void BioZone6_tools::enableIONoptix_checked(int _inx)
+{
+	if (ui_tools->checkBox_enableIONoptix->isChecked())
+		ui_tools->comboBox_tipSelection->setCurrentIndex(2);
+	else
+		ui_tools->comboBox_tipSelection->setCurrentIndex(0);
+
+}
+
 
 void BioZone6_tools::checkForUpdates()
 {

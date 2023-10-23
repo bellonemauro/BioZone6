@@ -20,7 +20,7 @@
  // xmlreader.h // from here https://github.com/YLoveDBule/ShootGame/blob/6ede88734187b2c893ebf2d00919bc6a648b0142/Classes/XmlReader/XmlReader.h
  */
 
-// this macro is used to print function name and usefull debug information 
+// this macro is used to print function name and useful debug information 
 #define HERE std::string(__FUNCTION__ + std::string(" at line ") + std::to_string(__LINE__))
 
 fluicell::PPC1api6::PPC1api6() :
@@ -130,6 +130,96 @@ void fluicell::PPC1api6::setTip(fluicell::PPC1api6dataStructures::tip::tipType _
 
 }
 
+bool fluicell::PPC1api6::setChannelData(const std::string& _data, 
+	fluicell::PPC1api6dataStructures::PPC1api6_data::channel* _channel) const
+{
+	std::vector<double> line;  // decoded line 
+	if (decodeChannelLine(_data, line))  // decode the line 
+	{   // and fill the right place in the data structure
+		_channel->setChannelData(line.at(0), line.at(1),
+			line.at(2), (int)line.at(3));
+		return true;
+	}
+	
+	logError(HERE, " Error in decoding line ");
+	return false;
+	
+}
+
+bool fluicell::PPC1api6::setFlagsData(const std::string& _data,
+	fluicell::PPC1api6dataStructures::PPC1api6_data* _PPC1_data) const
+{
+	// string format:  i0|j0|k0|l0|e0|f0
+		// char index   :  0123456789
+	int value = toDigit(_data.at(1));
+	if (value == 0 || value == 1) { // admitted values are only 0 and 1
+		_PPC1_data->i = value;
+	}
+	else {
+		logError(HERE,
+			" Error in decoding line _PPC1api6_data->i string: " +
+			_data + " value " + std::to_string(value));
+		return false;
+	}
+
+	value = toDigit(_data.at(4));
+	if (value == 0 || value == 1) { // admitted values are only 0 and 1
+		_PPC1_data->j = value;
+	}
+	else {
+		logError(HERE,
+			" Error in decoding line _PPC1api6_data->j string: " +
+			_data + " value " + std::to_string(value));
+		return false;
+	}
+
+	value = toDigit(_data.at(7));
+	if (value == 0 || value == 1) { // admitted values are only 0 and 1
+		_PPC1_data->k = value;
+	}
+	else {
+		logError(HERE,
+			" Error in decoding line _PPC1api6_data->k string: " +
+			_data + " value " + std::to_string(value));
+		return false;
+	}
+
+	value = toDigit(_data.at(10));
+	if (value == 0 || value == 1) { // admitted values are only 0 and 1
+		_PPC1_data->l = value;
+	}
+	else {
+		logError(HERE,
+			" Error in decoding line _PPC1api6_data->l string: " +
+			_data + " value " + std::to_string(value));
+		return false;
+	}
+
+	value = toDigit(_data.at(13));
+	if (value == 0 || value == 1) { // admitted values are only 0 and 1
+		_PPC1_data->e = value;
+	}
+	else {
+		logError(HERE,
+			" Error in decoding line _PPC1api6_data->e string: " +
+			_data + " value " + std::to_string(value));
+		return false;
+	}
+
+	value = toDigit(_data.at(16));
+	if (value == 0 || value == 1) { // admitted values are only 0 and 1
+		_PPC1_data->f = value;
+	}
+	else {
+		logError(HERE,
+			" Error in decoding line _PPC1api6_data->f string: " +
+			_data + " value " + std::to_string(value));
+		return false;
+	}
+
+	return true;
+}
+
 bool fluicell::PPC1api6::decodeDataLine(const std::string &_data, 
 	fluicell::PPC1api6dataStructures::PPC1api6_data *_PPC1_data) const
 {
@@ -148,133 +238,24 @@ bool fluicell::PPC1api6::decodeDataLine(const std::string &_data,
 		return false;
 	}
 
-	std::vector<double> line;  // decoded line 
+	const char first_char = _data.at(0);
+	if (first_char == 'A') 
+		return setChannelData(_data, _PPC1_data->channel_A);
 
-	if (_data.at(0) == 'A') {
-		if (decodeChannelLine(_data, line))  // decode the line 
-		{   // and fill the right place in the data structure
-			_PPC1_data->channel_A->setChannelData ( line.at(0), line.at(1),
-				line.at(2), (int)line.at(3));
-			return true;
-		}
-		else {
-			logError(HERE, " Error in decoding line ");
-			return false;
-		}
+	if (first_char == 'B') 
+		return setChannelData(_data, _PPC1_data->channel_B);
+
+	if (first_char == 'C') 
+		return setChannelData(_data, _PPC1_data->channel_C);
+
+	if (first_char == 'D') 
+		return setChannelData(_data, _PPC1_data->channel_D);
+
+	if (first_char == 'i') {
+		return setFlagsData(_data, _PPC1_data);
 	}
 
-	if (_data.at(0) == 'B') {
-		if (decodeChannelLine(_data, line))  // decode the line 
-		{   // and fill the right place in the data structure
-			_PPC1_data->channel_B->setChannelData(line.at(0), line.at(1),
-				line.at(2), (int)line.at(3));
-			return true;
-		}
-		else {
-			logError(HERE, " Error in decoding line ");
-			return false;
-		}
-	}
-
-	if (_data.at(0) == 'C') {
-		if (decodeChannelLine(_data, line))  // decode the line 
-		{   // and fill the right place in the data structure
-			_PPC1_data->channel_C->setChannelData(line.at(0), line.at(1),
-				line.at(2), (int)line.at(3));
-			return true;
-		}
-		else {
-			logError(HERE, " Error in decoding line ");
-			return false;
-		}
-	}
-
-	if (_data.at(0) == 'D') {
-		if (decodeChannelLine(_data, line))  // decode the line 
-		{   // and fill the right place in the data structure
-			_PPC1_data->channel_D->setChannelData(line.at(0), line.at(1),
-				line.at(2), (int)line.at(3));
-			return true;
-		}
-		else {
-			logError(HERE, " Error in decoding line ");
-			return false;
-		}
-	}
-
-	if (_data.at(0) == 'i') {
-		// string format:  i0|j0|k0|l0|e0|f0
-		// char index   :  0123456789
-		int value = toDigit(_data.at(1));
-		if (value == 0 || value == 1) { // admitted values are only 0 and 1
-			_PPC1_data->i = value;
-		}
-		else {
-			logError(HERE, 
-				" Error in decoding line _PPC1api6_data->i string: " + 
-				_data + " value " + std::to_string(value));
-			return false;
-		}
-
-		value = toDigit(_data.at(4));
-		if (value == 0 || value == 1) { // admitted values are only 0 and 1
-			_PPC1_data->j = value;
-		}
-		else {
-			logError(HERE,
-				" Error in decoding line _PPC1api6_data->j string: " + 
-				_data + " value " + std::to_string(value));
-			return false;
-		}
-
-		value = toDigit(_data.at(7));
-		if (value == 0 || value == 1) { // admitted values are only 0 and 1
-			_PPC1_data->k = value;
-		}
-		else { 
-			logError(HERE,
-				" Error in decoding line _PPC1api6_data->k string: " + 
-				_data + " value " + std::to_string(value));
-			return false;
-		}
-
-		value = toDigit(_data.at(10));
-		if (value == 0 || value == 1) { // admitted values are only 0 and 1
-			_PPC1_data->l = value;
-		}
-		else {
-			logError(HERE,
-				" Error in decoding line _PPC1api6_data->l string: " + 
-				_data + " value " + std::to_string(value));
-			return false;
-		}
-
-		value = toDigit(_data.at(13));
-		if (value == 0 || value == 1) { // admitted values are only 0 and 1
-			_PPC1_data->e = value;
-		}
-		else {
-			logError(HERE,
-				" Error in decoding line _PPC1api6_data->e string: " +
-				_data + " value " + std::to_string(value));
-			return false;
-		}
-
-		value = toDigit(_data.at(16));
-		if (value == 0 || value == 1) { // admitted values are only 0 and 1
-			_PPC1_data->f = value;
-		}
-		else {
-			logError(HERE,
-				" Error in decoding line _PPC1api6_data->f string: " +
-				_data + " value " + std::to_string(value));
-			return false;
-		}
-
-		return true;
-	}
-
-	if (_data.at(0) == 'I') {
+	if (first_char == 'I') {
 		// string format: IN1|OUT1 or IN0|OUT0
 		// char index:    01234567
 		int value = toDigit(_data.at(2));
@@ -296,7 +277,7 @@ bool fluicell::PPC1api6::decodeDataLine(const std::string &_data,
 		return true;
 	}
 
-	if (_data.at(0) == 'P') {  // FALLING TTL signal detected
+	if (first_char == 'P') {  // FALLING TTL signal detected
 		// string format: P\n
 		// char index:    01
 		_PPC1_data->trigger_fall = true;
@@ -304,7 +285,7 @@ bool fluicell::PPC1api6::decodeDataLine(const std::string &_data,
 		return true;
 	} 
 
-	if (_data.at(0) == 'R') {  //RISING TTL signal detected
+	if (first_char == 'R') {  //RISING TTL signal detected
 		// string format: R\n
 		// char index:    01
 		_PPC1_data->trigger_fall = false;
@@ -463,9 +444,8 @@ bool fluicell::PPC1api6::connectCOM()
 			logError(HERE, " no match VID/PID device "); 
 			return false;
 		}
-		else {
-			logStatus(HERE, " VID/PID match ");
-		}
+		logStatus(HERE, " VID/PID match ");
+		
 		// "Is the port open?";
 		if (m_PPC1_serial->isOpen())
 			std::this_thread::sleep_for(std::chrono::microseconds(100));  //--> do nothing, wait
@@ -479,10 +459,8 @@ bool fluicell::PPC1api6::connectCOM()
 			logError(HERE, "FAILED - Serial port not open ");
 			return false;
 		}
-		else {
-			m_excep_handler = false; //only on connection verified we reset the exception handler
-			return true; // open connection verified 
-		}
+		m_excep_handler = false; //only on connection verified we reset the exception handler
+		return true; // open connection verified 
 	}
 	catch (serial::IOException &e)
 	{
@@ -511,10 +489,10 @@ bool fluicell::PPC1api6::connectCOM()
 	catch (std::exception &e) 
 	{
 		logError(HERE, " Unhandled Exception " + std::string(e.what()));
-	m_PPC1_serial->close(); 
-	//throw e;  // TODO: this crashes
-	m_excep_handler = true;
-	return false;
+		m_PPC1_serial->close(); 
+		//throw e;  // TODO: this crashes
+		m_excep_handler = true;
+		return false;
 	}
 }
 
@@ -699,21 +677,20 @@ bool fluicell::PPC1api6::setValvesState(const int _value) const
 
 bool fluicell::PPC1api6::setTTLstate(const bool _value) const
 {
-	if (_value) {
+	if (_value == 1) {
 		if (sendData("o1\n"))   // high
 		{
 			m_PPC1_data->TTL_out_trigger = true;
 			return true;
 		}
 	}
-	else {
-		if (sendData("o0\n"))  // low
-		{
-			m_PPC1_data->TTL_out_trigger = false;
-			return true;
-		}
+	// otherwise set to low
+	if (sendData("o0\n"))  // low
+	{
+		m_PPC1_data->TTL_out_trigger = false;
+		return true;
 	}
-
+	
 	return false;
 }
 
@@ -727,11 +704,9 @@ bool fluicell::PPC1api6::setPulsePeriod(const int _value) const
 		ss.append("\n");
 		return sendData(ss);
 	}
-	else
-	{
-		logError(HERE, " out of range ");
-		return false;
-	}
+
+	logError(HERE, " out of range ");
+	return false;
 }
 
 bool fluicell::PPC1api6::setRuntimeTimeout(const int _value) const
@@ -745,11 +720,9 @@ bool fluicell::PPC1api6::setRuntimeTimeout(const int _value) const
 		ss.append("\n");
 		return sendData(ss);
 	}
-	else
-	{
-		logError(HERE, " out of range ");
-		return false;
-	}
+
+	logError(HERE, " out of range ");
+	return false;
 }
 
 
@@ -1008,16 +981,12 @@ bool fluicell::PPC1api6::setDataStreamPeriod(const int _value) {
 		ss.append("u");
 		ss.append(std::to_string(_value));
 		ss.append("\n");
-		if (sendData(ss)) return true;
+		return sendData(ss);
 	}
-	else
-	{
-		logError(HERE, " out of range ");
-		sendData("u200\n");  // send default value
-		return false;
-	}
-	return false;
 
+	logError(HERE, " out of range ");
+	sendData("u200\n");  // send default value
+	return false;
 }
 
 bool fluicell::PPC1api6::setDefaultPV(double _default_pon, double _default_poff, 
@@ -1121,10 +1090,7 @@ bool fluicell::PPC1api6::sendData(const std::string &_data) const
 		if (m_PPC1_serial->write(_data) > 0) {
 			return true;
 		}
-		else {
-			logError(HERE, " cannot write data --- readline ");
-			return false;
-		}
+		logError(HERE, " cannot write data --- readline ");
 	}
 	return false;
 }
@@ -1136,15 +1102,11 @@ bool fluicell::PPC1api6::readData(std::string &_out_data)
 		if (m_PPC1_serial->readline(_out_data, 65536, "\n") > 0) {
 			return true;
 		}
-		else {
-			logError(HERE, " cannot read data --- readline ");
-			return false;
-		}
-	} // if the port is not open we cannot read data
-	else {
-		logError(HERE, " cannot read data --- port not open");
+		logError(HERE, " cannot read data --- readline ");
 		return false;
-	}
+	} // if the port is not open we cannot read data
+	logError(HERE, " cannot read data --- port not open");
+	return false;
 }
 
 bool fluicell::PPC1api6::checkVIDPID(const std::string &_port) const
@@ -1171,7 +1133,7 @@ bool fluicell::PPC1api6::checkVIDPID(const std::string &_port) const
 		for (unsigned int j = 0; j < hw_info.size() - 2; j++)
 		{
 			// extract 3 characters looking for the strings VID or PID
-			std::string s = hw_info.substr(j, 3);
+			const std::string s = hw_info.substr(j, 3);
 			if (s.compare(v) == 0 && hw_info.size() >= j + 4) { 
 				// extract the 4 characters after VID_
 				std::string vid = hw_info.substr(j + 4, 4); 
@@ -1186,6 +1148,13 @@ bool fluicell::PPC1api6::checkVIDPID(const std::string &_port) const
 		devs.push_back(dev);
 	}
 	
+	for (const auto& dev : devs)
+		if (dev.port == _port && dev.VID == PPC1_VID && dev.PID == PPC1_PID)
+			return true; 
+	
+	return false; 
+	// TODO: test the previous cycle and remove the following 
+
 	for (unsigned int i = 0; i < devs.size(); i++) // for all the connected devices 
 		if (devs.at(i).port.compare(_port) == 0) // look for the device connected on _port
 			if (devs.at(i).VID.compare(PPC1_VID) == 0) // check VID

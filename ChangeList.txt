@@ -1,3 +1,7 @@
+V.1.1.9 
+Chart visualization improved
+Bug solved 
+
 V.1.1.7 
 Added IONoptix setting 
 Added new logo (visibile only for ionoptix)

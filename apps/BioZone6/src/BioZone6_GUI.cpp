@@ -254,9 +254,10 @@ BioZone6_GUI::BioZone6_GUI(QMainWindow *parent) :
   enableTab2(false);
 
   //init the chart view
-  m_chart_view = new protocolChart();
+  m_chart_view = new protocolChart(m_pipette_status);
   m_chartView = m_chart_view->getChartView();
   ui->gridLayout_12->addWidget(m_chartView);
+
 
   // set the user name into the GUI
   QString s;
@@ -323,10 +324,11 @@ BioZone6_GUI::BioZone6_GUI(QMainWindow *parent) :
   // all the connects to signal/slots are in this function
   initConnects();
 
-  if (m_GUI_params->IONoptixPoweredByFluicell == true)
+  if (m_GUI_params->IONoptixPoweredByFluicell == true || m_GUI_params->useIONoptixLogo == true)
   {
 	  ui->actionAbout->setIcon(QPixmap(":/icons/IONoptix_fluicell_logo.png"));
   }
+
 
   std::cout << HERE << m_dialog_tools->getUserName().toStdString() << std::endl;
 
@@ -1188,26 +1190,25 @@ void BioZone6_GUI::toolApply()
 	m_internal_protocol_path = m_protocols_path + m_internal_protocol_string;
 	m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_SnR_path;
 
-	if (ui->pushButton_standardAndRegular->isChecked())
-	{
+	if (ui->pushButton_standardAndRegular->isChecked()) {
 		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_SnR_path;
 		//this->setStandardAndRegular();
 	}
-	if (ui->pushButton_standardAndSlow->isChecked())
-	{
-		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_SnS_path;
-		//this->setStandardAndSlow();
-	}
-	if (ui->pushButton_largeAndRegular->isChecked()) 
-	{
-		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_LnR_path;
-		//this->setLargeAndRegular();
-	}
-	if (ui->pushButton_largeAndSlow->isChecked())
-	{
-		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_LnS_path;
-		//this->setLargeAndSlow();
-	}
+	else 
+		if (ui->pushButton_standardAndSlow->isChecked()) {
+			m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_SnS_path;
+			//this->setStandardAndSlow();
+		}
+		else 
+			if (ui->pushButton_largeAndRegular->isChecked()) {
+				m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_LnR_path;
+				//this->setLargeAndRegular();
+			}
+			else 
+				if (ui->pushButton_largeAndSlow->isChecked()) {
+					m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_LnS_path;
+					//this->setLargeAndSlow();
+				}
 
 	
 	if (m_GUI_params->IONoptixPoweredByFluicell == true)
@@ -1223,6 +1224,12 @@ void BioZone6_GUI::toolApply()
 		if(ui->actionSimulation->isChecked() || ui->actionConnectDisconnect->isChecked())
 			ui->groupBox_operMode->setEnabled(true);
 	}
+
+
+	if (m_GUI_params->useIONoptixLogo == true)
+		ui->actionAbout->setIcon(QPixmap(":/icons/IONoptix_fluicell_logo.png"));
+	else
+		ui->actionAbout->setIcon(QPixmap(":/icons/fluicell_logo_BIG.png"));
 
 }
 
@@ -1373,7 +1380,7 @@ void BioZone6_GUI::about() {
 	QMessageBox messageBox;
 	QString msg_title = "About Fluicell BioZone6 ";
 	QString msg_content = tr("BioZone6 is part of the <br> Fluicell Lab-on-a-tip technology family,<br>"
-		"Copyrighted Sweden 2022.<br><br>"
+		"Copyrighted Sweden 2024.<br><br>"
 		"BioZone6®, Fluicell®, Lab-on-a-tip® <br>are all registered trademarks of Fluicell AB, Sweden <br> <br>"
 		"Flöjelbergsgatan 8C<br>"
 		"SE-431 37 Mölndal, Sweden<br>"

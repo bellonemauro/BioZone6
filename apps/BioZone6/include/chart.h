@@ -17,6 +17,7 @@
 #include <QtCharts/QChartView>
 #include <QtCharts/QLineSeries>
 #include <QtCharts/QAreaSeries>
+#include "dataStructures.h"
 
 // PPC1api test
 #include <fluicell/ppc1api6/ppc1api6.h>
@@ -28,7 +29,7 @@ class protocolChart
 
 public:
 
-	explicit protocolChart( );  //!>  Ctor
+	explicit protocolChart(const pipetteStatus* _ppc1_status);  //!>  Ctor
 	
 	~protocolChart();           //!> Dtor
 
@@ -188,6 +189,8 @@ private:
 	*/
 	void appendSolutionPoint(QLineSeries *_serie, double _current_time, double _value);
 	
+	const pipetteStatus* m_ppc1_status;  //!< pointer to the ppc1 status member in the main gui class
+
 	// data members to build the chart, 
 	// in this case private pointers to the data are preferred to have simple updates
 	// the chart is made using series of points for each line and areas for solutions

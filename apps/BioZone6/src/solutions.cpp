@@ -124,27 +124,25 @@ void BioZone6_GUI::onPushButtonSolutionX(QPushButton *_button, int _idx)
 				.arg(QDir::toNativeSeparators(currentProtocolFileName)));
 			_button->setChecked(true);
 		}
+		return;
+	}
+	
+	// start pumping protocol
+	currentProtocolFileName = m_operational_mode_protocol_path +
+		"ON_Button" + QString::number(_idx) + ".prt";
+	if (QFile::exists(currentProtocolFileName)) {
+		//QMessageBox::warning(this, m_str_warning,
+		//	"FOUND" + tr("<br>%1")
+		//	.arg(QDir::toNativeSeparators(currentProtocolFileName)));
+		this->runProtocolFile(currentProtocolFileName);
 	}
 	else
 	{
-		// start pumping protocol
-		currentProtocolFileName = m_operational_mode_protocol_path +
-			"ON_Button" + QString::number(_idx) + ".prt";
-		if (QFile::exists(currentProtocolFileName)) {
-			//QMessageBox::warning(this, m_str_warning,
-			//	"FOUND" + tr("<br>%1")
-			//	.arg(QDir::toNativeSeparators(currentProtocolFileName)));
-			this->runProtocolFile(currentProtocolFileName);
-		}
-		else
-		{
-			QMessageBox::warning(this, m_str_warning,
-				m_str_file_not_loaded + tr("<br>%1")
-				.arg(QDir::toNativeSeparators(currentProtocolFileName)));
-			_button->setChecked(false);
-		}
+		QMessageBox::warning(this, m_str_warning,
+			m_str_file_not_loaded + tr("<br>%1")
+			.arg(QDir::toNativeSeparators(currentProtocolFileName)));
+		_button->setChecked(false);
 	}
-
 }
 
 void BioZone6_GUI::onPushButtonSolution1() 

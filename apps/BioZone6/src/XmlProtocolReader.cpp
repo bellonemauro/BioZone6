@@ -24,12 +24,14 @@ bool XmlProtocolReader::read(QIODevice *device, protocolTreeWidgetItem* after_it
 {
 	std::cout << HERE << std::endl;
 
+	const QString version = QStringLiteral("1.1"); // TODO THIS IS A MEMBER
+
     xml.setDevice(device);
 	m_after_item = after_item;
 	m_row = treeWidget->topLevelItemCount()-1;//    treeWidget->currentIndex().row();
     if (xml.readNextStartElement()) {
         if ((xml.name() == swProtocolAttribute() || xml.name() == old_swProtocolAttribute())
-            && xml.attributes().value(versionAttribute()) == QLatin1String("1.1") ) {
+            && xml.attributes().value(versionAttribute()) == version) {
 			m_protocol_attribute = xml.name().toString();
             readPRT();
         } 
@@ -71,6 +73,7 @@ void XmlProtocolReader::readProtocolItem(protocolTreeWidgetItem* parent_item)
 	ComboBoxDelegate virtual_combo;
 	child_item->setText(1, QString::number(virtual_combo.getElementIndex(command)));
 
+	const QXmlStreamAttributes my_attributes = xml.attributes();
 	for (int i = 0; i < xml.attributes().count(); i++)
 	{
 		if (xml.attributes().at(i).name() == valueAttribute())

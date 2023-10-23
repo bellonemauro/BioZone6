@@ -216,7 +216,8 @@ int main(int argc, char **argv)
 
 #ifdef _DEBUG
         std::cout << " Running with debug settings " << std::endl;
-        initPaths(window, user_path);
+		initPaths(window, tips_user_path,
+			settings_user_path, ext_data_user_path);
 #else
         if (!initPaths(window, tips_user_path, 
 			settings_user_path, ext_data_user_path)) return 0;

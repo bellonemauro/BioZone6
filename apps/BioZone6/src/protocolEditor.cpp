@@ -409,6 +409,11 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 		// load the protocol for operational
 		int value = int(_item->getLastValue());
 
+		// MB: 20230315 : this is to follow issue #3 but
+		//               maybe it is better to put it into the validity check? 
+		if (m_GUI_params->IONoptixPoweredByFluicell == true)
+			value = 1; 
+
 		switch (value)
 		{
 		case 1:
@@ -497,6 +502,14 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 
 		QString file_to_open = QString(m_internal_protocol_path + m_buttonPRTfiles_LnR_path +
 			"/ON_Button" + value + ".prt");
+
+		// MB: 20230315: in case of ionoptix users this commands will have no effect
+		//               and only standard and regular modes are allowed 
+		//               see issue "Only one integration mode for the IonOptix Integration #3"
+		if (m_GUI_params->IONoptixPoweredByFluicell == true)
+			QString file_to_open = QString(m_internal_protocol_path + m_buttonPRTfiles_SnR_path +
+				"/ON_Button" + value + ".prt");
+
 		//QMessageBox::warning(this, m_str_warning,
 		//	QString("presetProtocols/internal open  the file. <br>" + file_to_open));
 
@@ -511,6 +524,11 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 		QString value = QString::number(int(_item->getLastValue()));
 		QString file_to_open = QString(m_internal_protocol_path + m_buttonPRTfiles_LnR_path + 
 			"/OFF_Button" + value + ".prt");
+
+		if (m_GUI_params->IONoptixPoweredByFluicell == true)
+			QString file_to_open = QString(m_internal_protocol_path + m_buttonPRTfiles_SnR_path +
+				"/OFF_Button" + value + ".prt");
+
 		QTreeWidget* virtual_tree_widget = new QTreeWidget();
 		openXml(file_to_open, virtual_tree_widget);
 		fromTreeToItemVector(virtual_tree_widget, _command_vector);
@@ -523,6 +541,10 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 
 		QString file_to_open = QString(m_internal_protocol_path + m_buttonPRTfiles_SnS_path + 
 			"/ON_Button" + value + ".prt");
+
+		if (m_GUI_params->IONoptixPoweredByFluicell == true)
+			QString file_to_open = QString(m_internal_protocol_path + m_buttonPRTfiles_SnR_path +
+				"/ON_Button" + value + ".prt");
 		//QMessageBox::warning(this, m_str_warning,
 		//	QString("presetProtocols/internal open  the file. <br>" + file_to_open));
 
@@ -537,6 +559,11 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 		QString value = QString::number(int(_item->getLastValue()));
 		QString file_to_open = QString(m_internal_protocol_path + m_buttonPRTfiles_SnS_path +
 			"/OFF_Button" + value + ".prt");
+
+		if (m_GUI_params->IONoptixPoweredByFluicell == true)
+			QString file_to_open = QString(m_internal_protocol_path + m_buttonPRTfiles_SnR_path +
+				"/OFF_Button" + value + ".prt");
+
 		QTreeWidget* virtual_tree_widget = new QTreeWidget();
 		openXml(file_to_open, virtual_tree_widget);
 		fromTreeToItemVector(virtual_tree_widget, _command_vector);
@@ -549,6 +576,10 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 
 		QString file_to_open = QString(m_internal_protocol_path + m_buttonPRTfiles_LnS_path +
 			"/ON_Button" + value + ".prt");
+
+		if (m_GUI_params->IONoptixPoweredByFluicell == true)
+			QString file_to_open = QString(m_internal_protocol_path + m_buttonPRTfiles_SnR_path +
+				"/ON_Button" + value + ".prt");
 		//QMessageBox::warning(this, m_str_warning,
 		//	QString("presetProtocols/internal open  the file. <br>" + file_to_open));
 
@@ -563,6 +594,11 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 		QString value = QString::number(int(_item->getLastValue()));
 		QString file_to_open = QString(m_internal_protocol_path + m_buttonPRTfiles_LnS_path +
 			"/OFF_Button" + value + ".prt");
+
+		if (m_GUI_params->IONoptixPoweredByFluicell == true)
+			QString file_to_open = QString(m_internal_protocol_path + m_buttonPRTfiles_SnR_path +
+				"/OFF_Button" + value + ".prt");
+
 		QTreeWidget* virtual_tree_widget = new QTreeWidget();
 		openXml(file_to_open, virtual_tree_widget);
 		fromTreeToItemVector(virtual_tree_widget, _command_vector);

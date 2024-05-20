@@ -191,6 +191,8 @@ private slots:
 
 	void enableToolTip(int _inx);
 
+	void enableIONoptix_checked(int _inx);
+
 	void checkForUpdates();
 
 	void testTTL();

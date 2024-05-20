@@ -15,7 +15,8 @@
 #include "dataStructures.h"
 
 
-protocolChart::protocolChart(  ):
+protocolChart::protocolChart(const pipetteStatus* _ppc1_status) :
+	m_ppc1_status(_ppc1_status),
 	chart_width(10.0),
 	min_series_pon (80.0),
 	min_series_poff (70.0),
@@ -276,6 +277,8 @@ protocolChart::protocolChart(  ):
 	m_chartView = new QChartView(m_chart);
 	m_chartView->setRenderHint(QPainter::Antialiasing);
 	m_chartView->setBackgroundBrush(QBrush(QColor(0xFA, 0xFA, 0xFA)));
+
+	updateChartProtocol(NULL);
 }
 
 void protocolChart::updateChartTime(int _time_value)
@@ -295,7 +298,7 @@ void protocolChart::updateChartProtocol(f_protocol *_protocol)
 {
 	std::cout << HERE << std::endl;
 	
-	if (_protocol == NULL) return;      // if is null we do nothing
+	
 
 	m_series_Pon->clear();
 	m_series_Poff->clear();
@@ -314,6 +317,9 @@ void protocolChart::updateChartProtocol(f_protocol *_protocol)
 
 	double current_time = 0.0; //!> starts from zero and will be updated according to the duration of the macro
 	
+	if (_protocol == NULL) return;      // if is null we do nothing
+	if (_protocol->size() < 1) return;
+
 	// append zero
 	m_series_Pon->append(current_time,
 		min_series_pon);  // in [80; 90]
@@ -326,26 +332,29 @@ void protocolChart::updateChartProtocol(f_protocol *_protocol)
 	m_series_solution->append(current_time,
 		m_base_sol_value); 
 	m_series_ask->append(current_time,
-		min_series_ask );  // + 5.0 (chart_width/2) just to set the line in the middle for now
+		min_series_ask);  // + 5.0 (chart_width/2) just to set the line in the middle for now
 	m_series_sync_in->append(current_time,
-		min_series_sync_in ); // + 5.0 just to set the line in the middle for now
+		min_series_sync_in); // + 5.0 just to set the line in the middle for now
 	m_series_sync_out->append(current_time,
-		min_series_sync_out ); // + 5.0 just to set the line in the middle for now
+		min_series_sync_out); // + 5.0 just to set the line in the middle for now
 	// this for now is just to show a straight line
 
 	m_series_solution->append(max_time_line,
-		m_base_sol_value ); 
+		m_base_sol_value); 
 	m_series_ask->append(max_time_line,
-		min_series_ask );  // + 5.0 just to set the line in the middle for now
-	m_series_sync_in->append(max_time_line, 
-		min_series_sync_in ); // + 5.0 just to set the line in the middle for now
-	m_series_sync_out->append(100.0, 
-		min_series_sync_out ); // + 5.0 just to set the line in the middle for now
+		min_series_ask);  // + 5.0 just to set the line in the middle for now
+	m_series_sync_in->append(max_time_line,
+		min_series_sync_in); // + 5.0 just to set the line in the middle for now
+	m_series_sync_out->append(100.0,
+		min_series_sync_out); // + 5.0 just to set the line in the middle for now
 
-
+	appendPonPoint(min_time_line, m_ppc1_status->pon_set_point);
+	appendPoffPoint(min_time_line, m_ppc1_status->pon_set_point);
+	appendVrPoint(min_time_line, -m_ppc1_status->v_recirc_set_point);
+	appendVsPoint(min_time_line, -m_ppc1_status->v_switch_set_point);
+	
 	// if the macro is empty it does not update the chart
 	m_chart->update();
-	if (_protocol->size() < 1) return;  
 
 	// compute the duration of the macro
 	double total_duration = 0.0;

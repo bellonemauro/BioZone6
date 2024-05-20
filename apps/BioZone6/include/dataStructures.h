@@ -376,6 +376,8 @@ struct GUIparams {
 		this->enableHistory = true;
 		this->dumpHistoryToFile = true;
 		this->speechActive = true;
+		this->IONoptixPoweredByFluicell = false;
+		this->useIONoptixLogo = false;
 		this->outFilePath = "./Ext_data/";
 		this->language = English;
 
@@ -402,6 +404,8 @@ struct GUIparams {
 	bool enableHistory;
 	bool dumpHistoryToFile;
 	bool speechActive;
+	bool IONoptixPoweredByFluicell;
+	bool useIONoptixLogo;
 	QString	outFilePath;
 	languages language;
 

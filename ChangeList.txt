@@ -1,3 +1,12 @@
+V.1.1.9 
+Chart visualization improved
+Bug solved 
+
+V.1.1.7 
+Added IONoptix setting 
+Added new logo (visibile only for ionoptix)
+Added new functionalities according to issues #1 - #6
+
 V.1.1.6
 Removed the trial for changing the tip parameters
 

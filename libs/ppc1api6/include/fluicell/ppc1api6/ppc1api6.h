@@ -67,7 +67,7 @@ namespace fluicell
 
 	/**  \brief Simple API for the communication with the Fluicell PPC1-6CH controller
 	*
-	*  The PPC1-6CH controller allows the control of microfluids in the Fluicell biozone system, 
+	*  The PPC1-6CH programmable pump controller allows the control of microfluids in the Fluicell biozone system, 
 	*  more details <a href="http://fluicell.com/thebiopensystem/"> here </a>
 	*
 	*
@@ -189,6 +189,27 @@ namespace fluicell
 		bool decodeDataLine(const std::string &_data,
 			fluicell::PPC1api6dataStructures::PPC1api6_data * _PPC1_data) const;
 
+		/**  \brief Set the channel values in the data structure 
+		*
+		*    The channel line contains the following fields:
+		*
+		*          Channel character | set point | sensor reading | PID output duty cycle | state \n
+		*
+		*    example of input data : B|-0.000000|0.034291|0.000000|0\n
+		*
+		*  @param _data  input data to be decoded
+		*  @param _channel  pointer to the channel member to be filled with decoded values
+		*
+		* \return true if success, false for any error (for instance broken messages)
+		*
+		* \note False occur for: empty data, NaN in the string, wrong data size
+		*/
+		bool setChannelData(const std::string& _data, fluicell::PPC1api6dataStructures::PPC1api6_data::channel* _channel) const;
+		
+
+		bool setFlagsData(const std::string& _data, fluicell::PPC1api6dataStructures::PPC1api6_data* _PPC1_data) const;
+
+
 		/**  \brief Decode one channel line
 		*
 		*    The channel line contains the following fields:
@@ -248,10 +269,10 @@ namespace fluicell
 		* \note (int)char return the integer ASCII code for char so sub '0' is required
 		*/
 		int toDigit(const char _c) const { 
-			//TODO: too weak, there is no check for validity over _c
-			//      remember that '0' = 48 in ASCII  and '9' = 57 in ASCII 
-			//      but in principle this function only returns 0 or 1 according to 
-			//      the PPC1 api serial message
+			//  there is no check for validity over _c
+			//  remember that '0' = 48 in ASCII  and '9' = 57 in ASCII 
+			//  but in principle this function only returns 0 or 1 according to 
+			//  the PPC1 api serial message
 			return _c - '0';
 		}// '0' = 48 in ASCII 
 

@@ -146,6 +146,9 @@ BioZone6_tools::BioZone6_tools(QWidget *parent):
 
     connect(ui_tools->checkBox_enableToolTips,
         SIGNAL(stateChanged(int)), this, SLOT(enableToolTip(int)));
+	
+	connect(ui_tools->checkBox_enableIONoptix,
+		SIGNAL(stateChanged(int)), this, SLOT(enableIONoptix_checked(int)));
 
     connect(ui_tools->checkBox_enablePPC1filter,
         SIGNAL(stateChanged(int)), this, SLOT(enablePPC1filtering()));
@@ -550,6 +553,17 @@ void BioZone6_tools::enableToolTip(int _inx)
 	m_GUI_params->enableToolTips = ui_tools->checkBox_enableToolTips->isChecked();
 }
 
+
+void BioZone6_tools::enableIONoptix_checked(int _inx)
+{
+	if (ui_tools->checkBox_enableIONoptix->isChecked())
+		ui_tools->comboBox_tipSelection->setCurrentIndex(2);
+	else
+		ui_tools->comboBox_tipSelection->setCurrentIndex(0);
+
+}
+
+
 void BioZone6_tools::checkForUpdates()
 {
 	emit checkUpdatesNow();
@@ -738,6 +752,8 @@ void BioZone6_tools::getGUIsettingsFromGUI()
 	m_GUI_params->speechActive = ui_tools->checkBox_enableSynthesis->isChecked();
 	m_GUI_params->outFilePath = ui_tools->lineEdit_msg_out_file_path->text();
 	m_GUI_params->setLanguage(ui_tools->comboBox_language->currentIndex());
+	m_GUI_params->IONoptixPoweredByFluicell = ui_tools->checkBox_enableIONoptix->isChecked();
+	m_GUI_params->useIONoptixLogo = ui_tools->checkBox_enableIonOptixLogo->isChecked();
 
 }
 
@@ -830,6 +846,7 @@ void BioZone6_tools::activateOperationaModeSettings(int _enable)
 	ui_tools->doubleSpinBox_lengthToTip->setEnabled(enable);
 	ui_tools->doubleSpinBox_lengthToZone->setEnabled(enable);
 	ui_tools->comboBox_tipSelection->setEnabled(enable);
+	ui_tools->checkBox_enableIonOptixLogo->setEnabled(enable);
 
 
 }
@@ -943,7 +960,14 @@ bool BioZone6_tools::loadSettings(QString _path)
 	ui_tools->checkBox_enableSynthesis->setChecked(speech_active);
 	m_GUI_params->speechActive = speech_active;
 
-	
+	bool enable_IONoptix = m_settings->value("GUI/enableIONoptix", "0").toBool();
+	ui_tools->checkBox_enableIONoptix->setChecked(enable_IONoptix);
+	m_GUI_params->IONoptixPoweredByFluicell = enable_IONoptix;
+
+	//bool enable_IONoptixLogo = m_settings->value("GUI/useIONoptixLogo", "0").toBool();
+	//ui_tools->checkBox_enableIonOptixLogo->setChecked(enable_IONoptixLogo);
+	//m_GUI_params->useIONoptixLogo = enable_IONoptixLogo;
+		
 	QString out_file_path = m_settings->value("GUI/OutFilePath", "./Ext_data/").toString();
 	m_GUI_params->outFilePath = out_file_path; 
 
@@ -1604,6 +1628,11 @@ bool BioZone6_tools::saveSettings(QString _file_name)
 	settings->setValue("GUI/DumpHistoryToFile", int(ui_tools->checkBox_dumpToFile->isChecked())); 
 	settings->setValue("GUI/SpeechActive", int(ui_tools->checkBox_enableSynthesis->isChecked()));
 	settings->setValue("GUI/OutFilePath", QString(ui_tools->lineEdit_msg_out_file_path->text()));
+	settings->setValue("GUI/enableIONoptix", int(ui_tools->checkBox_enableIONoptix->isChecked()));
+	//settings->setValue("GUI/useIONoptixLogo", int(ui_tools->useIONoptixLogo->isChecked()));
+
+	
+
 	// automatic updates =
 	settings->setValue("GUI/AutomaticUpdates", int(ui_tools->comboBox_automaticUpdates->currentIndex()));
 
@@ -1759,14 +1788,7 @@ bool BioZone6_tools::saveSettings(QString _file_name)
 
 void BioZone6_tools::enableTipSetting()
 {
-	if (askPasswordToUnlock())
-	{
-		this->unlockProtectedSettings(true);
-	}
-	else
-	{
-		this->unlockProtectedSettings(false);
-	}
+	return unlockProtectedSettings(askPasswordToUnlock());
 }
 
 bool BioZone6_tools::askPasswordToUnlock()
@@ -2014,6 +2036,7 @@ void BioZone6_tools::unlockProtectedSettings(bool _lock)
 {
 	ui_tools->doubleSpinBox_lengthToTip->setEnabled(_lock);
 	ui_tools->doubleSpinBox_lengthToZone->setEnabled(_lock);
+	ui_tools->checkBox_enableIonOptixLogo->setEnabled(_lock);
 	//ui_tools->comboBox_tipSelection->setEnabled(_lock);
 }
 

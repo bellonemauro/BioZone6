@@ -371,12 +371,13 @@ struct GUIparams {
 	{   // default values
 		this->showTextToolBar = Qt::ToolButtonIconOnly;
 		this->automaticUpdates_idx = 0;
+		this->isFirstRun = true;
 		this->enableToolTips = false;
 		this->verboseOutput = true;
 		this->enableHistory = true;
 		this->dumpHistoryToFile = true;
 		this->speechActive = true;
-		this->IONoptixPoweredByFluicell = false;
+		this->restrictOPmode = false;
 		this->useIONoptixLogo = false;
 		this->outFilePath = "./Ext_data/";
 		this->language = English;
@@ -399,12 +400,13 @@ struct GUIparams {
 
 	Qt::ToolButtonStyle showTextToolBar;     //!<  ToolButtonIconOnly --- n 
 	int automaticUpdates_idx;  // 0 = no updates, 1 = notify all updates, 2 = notify release only
+	bool isFirstRun;
 	bool enableToolTips;
 	bool verboseOutput;
 	bool enableHistory;
 	bool dumpHistoryToFile;
 	bool speechActive;
-	bool IONoptixPoweredByFluicell;
+	bool restrictOPmode;
 	bool useIONoptixLogo;
 	QString	outFilePath;
 	languages language;

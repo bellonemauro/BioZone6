@@ -411,7 +411,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 
 		// MB: 20230315 : this is to follow issue #3 but
 		//               maybe it is better to put it into the validity check? 
-		if (m_GUI_params->IONoptixPoweredByFluicell == true)
+		if (m_GUI_params->restrictOPmode == true)
 			value = 1; 
 
 		switch (value)
@@ -506,7 +506,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 		// MB: 20230315: in case of ionoptix users this commands will have no effect
 		//               and only standard and regular modes are allowed 
 		//               see issue "Only one integration mode for the IonOptix Integration #3"
-		if (m_GUI_params->IONoptixPoweredByFluicell == true)
+		if (m_GUI_params->restrictOPmode == true)
 			QString file_to_open = QString(m_internal_protocol_path + m_buttonPRTfiles_SnR_path +
 				"/ON_Button" + value + ".prt");
 
@@ -525,7 +525,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 		QString file_to_open = QString(m_internal_protocol_path + m_buttonPRTfiles_LnR_path + 
 			"/OFF_Button" + value + ".prt");
 
-		if (m_GUI_params->IONoptixPoweredByFluicell == true)
+		if (m_GUI_params->restrictOPmode == true)
 			QString file_to_open = QString(m_internal_protocol_path + m_buttonPRTfiles_SnR_path +
 				"/OFF_Button" + value + ".prt");
 
@@ -542,7 +542,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 		QString file_to_open = QString(m_internal_protocol_path + m_buttonPRTfiles_SnS_path + 
 			"/ON_Button" + value + ".prt");
 
-		if (m_GUI_params->IONoptixPoweredByFluicell == true)
+		if (m_GUI_params->restrictOPmode == true)
 			QString file_to_open = QString(m_internal_protocol_path + m_buttonPRTfiles_SnR_path +
 				"/ON_Button" + value + ".prt");
 		//QMessageBox::warning(this, m_str_warning,
@@ -560,7 +560,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 		QString file_to_open = QString(m_internal_protocol_path + m_buttonPRTfiles_SnS_path +
 			"/OFF_Button" + value + ".prt");
 
-		if (m_GUI_params->IONoptixPoweredByFluicell == true)
+		if (m_GUI_params->restrictOPmode == true)
 			QString file_to_open = QString(m_internal_protocol_path + m_buttonPRTfiles_SnR_path +
 				"/OFF_Button" + value + ".prt");
 
@@ -577,7 +577,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 		QString file_to_open = QString(m_internal_protocol_path + m_buttonPRTfiles_LnS_path +
 			"/ON_Button" + value + ".prt");
 
-		if (m_GUI_params->IONoptixPoweredByFluicell == true)
+		if (m_GUI_params->restrictOPmode == true)
 			QString file_to_open = QString(m_internal_protocol_path + m_buttonPRTfiles_SnR_path +
 				"/ON_Button" + value + ".prt");
 		//QMessageBox::warning(this, m_str_warning,
@@ -595,7 +595,7 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 		QString file_to_open = QString(m_internal_protocol_path + m_buttonPRTfiles_LnS_path +
 			"/OFF_Button" + value + ".prt");
 
-		if (m_GUI_params->IONoptixPoweredByFluicell == true)
+		if (m_GUI_params->restrictOPmode == true)
 			QString file_to_open = QString(m_internal_protocol_path + m_buttonPRTfiles_SnR_path +
 				"/OFF_Button" + value + ".prt");
 

@@ -1051,6 +1051,7 @@ private:
   QString m_protocols_path;          //!< protocol path
   QString m_operational_mode_protocol_path; //!< this keeps track of the operational mode we are running in 
   QString m_internal_protocol_path;  //!< path to the internal protocols
+  const QString m_setting_folder_string;
   const QString m_ext_data_folder_string;
   const QString m_internal_protocol_string;
   const QString m_preset_protocols_string;

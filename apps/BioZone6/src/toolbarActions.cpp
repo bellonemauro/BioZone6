@@ -236,7 +236,7 @@ void BioZone6_GUI::simulationOnly()
 
 	ui->groupBox_action->setEnabled(m_simulationOnly || ui->actionConnectDisconnect->isChecked());
 
-	if (m_GUI_params->IONoptixPoweredByFluicell == true) 
+	if (m_GUI_params->restrictOPmode == true)
 		ui->groupBox_operMode->setEnabled(false);
 	else
 		ui->groupBox_operMode->setEnabled(m_simulationOnly || ui->actionConnectDisconnect->isChecked());
@@ -366,7 +366,7 @@ bool BioZone6_GUI::disCon(bool _connect)
 					ui->actionSimulation->setEnabled(false);
 					ui->groupBox_action->setEnabled(true);
 
-					if (m_GUI_params->IONoptixPoweredByFluicell == true) 
+					if (m_GUI_params->restrictOPmode == true)
 						ui->groupBox_operMode->setEnabled(false);
 					else
 						ui->groupBox_operMode->setEnabled(true);

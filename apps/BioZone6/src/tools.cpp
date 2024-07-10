@@ -12,16 +12,20 @@
 #include <QCheckBox>
 #include <QInputDialog>
 
-BioZone6_tools::BioZone6_tools(QWidget *parent):
+BioZone6_tools::BioZone6_tools(QWidget* parent) :
 	QMainWindow(parent),
-	ui_tools(new Ui::BioZone6_tools), 
+	ui_tools(new Ui::BioZone6_tools),
 	m_comSettings(new COMSettings()),
 	m_solutionParams(new solutionsParams()),
 	m_pr_params(new pr_params()),
 	m_tip(new fluicell::PPC1api6dataStructures::tip()),
 	m_expert(false),
 	m_GUI_params(new GUIparams()),
-	m_setting_file_name("./settings/settings.ini")
+	m_setting_file_name("./settings/settings.ini"),
+	m_setting_folder_path("./settings"),
+	m_setting_profile_standard_file_name("./Standard_tip_settings.ini"),
+    m_setting_profile_wide_file_name("./Wide_tip_settings.ini"),
+    m_setting_profile_UWZ_file_name("./UWZ_tip_settings.ini")
 {
 	ui_tools->setupUi(this );
 
@@ -53,7 +57,7 @@ BioZone6_tools::BioZone6_tools(QWidget *parent):
 		static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
 		&BioZone6_tools::showPortInfo);
 
-
+	
 	// enumerate connected com ports
 	enumerate();
 
@@ -76,6 +80,10 @@ BioZone6_tools::BioZone6_tools(QWidget *parent):
 	connect(ui_tools->actionCommunication,
 		SIGNAL(triggered()), this,
 		SLOT(goToPage4()));
+
+	connect(ui_tools->comboBox_profileSetting,
+		SIGNAL(currentIndexChanged(int)), this, 
+		SLOT(settingProfileChanged(int)));
 
 	connect(ui_tools->pushButton_checkUpdates,
 		SIGNAL(clicked()), this, 
@@ -147,14 +155,14 @@ BioZone6_tools::BioZone6_tools(QWidget *parent):
     connect(ui_tools->checkBox_enableToolTips,
         SIGNAL(stateChanged(int)), this, SLOT(enableToolTip(int)));
 	
-	connect(ui_tools->checkBox_enableIONoptix,
+	connect(ui_tools->checkBox_restrictOPmode,
 		SIGNAL(stateChanged(int)), this, SLOT(enableIONoptix_checked(int)));
 
     connect(ui_tools->checkBox_enablePPC1filter,
         SIGNAL(stateChanged(int)), this, SLOT(enablePPC1filtering()));
 
-	connect(ui_tools->pushButton_enableTipSetting,
-		SIGNAL(clicked()), this, SLOT(askPasswordToUnlock()));
+	//connect(ui_tools->pushButton_enableTipSetting,
+	//	SIGNAL(clicked()), this, SLOT(askPasswordToUnlock()));
 
 	connect(ui_tools->comboBox_tipSelection,
 		static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
@@ -163,8 +171,8 @@ BioZone6_tools::BioZone6_tools(QWidget *parent):
 	//connect(ui_tools->checkBox_modifyOperationalModeValues,
 	//	SIGNAL(stateChanged(int)), this, SLOT(activateOperationaModeSettings(int)));
 	
-	connect(ui_tools->pushButton_enableTipSetting,
-		SIGNAL(clicked()), this, SLOT(activateOperationaModeSettings()));
+	//connect(ui_tools->pushButton_enableTipSetting,
+	//	SIGNAL(clicked()), this, SLOT(activateOperationaModeSettings()));
 
     // connect tool window events Ok, Cancel, Apply
 	connect(ui_tools->buttonBox->button(QDialogButtonBox::Ok), 
@@ -259,7 +267,6 @@ void BioZone6_tools::setPreset3(int _p_on, int _p_off, int _v_switch, int _v_rec
 	ui_tools->spinBox_v_recirc_preset3->setValue(_v_recirc);
 
 	saveSettings(m_setting_file_name);
-
 }
 
 void BioZone6_tools::setCustomPreset(int _p_on, int _p_off, int _v_switch, int _v_recirc)
@@ -556,13 +563,44 @@ void BioZone6_tools::enableToolTip(int _inx)
 
 void BioZone6_tools::enableIONoptix_checked(int _inx)
 {
-	if (ui_tools->checkBox_enableIONoptix->isChecked())
+	if (ui_tools->checkBox_restrictOPmode->isChecked())
 		ui_tools->comboBox_tipSelection->setCurrentIndex(2);
 	else
 		ui_tools->comboBox_tipSelection->setCurrentIndex(0);
 
 }
 
+void BioZone6_tools::settingProfileChanged(int _idx)
+{
+	QMessageBox msgBox;
+	msgBox.setText(m_str_override_setting_profile);
+	msgBox.setWindowTitle(m_str_information);
+	msgBox.setStandardButtons(QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes);
+	msgBox.setDefaultButton(QMessageBox::Yes);
+	msgBox.setIcon(QMessageBox::Question);
+	int resBtn = msgBox.exec();
+
+	if (resBtn != QMessageBox::Yes) {
+		
+		return;
+	}
+
+	switch (_idx) {
+	case 0:
+		loadSettings(m_setting_folder_path + m_setting_profile_standard_file_name);
+		break;
+	case 1:
+		loadSettings(m_setting_folder_path + m_setting_profile_wide_file_name);
+		break;
+	case 2:
+		loadSettings(m_setting_folder_path + m_setting_profile_UWZ_file_name);
+		break;
+	default:
+		std::cout << "Error" << std::endl;
+		break;
+	}
+
+}
 
 void BioZone6_tools::checkForUpdates()
 {
@@ -752,7 +790,7 @@ void BioZone6_tools::getGUIsettingsFromGUI()
 	m_GUI_params->speechActive = ui_tools->checkBox_enableSynthesis->isChecked();
 	m_GUI_params->outFilePath = ui_tools->lineEdit_msg_out_file_path->text();
 	m_GUI_params->setLanguage(ui_tools->comboBox_language->currentIndex());
-	m_GUI_params->IONoptixPoweredByFluicell = ui_tools->checkBox_enableIONoptix->isChecked();
+	m_GUI_params->restrictOPmode = ui_tools->checkBox_restrictOPmode->isChecked();
 	m_GUI_params->useIONoptixLogo = ui_tools->checkBox_enableIonOptixLogo->isChecked();
 
 }
@@ -805,11 +843,10 @@ void BioZone6_tools::getTipSettingsFromGUI()
 
 void BioZone6_tools::activateOperationaModeSettings(int _enable)
 {
-	
 	std::cout << HERE << std::endl;
 
 	bool enable = false;
-	if (ui_tools->pushButton_enableTipSetting->isChecked()==true && askPasswordToUnlock() == true)
+	if (ui_tools->pushButton_enableTipSetting->isChecked()==true)// && askPasswordToUnlock() == true)
 	{
 		enable = true;
 		ui_tools->pushButton_enableTipSetting->setChecked(Qt::CheckState::Checked);
@@ -940,10 +977,19 @@ bool BioZone6_tools::loadSettings(QString _path)
 		ui_tools->comboBox_flowControl->currentIndex()));
 
 	//read GUI params
+	bool is_first_run = m_settings->value("GUI/isFirstRun", "1").toBool();
+	m_GUI_params->isFirstRun = is_first_run;
+	
 	bool enable_tool_tips = m_settings->value("GUI/EnableToolTips", "0").toBool();
 	ui_tools->checkBox_enableToolTips->setChecked(enable_tool_tips);
 	m_GUI_params->enableToolTips = enable_tool_tips;
 	
+	QString profileSettingFile = m_settings->value("GUI/SettingProfile", "Standard").toString();
+	ui_tools->comboBox_profileSetting->blockSignals(true);
+	ui_tools->comboBox_profileSetting->setCurrentIndex(
+		ui_tools->comboBox_profileSetting->findText(profileSettingFile));
+	ui_tools->comboBox_profileSetting->blockSignals(false);
+
 	bool verb_out = m_settings->value("GUI/VerboseOutput", "0").toBool();
 	ui_tools->checkBox_verboseOut->setChecked(verb_out);
 	m_GUI_params->verboseOutput = verb_out;
@@ -960,13 +1006,13 @@ bool BioZone6_tools::loadSettings(QString _path)
 	ui_tools->checkBox_enableSynthesis->setChecked(speech_active);
 	m_GUI_params->speechActive = speech_active;
 
-	bool enable_IONoptix = m_settings->value("GUI/enableIONoptix", "0").toBool();
-	ui_tools->checkBox_enableIONoptix->setChecked(enable_IONoptix);
-	m_GUI_params->IONoptixPoweredByFluicell = enable_IONoptix;
+	bool enable_IONoptix = m_settings->value("GUI/restrictOPmode", "0").toBool();
+	ui_tools->checkBox_restrictOPmode->setChecked(enable_IONoptix);
+	m_GUI_params->restrictOPmode = enable_IONoptix;
 
-	//bool enable_IONoptixLogo = m_settings->value("GUI/useIONoptixLogo", "0").toBool();
-	//ui_tools->checkBox_enableIonOptixLogo->setChecked(enable_IONoptixLogo);
-	//m_GUI_params->useIONoptixLogo = enable_IONoptixLogo;
+	bool enable_IONoptixLogo = m_settings->value("GUI/enableIONoptixLogo", "0").toBool();
+	ui_tools->checkBox_enableIonOptixLogo->setChecked(enable_IONoptixLogo);
+	m_GUI_params->useIONoptixLogo = enable_IONoptixLogo;
 		
 	QString out_file_path = m_settings->value("GUI/OutFilePath", "./Ext_data/").toString();
 	m_GUI_params->outFilePath = out_file_path; 
@@ -1622,15 +1668,16 @@ bool BioZone6_tools::saveSettings(QString _file_name)
 
 	// [GUI]
 //	settings->setValue("GUI/ToolButtonStyle", ui_tools->comboBox_toolButtonStyle->currentIndex());
+	settings->setValue("GUI/isFirstRun", int(0));
 	settings->setValue("GUI/EnableToolTips", int(ui_tools->checkBox_enableToolTips->isChecked()));
 	settings->setValue("GUI/VerboseOutput", int(ui_tools->checkBox_verboseOut->isChecked()));
 	settings->setValue("GUI/EnableHistory", int(ui_tools->checkBox_EnableHistory->isChecked()));
 	settings->setValue("GUI/DumpHistoryToFile", int(ui_tools->checkBox_dumpToFile->isChecked())); 
 	settings->setValue("GUI/SpeechActive", int(ui_tools->checkBox_enableSynthesis->isChecked()));
 	settings->setValue("GUI/OutFilePath", QString(ui_tools->lineEdit_msg_out_file_path->text()));
-	settings->setValue("GUI/enableIONoptix", int(ui_tools->checkBox_enableIONoptix->isChecked()));
-	//settings->setValue("GUI/useIONoptixLogo", int(ui_tools->useIONoptixLogo->isChecked()));
-
+	settings->setValue("GUI/restrictOPmode", int(ui_tools->checkBox_restrictOPmode->isChecked()));
+	settings->setValue("GUI/enableIONoptixLogo", int(ui_tools->checkBox_enableIonOptixLogo->isChecked()));
+	settings->setValue("GUI/SettingProfile", ui_tools->comboBox_profileSetting->currentText());
 	
 
 	// automatic updates =
@@ -1786,10 +1833,10 @@ bool BioZone6_tools::saveSettings(QString _file_name)
 	return true;
 }
 
-void BioZone6_tools::enableTipSetting()
-{
-	return unlockProtectedSettings(askPasswordToUnlock());
-}
+//void BioZone6_tools::enableTipSetting()
+//{
+//	return unlockProtectedSettings(askPasswordToUnlock());
+//}
 
 bool BioZone6_tools::askPasswordToUnlock()
 {
@@ -1922,6 +1969,7 @@ void BioZone6_tools::initCustomStrings()
 	m_str_warning = tr("Warning");
 	m_str_factory_reset = tr("This will reset user defined settings and parameters to the factory default values");
 	m_str_areyousure = tr("Are you sure?");
+	m_str_override_setting_profile = tr("This action will overwrite your current setting to load the selected profile, are you sure?");
 	m_str_information = tr("Information");
 	m_str_ok = tr("Ok");
 	m_str_operation_cancelled = tr("Operation cancelled");
@@ -2032,13 +2080,13 @@ uint32_t BioZone6_tools::giveRainbowColor(float _position)
 	return (R << 16) | (G << 8) | B;
 }
 
-void BioZone6_tools::unlockProtectedSettings(bool _lock)
-{
-	ui_tools->doubleSpinBox_lengthToTip->setEnabled(_lock);
-	ui_tools->doubleSpinBox_lengthToZone->setEnabled(_lock);
-	ui_tools->checkBox_enableIonOptixLogo->setEnabled(_lock);
-	//ui_tools->comboBox_tipSelection->setEnabled(_lock);
-}
+//void BioZone6_tools::unlockProtectedSettings(bool _lock)
+//{
+//	ui_tools->doubleSpinBox_lengthToTip->setEnabled(_lock);
+//	ui_tools->doubleSpinBox_lengthToZone->setEnabled(_lock);
+//	ui_tools->checkBox_restrictOPmode->setEnabled(_lock);
+//	//ui_tools->comboBox_tipSelection->setEnabled(_lock);
+//}
 
 
 

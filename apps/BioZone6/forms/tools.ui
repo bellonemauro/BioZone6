@@ -264,30 +264,6 @@ QPushButton:disabled{ background-color: #CCCCCC; }
            <string>General settings</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_13">
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_17">
-             <property name="font">
-              <font>
-               <pointsize>9</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Profile name</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_15">
-             <property name="font">
-              <font>
-               <pointsize>9</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Language</string>
-             </property>
-            </widget>
-           </item>
            <item row="0" column="1">
             <widget class="QLineEdit" name="lineEdit_userName">
              <property name="font">
@@ -309,19 +285,7 @@ QPushButton:disabled{ background-color: #CCCCCC; }
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_19">
-             <property name="font">
-              <font>
-               <pointsize>9</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Comment</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
+           <item row="4" column="1">
             <widget class="QComboBox" name="comboBox_language">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -396,21 +360,27 @@ QPushButton:disabled{ background-color: #CCCCCC; }
              </item>
             </widget>
            </item>
-           <item row="1" column="1" colspan="3">
-            <widget class="QLineEdit" name="lineEdit_comment">
+           <item row="5" column="0">
+            <widget class="QLabel" name="label_22">
              <property name="font">
               <font>
-               <pointsize>10</pointsize>
+               <pointsize>9</pointsize>
               </font>
              </property>
-             <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Add your comment here, this can be a date or any information useful for this profile&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <property name="text">
+              <string>Updates</string>
              </property>
-             <property name="accessibleDescription">
-              <string/>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_17">
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
              </property>
              <property name="text">
-              <string notr="true"/>
+              <string>Profile name</string>
              </property>
             </widget>
            </item>
@@ -427,17 +397,7 @@ QPushButton:disabled{ background-color: #CCCCCC; }
              </property>
             </spacer>
            </item>
-           <item row="3" column="2" colspan="2">
-            <widget class="QPushButton" name="pushButton_checkUpdates">
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-             <property name="text">
-              <string>Check for updates now</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
+           <item row="5" column="1">
             <widget class="QComboBox" name="comboBox_automaticUpdates">
              <property name="minimumSize">
               <size>
@@ -470,15 +430,73 @@ QPushButton:disabled{ background-color: #CCCCCC; }
              </item>
             </widget>
            </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_22">
+           <item row="6" column="0">
+            <widget class="QLabel" name="label_54">
+             <property name="text">
+              <string>Default profile</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_15">
              <property name="font">
               <font>
                <pointsize>9</pointsize>
               </font>
              </property>
              <property name="text">
-              <string>Updates</string>
+              <string>Language</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="1">
+            <widget class="QComboBox" name="comboBox_profileSetting">
+             <item>
+              <property name="text">
+               <string>Standard</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Wide</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>UWZ</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="5" column="2" colspan="2">
+            <widget class="QPushButton" name="pushButton_checkUpdates">
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string>Check for updates now</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_19">
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Comment</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1" colspan="3">
+            <widget class="QLineEdit" name="lineEdit_comment">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Add here any comment for this setting profile, date, and experimental setting might help you  &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
            </item>
@@ -643,9 +661,9 @@ QPushButton:disabled{ background-color: #CCCCCC; }
             </widget>
            </item>
            <item row="0" column="2">
-            <widget class="QCheckBox" name="checkBox_enableIONoptix">
+            <widget class="QCheckBox" name="checkBox_restrictOPmode">
              <property name="text">
-              <string>Enable IonOptix</string>
+              <string>Restrict operational mode</string>
              </property>
             </widget>
            </item>
@@ -3338,7 +3356,7 @@ background-color: rgb(255, 255, 255);
            <item row="2" column="2">
             <widget class="QComboBox" name="comboBox_tipSelection">
              <property name="enabled">
-              <bool>false</bool>
+              <bool>true</bool>
              </property>
              <property name="font">
               <font>
@@ -3365,7 +3383,7 @@ background-color: rgb(255, 255, 255);
            <item row="2" column="3">
             <widget class="QCheckBox" name="checkBox_enableIonOptixLogo">
              <property name="enabled">
-              <bool>false</bool>
+              <bool>true</bool>
              </property>
              <property name="text">
               <string>Use IonOptix logo</string>
@@ -3385,7 +3403,7 @@ background-color: rgb(255, 255, 255);
              </property>
              <property name="maximumSize">
               <size>
-               <width>100</width>
+               <width>16777215</width>
                <height>16777215</height>
               </size>
              </property>
@@ -3393,6 +3411,9 @@ background-color: rgb(255, 255, 255);
               <font>
                <pointsize>9</pointsize>
               </font>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Default value 0.068 m&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="decimals">
               <number>3</number>
@@ -3450,6 +3471,9 @@ background-color: rgb(255, 255, 255);
               <font>
                <pointsize>9</pointsize>
               </font>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Default value 0.063 m&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="decimals">
               <number>3</number>
@@ -4890,7 +4914,6 @@ background-color: rgb(255, 255, 255);
  </widget>
  <tabstops>
   <tabstop>lineEdit_userName</tabstop>
-  <tabstop>lineEdit_comment</tabstop>
   <tabstop>comboBox_language</tabstop>
   <tabstop>checkBox_enableToolTips</tabstop>
   <tabstop>checkBox_verboseOut</tabstop>

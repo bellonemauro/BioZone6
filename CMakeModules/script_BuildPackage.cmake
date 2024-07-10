@@ -47,7 +47,7 @@ set (BIOZONE_PROJECT_NAME "BioZone6")
 set (CPACK_NSIS_MUI_ICON "${CMAKE_CURRENT_SOURCE_DIR}/resources/fluicell_logo.ico") #program icon
 #set (CPACK_NSIS_MUI_UNIICON "${CMAKE_CURRENT_SOURCE_DIR}/resources/fluicell_iconBIG.ico") #uninstall icon
 
-#set (CPACK_PACKAGE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/Resources/fluicell_iconBIG.png")# -- NOT FOUND -- ??
+#set (CPACK_PACKAGE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/Resources/NSIS/headerLeft.bmp")# -- NOT FOUND -- ??
 
 set(CPACK_NSIS_MENU_LINKS 
             "${WEBSITE}" "Homepage for Fluicell"          
@@ -60,6 +60,7 @@ set(CPACK_NSIS_MENU_LINKS
 	
 
 set(CPACK_NSIS_DISPLAY_NAME "Fluicell BioZone6 ") #V.${CMAKE_Fluicell_FULL_VERSION}")
+#set(CPACK_NSIS_WELCOME_PAGE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/resources/NSIS/wizard.bmp")
 			
 #allows NSIS to modify paths
 #set (CPACK_NSIS_MODIFY_PATH "ON")     
@@ -73,9 +74,9 @@ set(CPACK_NSIS_DISPLAY_NAME "Fluicell BioZone6 ") #V.${CMAKE_Fluicell_FULL_VERSI
 #for some reason the command to add the desktop link does not properly work, 
 #so the the desktop link are added as a custom command
 
-
 # required by cmake to install new registry key for the executable
 set(CPACK_PACKAGE_INSTALL_REGISTRY_KEY "${BIOZONE_PROJECT_NAME}")
+
 
 # this is to create the user folders during the installation
 set( CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
@@ -96,7 +97,6 @@ set( CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
 	SetOutPath \\\"$INSTDIR\\\"")
 	
 set(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")
-
 
 # Icon in the add/remove control panel. Must be an .exe file 
 set(CPACK_NSIS_INSTALLED_ICON_NAME BioZone6.exe)

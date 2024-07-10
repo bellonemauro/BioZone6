@@ -104,6 +104,8 @@ public:
 	*/
 	GUIparams getGUIparams() { return *m_GUI_params; }
 
+	void setFirstRun(bool _firstRun) { m_GUI_params->isFirstRun = _firstRun; }
+
 	fluicell::PPC1api6dataStructures::tip::tipType getTipType()
 	{
 		return m_tip->type;//   ui_tools->comboBox_tipSelection->currentIndex();
@@ -116,6 +118,10 @@ public:
 
 	void updateDevices() { this->enumerate(); 
 	this->applyPressed();
+	}
+
+	void setSettingsFolderPath(QString _folder) {
+		m_setting_folder_path = _folder;
 	}
 
 	bool setLoadSettingsFileName(QString _filename) { 
@@ -148,6 +154,17 @@ public:
 	void setDefaultPressuresVacuums_lAs(int _new_p_on, int _new_p_off,
 		int _new_v_recirc, int _new_v_switch);
 
+	/** Load an ini setting file
+	* in the GUI initialization it takes a default value ./settings/setting.ini
+	* \note
+	*/
+	bool loadSettings(QString _path = QString("./settings/setting.ini"));
+
+	/** Save the setting file
+	*
+	* \note
+	*/
+	bool saveSettings(QString _file_name = QString("./settings/setting.ini"));
 
 	/** \brief Set values of preset group 1
 	*
@@ -192,6 +209,8 @@ private slots:
 	void enableToolTip(int _inx);
 
 	void enableIONoptix_checked(int _inx);
+
+	void settingProfileChanged(int _idx);
 
 	void checkForUpdates();
 
@@ -319,27 +338,17 @@ private slots:
 			ui_tools->checkBox_enablePPC1filter->isChecked());
 	}
 
-	/** on check box clicked, it enable/disable the operationa modes setting fields
+	/** on check box clicked, it enable/disable the operational modes setting fields
 	*
 	*/
 	void activateOperationaModeSettings(int _enable = false);
 
-	/** Load an ini setting file
-	* in the GUI initialization it takes a default value ./settings/setting.ini
-	* \note
-	*/
-	bool loadSettings(QString _path = QString("./settings/setting.ini"));
-
-	/** Save the setting file
-	*  
-	* \note 
-	*/
-	bool saveSettings(QString _file_name = QString("./settings/setting_save.ini"));
+	
 
 	/** \brief ask a password to unlock protected tip settings
 	*
 	*/
-	void enableTipSetting();
+	//void enableTipSetting();
 
 
 
@@ -403,7 +412,7 @@ private:
 	/** \brief lock protected settings
 	*
 	*/
-	void unlockProtectedSettings(bool _lock);
+	//void unlockProtectedSettings(bool _lock);
 
 
 
@@ -419,6 +428,10 @@ private:
 	int calculateFolderSize(const QString _wantedDirPath);
 
 	QString m_setting_file_name;   //!<  setting file name for loading and saving
+	QString m_setting_folder_path;   //!<  setting folder name for loading and saving
+	QString m_setting_profile_standard_file_name;   //!<  setting file name for loading and saving
+	QString m_setting_profile_wide_file_name;   //!<  setting file name for loading and saving
+	QString m_setting_profile_UWZ_file_name;   //!<  setting file name for loading and saving
 
 	QTranslator m_translator_tool; //!<  translation object
 
@@ -434,6 +447,7 @@ private:
 	QString m_str_warning;
 	QString m_str_factory_reset;
 	QString m_str_areyousure;
+	QString m_str_override_setting_profile;
 	QString m_str_information; 
 	QString m_str_ok;
 	QString m_str_operation_cancelled;

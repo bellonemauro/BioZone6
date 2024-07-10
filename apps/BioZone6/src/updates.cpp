@@ -573,6 +573,25 @@ void BioZone6_GUI::updateFlows()
 	ui->treeWidget_flowInfo->topLevelItem(11)->setText(1,
 		QString::number(m_pipette_status->flow_well8, 'g', 2));
 
+#pragma message("TODO: this was commented on 24062024 as the calculation is wrong when using IonOptix this just overrides the update flow")
+	if (m_GUI_params->useIONoptixLogo == true && 
+		m_ppc1->getTip()->type == fluicell::PPC1api6dataStructures::tip::UWZ )
+	{
+		QString NA = "NA";
+		ui->treeWidget_flowInfo->topLevelItem(0)->setText(1, NA);
+		ui->treeWidget_flowInfo->topLevelItem(1)->setText(1, NA);
+		ui->treeWidget_flowInfo->topLevelItem(2)->setText(1, NA);
+		ui->treeWidget_flowInfo->topLevelItem(3)->setText(1, NA);
+		ui->treeWidget_flowInfo->topLevelItem(4)->setText(1, NA);
+		ui->treeWidget_flowInfo->topLevelItem(5)->setText(1, NA);
+		ui->treeWidget_flowInfo->topLevelItem(6)->setText(1, NA);
+		ui->treeWidget_flowInfo->topLevelItem(7)->setText(1, NA);
+		ui->treeWidget_flowInfo->topLevelItem(8)->setText(1, NA);
+		ui->treeWidget_flowInfo->topLevelItem(9)->setText(1, NA);
+		ui->treeWidget_flowInfo->topLevelItem(10)->setText(1, NA);
+		ui->treeWidget_flowInfo->topLevelItem(11)->setText(1, NA);
+	}
+
 	return;
 }
 

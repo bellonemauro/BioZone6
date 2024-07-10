@@ -7,9 +7,9 @@
 #  | Released under GNU GPL License.                                           |
 #  +---------------------------------------------------------------------------+ 
 
-project(Fluicell)   # Fluicell
-
 cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
+
+project(Fluicell)   # Fluicell
 
 option(ENABLE_verbose "Verbose cmake cofiguration " "OFF")
 if ( ENABLE_verbose )

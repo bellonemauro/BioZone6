@@ -39,6 +39,7 @@ BioZone6_GUI::BioZone6_GUI(QMainWindow *parent) :
 	m_sol4_color(QColor::fromRgb(130, 255, 0)),
 	qerr(NULL),
 	qout(NULL),
+	m_setting_folder_string("/settings/"),
 	m_ext_data_folder_string("/Ext_data/"),
     m_internal_protocol_string("/internal/"),
     m_preset_protocols_string("/presetProtocols/"),
@@ -324,7 +325,7 @@ BioZone6_GUI::BioZone6_GUI(QMainWindow *parent) :
   // all the connects to signal/slots are in this function
   initConnects();
 
-  if (m_GUI_params->IONoptixPoweredByFluicell == true || m_GUI_params->useIONoptixLogo == true)
+  if (m_GUI_params->restrictOPmode == true || m_GUI_params->useIONoptixLogo == true)
   {
 	  ui->actionAbout->setIcon(QPixmap(":/icons/IONoptix_fluicell_logo.png"));
   }
@@ -1211,7 +1212,7 @@ void BioZone6_GUI::toolApply()
 				}
 
 	
-	if (m_GUI_params->IONoptixPoweredByFluicell == true)
+	if (m_GUI_params->restrictOPmode == true)
 	{
 		ui->actionAbout->setIcon(QPixmap(":/icons/IONoptix_fluicell_logo.png"));
 		ui->groupBox_operMode->setEnabled(false);
@@ -1558,6 +1559,20 @@ void BioZone6_GUI::setUserSettingPath(QString _path)
 {
 	m_settings_path = _path;
 	m_dialog_tools->setLoadSettingsFileName(m_settings_path);
+	if (m_dialog_tools->getGUIparams().isFirstRun)
+	{
+		m_dialog_tools->setFirstRun(false);
+		QMessageBox::StandardButton resBtn =
+			QMessageBox::question(this, m_str_warning,
+				QString("BioZone is running for the first time, would you like to load the configuration for ionOptix?"),
+				 QMessageBox::No | QMessageBox::Yes,
+				QMessageBox::Yes);
+		if (resBtn == QMessageBox::Yes) {
+			QString fullIonOptixSettingFilePath = m_base_biozone_path + m_setting_folder_string + "settings_IonOptix.ini";
+			m_dialog_tools->setLoadSettingsFileName(fullIonOptixSettingFilePath);
+		}
+		m_dialog_tools->saveSettings(m_settings_path);
+	}
 }
 
 void BioZone6_GUI::setUserFilesPath(QString _path)
@@ -1591,7 +1606,7 @@ void BioZone6_GUI::setUserFilesPath(QString _path)
 		m_operational_mode_protocol_path = m_internal_protocol_path + m_buttonPRTfiles_LnS_path;
 
 	this->readProtocolFolder(m_protocols_path);  // look for files in the folder
-	m_dialog_tools->setLoadSettingsFileName(m_settings_path);
+	m_dialog_tools->setSettingsFolderPath(m_base_biozone_path + m_setting_folder_string);
 }
 
 

@@ -978,6 +978,20 @@ void BioZone6_GUI::updateWaste()
 	ui->treeWidget_flowInfo->topLevelItem(18)->setText(1, QString::number(v / 10.0));
 	v = m_pipette_status->rem_vol_well8 * 10;
 	ui->treeWidget_flowInfo->topLevelItem(19)->setText(1, QString::number(v / 10.0));
+#pragma message("TODO: this was done on 31072024 as the calculation is wrong, so we just overpose NA to any other value")
+	if (m_GUI_params->useIONoptixLogo == true &&
+		m_ppc1->getTip()->type == fluicell::PPC1api6dataStructures::tip::UWZ)
+	{
+		QString NA = "NA";
+		ui->treeWidget_flowInfo->topLevelItem(12)->setText(1, NA);
+		ui->treeWidget_flowInfo->topLevelItem(13)->setText(1, NA);
+		ui->treeWidget_flowInfo->topLevelItem(14)->setText(1, NA);
+		ui->treeWidget_flowInfo->topLevelItem(15)->setText(1, NA);
+		ui->treeWidget_flowInfo->topLevelItem(16)->setText(1, NA);
+		ui->treeWidget_flowInfo->topLevelItem(17)->setText(1, NA);
+		ui->treeWidget_flowInfo->topLevelItem(18)->setText(1, NA);
+		ui->treeWidget_flowInfo->topLevelItem(19)->setText(1, NA);
+	}
 
 	double value = 100.0 * m_pipette_status->rem_vol_well7 / m_solutionParams->vol_well7;
 	ui->progressBar_switch7->setValue(value);

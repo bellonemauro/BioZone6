@@ -103,6 +103,7 @@ namespace fluicell { namespace PPC1api6dataStructures
 			#define MIN_STREAM_PERIOD 0     //!< in msec
 			#define MAX_STREAM_PERIOD 500   //!< in msec
 			#define MIN_PULSE_PERIOD 20     //!< in msec
+			#define MAX_PULSES 6            //!< number of pulses
 			#define MIN_ZONE_SIZE_PERC 50   //!< %
 			#define MAX_ZONE_SIZE_PERC 200  //!< %
 			#define MAX_ZONE_SIZE_INCREMENT 40  //!< %
@@ -132,7 +133,7 @@ namespace fluicell { namespace PPC1api6dataStructures
 												see function getFlow()-- default value 0.124 m; */
 			#define PPC1_VID "16D0"  //!< device vendor ID
 			//#define PPC1_PID "083A"  //!< device product ID
-			#define PPC1_PID "0830"  //!< device product ID   //TODO: this is to recognize the device
+			#define PPC1_6CH_PID "0830"  //!< device product ID   //TODO: this is to recognize the device
 			   
 			/**  \brief Channel data structure 
 			*
@@ -760,7 +761,9 @@ namespace fluicell { namespace PPC1api6dataStructures
 				solution4,
 				solution5,
 				solution6,
+				sendPulses, 
 				waitSync,
+				setSyncTimeout,
 				syncOut,
 				comment,
 				ask,
@@ -856,6 +859,13 @@ namespace fluicell { namespace PPC1api6dataStructures
 					// nothing to check here, the value is ignored
 					return true;
 				}
+				case instructions::sendPulses: 
+				{
+					if (this->value < 0 || this->value > MAX_PULSES)
+						return false;
+					else
+						return true;
+				}
 				case instructions::waitSync: { //TODO
 				//not checked for now
 					return true;
@@ -863,6 +873,13 @@ namespace fluicell { namespace PPC1api6dataStructures
 				case instructions::syncOut: {
 				 //not checked for now
 					return true;
+				}
+				case instructions::setSyncTimeout:
+				{
+					if (this->value < 0)
+						return false;
+					else
+						return true;
 				}
 				case instructions::loop: {
 					if (this->value < 0) 
@@ -908,6 +925,7 @@ namespace fluicell { namespace PPC1api6dataStructures
 				case setPoff: return "setPoff";
 				case setVrecirc: return "setVrecirc";
 				case setVswitch: return "setVswitch";
+				case sendPulses: return "sendPulses";
 				case waitSync: return "waitSync";
 				case syncOut: return "syncOut";
 				case showPopUp: return "showPopUp";

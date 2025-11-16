@@ -54,6 +54,7 @@ public:
 	void setSimulationFlag(bool _sim_flag){ m_simulation_only = _sim_flag; }
 
 	void askOkEvent(bool _ask_ok) { m_ask_ok = _ask_ok; }
+	void askOkkWaitSyncEvent(bool _ask_wait_sync_rewait) { m_ask_wait_sync_rewait = _ask_wait_sync_rewait; }
 
 	int getTimeLeftForStep() { return m_time_left_for_step; }
 
@@ -62,6 +63,7 @@ signals:
 	void resultReady(const QString &_s);                //!< emit a string when the result is ready
 	void sendStatusMessage(const QString &_message);    //!< send a status message
 	void sendAskMessage(const QString& _message);       //!< send a message to ask to the user 
+	void sendAskWaitSync(const QString& _message);       //!< send a message to ask to the user 
 	void sendWaitAsk(int _sec, const QString &_message);       //!< send a message to ask to the user 
 	void timeStatus(const double &_time);               //!< send the time status
 
@@ -90,6 +92,8 @@ private:
 	
 	void initCustomStrings();
 	void simulateCommand(fluicell::PPC1api6dataStructures::command _cmd);
+	void runCommandOnPPC1(fluicell::PPC1api6dataStructures::command _cmd);
+
 	void simulateWait(double _sleep_for); // _sleep_for in sec
 	
 
@@ -98,6 +102,7 @@ private:
 	bool m_simulation_only;                               //!< true if simulation, false use the PPC1
 	bool m_threadTerminationHandler;                      //!< true to terminate the macro
 	bool m_ask_ok;                                        //!< false when a message dialog is out, true to continue
+	bool m_ask_wait_sync_rewait;                          //!< false when a message dialog is out, true to re-cycle waiting process
 	int m_time_left_for_step;                             //!< time left for the current step
 	double m_protocol_duration;
 	double m_time_elapsed;
@@ -107,6 +112,7 @@ private:
 	QString m_str_failed;
 	QString m_str_stopped;
 	QString m_str_not_connected;
+	QString m_str_waitSync_timeout;
 
 	QMainWindow* m_parent;
 	QTranslator m_translator_runner;

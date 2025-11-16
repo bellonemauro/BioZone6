@@ -19,6 +19,7 @@ if (WIN32 AND NOT UNIX)
 	#install(FILES "C:/Program Files (x86)/Microsoft Visual Studio 11.0/VC/redist/x64/Microsoft.VC110.OpenMP/vcomp110.dll" DESTINATION ./ )#COMPONENT Libraries) #TODO specify the components
 	set(CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS_SKIP  ON)  # this allows the InstallRequiredSystemLibraries to find all the libraries without installing in the ./bin folder  .... so we can set the destination for the redistributables 
 	include (InstallRequiredSystemLibraries )
+	message(STATUS "CMAKE INSTALL SYSTEM RUNTIME LIBS ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS}")
 	  FOREACH(F ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS})
 		INSTALL(FILES "${F}" DESTINATION ./BioZone6/)
 		INSTALL(FILES "${F}" DESTINATION ./serial_console/)

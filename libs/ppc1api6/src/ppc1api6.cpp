@@ -34,6 +34,7 @@ fluicell::PPC1api6::PPC1api6() :
 	m_dataStreamPeriod(200),
 	m_COM_timeout(250),
 	m_wait_sync_timeout(60),
+	m_TTL_default_pulse_period(100),
 	m_excep_handler(false)
 {
 	// set default values for pressures and vacuums
@@ -505,15 +506,16 @@ void fluicell::PPC1api6::disconnectCOM()
 	}
 }
 
-void fluicell::PPC1api6::pumpingOff() const
+bool fluicell::PPC1api6::pumpingOff() const
 {
 	if (m_PPC1_serial->isOpen()) {
 		setVacuumChannelA(0.0);   
 		setVacuumChannelB(0.0);   
 		setPressureChannelC(0.0); 
 		setPressureChannelD(0.0); 
-		closeAllValves();
+		return closeAllValves();
 	}
+	return false;
 }
 
 bool fluicell::PPC1api6::openAllValves() const
@@ -709,6 +711,25 @@ bool fluicell::PPC1api6::setPulsePeriod(const int _value) const
 	return false;
 }
 
+bool fluicell::PPC1api6::sendTTLpulses(const int _value) const
+{
+	if (_value > 0 && _value <= MAX_PULSES)
+	{
+		for (int i = 0; i < _value; i++)
+		{
+			setTTLstate(true);
+			std::this_thread::sleep_for(std::chrono::milliseconds(m_TTL_default_pulse_period));
+			setTTLstate(false);
+			std::this_thread::sleep_for(std::chrono::milliseconds(m_TTL_default_pulse_period));
+		}
+		return true;
+	}
+
+	logError(HERE, " out of range ");
+	return false;
+}
+
+
 bool fluicell::PPC1api6::setRuntimeTimeout(const int _value) const
 {
 
@@ -809,7 +830,7 @@ double fluicell::PPC1api6::getFlow(double _square_channel_mod,
 	return flow;
 }
 
-bool fluicell::PPC1api6::runCommand(fluicell::PPC1api6dataStructures::command _cmd) const
+bool fluicell::PPC1api6::runCommand(fluicell::PPC1api6dataStructures::command _cmd) 
 {
 	if (!_cmd.checkValidity())  {
 		std::string msg = " check validity failed ";
@@ -887,13 +908,18 @@ bool fluicell::PPC1api6::runCommand(fluicell::PPC1api6dataStructures::command _c
 	case fluicell::PPC1api6dataStructures::command::instructions::setVswitch: {//setVswitch
 		return setVacuumChannelB(_cmd.getValue());
 	}
+	case fluicell::PPC1api6dataStructures::command::instructions::sendPulses: {//setVswitch
+		return sendTTLpulses(_cmd.getValue());
+	}
 	case fluicell::PPC1api6dataStructures::command::instructions::ask: {//ask_msg
 		logStatus(HERE, " ask_msg NOT implemented at the API level ");
 		return true;
 	}
 	case fluicell::PPC1api6dataStructures::command::instructions::pumpsOff: {//pumpsOff
-		pumpingOff();
-		return true;
+		return pumpingOff();
+	}
+	case fluicell::PPC1api6dataStructures::command::setSyncTimeout: {
+		return setWaitSyncTimeout(_cmd.getValue());
 	}
 	case fluicell::PPC1api6dataStructures::command::instructions::waitSync: {//waitSync 
 		// waitsync(front type : can be : RISE or FALL), 
@@ -905,14 +931,14 @@ bool fluicell::PPC1api6::runCommand(fluicell::PPC1api6dataStructures::command _c
 		resetSycnSignals(false);
 		std::this_thread::sleep_for(std::chrono::milliseconds(20));
 		clock_t begin = clock();
-		while (!syncSignalArrived(state))
+		while (!syncSignalArrived(state))// TODO: || terminationCondition)
 		{
 			std::this_thread::sleep_for(std::chrono::microseconds(100));
 			clock_t end = clock();
 			double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 			if (elapsed_secs > m_wait_sync_timeout) // break if timeout
 			{
-				logError(HERE, " waitSync timeout ");
+				logError(HERE, " waitSync timeout  after " + std::to_string(m_wait_sync_timeout) + " secs");
 				return false;
 			}
 		}
@@ -1082,6 +1108,19 @@ void fluicell::PPC1api6::setFilterSize(int _size)
 	m_PPC1_data->setFilterSize(_size); 
 }
 
+void fluicell::PPC1api6::setTTLPulsePeriod(int _period) 
+{ 
+logStatus(HERE, " new default period " + _period);
+
+if (_period < MIN_PULSE_PERIOD)
+{
+	logError(HERE, " negative value on setting pulse period for TTL " + std::to_string(_period));
+	return;
+}
+
+m_TTL_default_pulse_period = _period;
+}
+
 bool fluicell::PPC1api6::sendData(const std::string &_data) const
 {
 	if (m_PPC1_serial->isOpen()) {
@@ -1148,17 +1187,17 @@ bool fluicell::PPC1api6::checkVIDPID(const std::string &_port) const
 		devs.push_back(dev);
 	}
 	
-	for (const auto& dev : devs)
-		if (dev.port == _port && dev.VID == PPC1_VID && dev.PID == PPC1_PID)
-			return true; 
+	//for (const auto& dev : devs)
+	//	if (dev.port == _port && dev.VID == PPC1_VID && dev.PID == PPC1_6CH_PID)
+	//		return true; 
 	
-	return false; 
+	//return false; 
 	// TODO: test the previous cycle and remove the following 
 
 	for (unsigned int i = 0; i < devs.size(); i++) // for all the connected devices 
 		if (devs.at(i).port.compare(_port) == 0) // look for the device connected on _port
 			if (devs.at(i).VID.compare(PPC1_VID) == 0) // check VID
-				if (devs.at(i).PID.compare(PPC1_PID) == 0) // check PID
+				if (devs.at(i).PID.compare(PPC1_6CH_PID) == 0) // check PID
 					return true; // if all success return true
 	return false; // if only one on previous fails, return false VID/PID do not match
 }

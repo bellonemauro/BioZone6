@@ -163,6 +163,10 @@ void BioZone6_GUI::runProtocolFile(QString _protocol_path) {
 			&BioZone6_GUI::askMessage);
 
 		connect(m_macroRunner_thread,
+			&BioZone6_protocolRunner::sendAskWaitSync, this,
+			&BioZone6_GUI::askWaitSyncMessage);
+
+		connect(m_macroRunner_thread,
 			&BioZone6_protocolRunner::setPon, this,
 			&BioZone6_GUI::updatePonSetPoint);
 
@@ -340,6 +344,10 @@ void BioZone6_GUI::protocolFinished(const QString &_result) {
 	disconnect(m_macroRunner_thread,
 		&BioZone6_protocolRunner::sendAskMessage, this,
 		&BioZone6_GUI::askMessage);
+
+	disconnect(m_macroRunner_thread,
+		&BioZone6_protocolRunner::sendAskWaitSync, this,
+		&BioZone6_GUI::askWaitSyncMessage);
 
 	disconnect(m_macroRunner_thread,
 		&BioZone6_protocolRunner::setPon, this,

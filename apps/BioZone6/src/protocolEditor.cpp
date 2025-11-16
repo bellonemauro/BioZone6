@@ -392,6 +392,18 @@ void BioZone6_GUI::interpreter(protocolTreeWidgetItem* _item,
 			dynamic_cast<protocolTreeWidgetItem*> (_item));
 		return;
 	}
+	case protocolCommands::sendPulses:
+	{
+		_command_vector->push_back(
+			dynamic_cast<protocolTreeWidgetItem*> (_item));
+		return;
+	}
+	case protocolCommands::setSyncTimeout:
+	{
+		_command_vector->push_back(
+			dynamic_cast<protocolTreeWidgetItem*> (_item));
+		return;
+	}
 	case protocolCommands::loop: // this should never happen as there is a child for that
 	{
 		return;

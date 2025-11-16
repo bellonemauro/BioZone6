@@ -172,6 +172,10 @@ int main(int argc, char **argv)
         // there is a problem with high dpi displays
         //a.setAttribute(Qt::AA_EnableHighDpiScaling); // this is enabled by default from qt6
 		
+		// Create a light palette
+		//QPalette lightPalette = a.style()->standardPalette();
+		//a.setPalette(lightPalette);
+
 		BioZone6_GUI window;
 
 		// check for high DPI screens

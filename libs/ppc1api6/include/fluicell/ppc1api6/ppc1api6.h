@@ -277,11 +277,7 @@ namespace fluicell
 		}// '0' = 48 in ASCII 
 
 
-		/** \brief Check if the connection on _port is going to the PPC1 or any other device 
-		*
-		* \return true if PPC1 VID/PID definitions match the VID/PID of the device connected on _port
-		*/
-		bool checkVIDPID(const std::string& _port) const;
+		
 
 		/** \brief Allows to log errors with caller function and time stamp
 		*
@@ -316,6 +312,7 @@ namespace fluicell
 		fluicell::PPC1api6dataStructures::PPC1api6_status *m_PPC1_status;/*!< pipette status */
 		fluicell::PPC1api6dataStructures::tip *m_tip;
 		int m_wait_sync_timeout;        //!< timeout for wait sync function in seconds, default value 60 sec
+		int m_TTL_default_pulse_period;  //!< pulse period for the TTL signa in milliseconds, default value 100 msec
 
 		// threads
 		std::thread m_thread;                   //!< Member for the thread handling		
@@ -376,6 +373,12 @@ namespace fluicell
 			return connectCOM();
 		}
 
+		/** \brief Check if the connection on _port is going to the PPC1 or any other device
+		*
+		* \return true if PPC1 VID/PID definitions match the VID/PID of the device connected on _port
+		*/
+		bool checkVIDPID(const std::string& _port) const;
+
 		/**  \brief Disconnect serial port
 		  *
 		  *  Forces to disconnect hardware, it does not connect again until
@@ -389,7 +392,7 @@ namespace fluicell
 		  *  \return true if success, false for any error
 		  *
 		  **/
-		void pumpingOff() const;
+		bool pumpingOff() const;
 
 		/**  \brief Close all the valves i to l
 		*
@@ -601,6 +604,15 @@ namespace fluicell
 		bool setPulsePeriod(const int _value) const;
 
 
+		/** \brief Send a train of pulses 
+		*
+		*  This function send a train of TTL pulses of MIN_PULSE_PERIOD
+		*
+		*  @param  _value is the number of pulses to send
+		*
+		**/
+		bool sendTTLpulses(const int _value) const;
+
 		/** \brief Set the runtime timeout to _value (mbar)
 		*
 		*  Send the string z%u\n  to set runtime set point timeout threshold to %u mbar. 
@@ -713,7 +725,7 @@ namespace fluicell
 		*  @param  _cmd is a command, see <command> structure
 		*
 		**/
-		bool runCommand(fluicell::PPC1api6dataStructures::command _cmd) const;
+		bool runCommand(fluicell::PPC1api6dataStructures::command _cmd);
 
 		/**  \brief Set the data stream period on the serial port
 		  *
@@ -900,6 +912,8 @@ namespace fluicell
 		**/
 		void setFilterSize(int _size);
 
+		void setTTLPulsePeriod(int _period);
+
 		/** \brief Check if the serial port is open and the PPC1 is connected
 		*
 		*  \return true if open
@@ -924,9 +938,12 @@ namespace fluicell
 		*
 		* @param  _wait_sync_timeout  integer > 0
 		**/
-		void setWaitSyncTimeout(int _wait_sync_timeout) {
-			if (_wait_sync_timeout > 0)
+		bool setWaitSyncTimeout(int _wait_sync_timeout) {
+			if (_wait_sync_timeout > 0) {
 				m_wait_sync_timeout = _wait_sync_timeout;
+				return true;
+			}
+			return false;
 		}
 
 		/** \brief Reset the sync signals

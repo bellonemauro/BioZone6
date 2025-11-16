@@ -418,7 +418,9 @@ void BioZone6_tools::enumerate()
 		dev.description = devices.at(i).description;
 		dev.hardware_ID = devices.at(i).hardware_id;
 		devs.push_back(dev);
-		ui_tools->comboBox_serialInfo->addItem(QString::fromStdString(dev.port));
+		fluicell::PPC1api6 tmp_ppc1_6ch;
+		if (tmp_ppc1_6ch.checkVIDPID(dev.port))
+			ui_tools->comboBox_serialInfo->addItem(QString::fromStdString(dev.port));
 	}
 }
 
@@ -729,7 +731,7 @@ void BioZone6_tools::colorSol6Changed(int _value)
 }
 void BioZone6_tools::getCOMsettingsFromGUI()
 {
-	m_comSettings->setName (ui_tools->comboBox_serialInfo->currentText().toStdString());
+	m_comSettings->setPort (ui_tools->comboBox_serialInfo->currentText().toStdString());
 	m_comSettings->setBaudRate ( ui_tools->comboBox_baudRate->currentText().toInt());
 	m_comSettings->setDataBits(static_cast<serial::bytesize_t>(
 		ui_tools->comboBox_dataBit->currentIndex()));
@@ -807,6 +809,7 @@ void BioZone6_tools::getPRsettingsFromGUI()
 	m_pr_params->enableFilter = ui_tools->checkBox_enablePPC1filter->isChecked();
 	m_pr_params->filterSize = ui_tools->spinBox_PPC1filterSize->value();
 	m_pr_params->waitSyncTimeout = ui_tools->spinBox_PPC1_sync_timeout->value();
+	//m_pr_params->TTLpulsePeriod = ui_tools->spinBox_TT 
 	
 	m_pr_params->p_on_sAs = ui_tools->spinBox_sAs_Pon_def->value();
 	m_pr_params->p_off_sAs = ui_tools->spinBox_sAs_Poff_def->value();
@@ -918,7 +921,7 @@ bool BioZone6_tools::loadSettings(QString _path)
 	// read com group
 	//ComName
 	QString comPort = m_settings->value("COM/ComName", "COM1").toString();
-	m_comSettings->setName ( comPort.toStdString());
+	m_comSettings->setPort ( comPort.toStdString());
 
 	//BaudRate
 	int baudRate = m_settings->value("COM/BaudRate", "115200").toInt();
@@ -1476,6 +1479,14 @@ bool BioZone6_tools::loadSettings(QString _path)
 	ui_tools->spinBox_PPC1_sync_timeout->setValue(wait_sync_timeout);
 	m_pr_params->waitSyncTimeout = wait_sync_timeout;
 
+	int TTL_pulse_period = m_settings->value("PPC1/TTLpulsePeriod", "100").toInt(&ok);
+	if (!ok) {
+		std::cerr << HERE << " wait sync timeout is not valid " << std::endl;
+		TTL_pulse_period = 100;
+	}
+	ui_tools->TTLpulsePeriod_spinBox->setValue(TTL_pulse_period);
+	m_pr_params->TTLpulsePeriod = TTL_pulse_period;
+	
 
 	//Read solution volumes block
 	int vol_sol1 = m_settings->value("solutions/volWell1", "25").toInt(&ok);
@@ -1654,7 +1665,7 @@ bool BioZone6_tools::saveSettings(QString _file_name)
 	
 	// [COM]
 	// ComName = COM_
-	settings->setValue("COM/ComName", QString::fromStdString(m_comSettings->getName())); 
+	settings->setValue("COM/ComName", QString::fromStdString(m_comSettings->getPort())); 
 	// BaudRate = 115200
 	settings->setValue("COM/BaudRate", ui_tools->comboBox_baudRate->currentText()); 
 	// DataBits = 8
@@ -1756,6 +1767,7 @@ bool BioZone6_tools::saveSettings(QString _file_name)
 	settings->setValue("PPC1/EnableFilter", int(ui_tools->checkBox_enablePPC1filter->isChecked()));
 	settings->setValue("PPC1/FilterSize", int(ui_tools->spinBox_PPC1filterSize->value()));
 	settings->setValue("PPC1/WaitSyncTimeout", int(ui_tools->spinBox_PPC1_sync_timeout->value()));
+	settings->setValue("PPC1/TTLpulsePeriod", int(ui_tools->TTLpulsePeriod_spinBox->value())); //TTLpulsePeriod
 
 	// [Well volumes]
 	// well 1

@@ -108,7 +108,9 @@ private:
 	QString m_tt_cmd_setPoff;
 	QString m_tt_cmd_setVrecirc;
 	QString m_tt_cmd_setVswitch;
+	QString m_tt_cmd_sendPulses;
 	QString m_tt_cmd_waitSync;
+	QString m_tt_cmd_setWaitSyncTimeout;
 	QString m_tt_cmd_syncOut;
 	QString m_tt_cmd_wait;
 	QString m_tt_cmd_showPopUp;

@@ -61,16 +61,17 @@ struct COMSettings {
 
 public:
 	explicit COMSettings() {   // default values
-		this->name = "COM1";
+		this->port = "COM1";
 		this->baudRate = 115200;
 		this->dataBits = serial::eightbits;
 		this->parity = serial::parity_none;
 		this->stopBits = serial::stopbits_one;
 		this->flowControl = serial::flowcontrol_none;
+		this->localEchoEnabled = false;
 	}
 
-	void setName(std::string _name) { name = _name; }
-	std::string getName() { return name; }
+	void setPort(std::string _port) { port = _port; }
+	std::string getPort() { return port; }
 
 	void setBaudRate(int _baudRate) { baudRate = _baudRate; }
 	int getBaudRate() { return baudRate; }
@@ -88,7 +89,7 @@ public:
 	serial::flowcontrol_t getFlowControl() { return flowControl; }
 
 private:
-	std::string name;                    //!<  COM1 --- n 
+	std::string port;                    //!<  COM1 --- n 
 	int baudRate;                        //!<  4200 - 9600 --- 
 	serial::bytesize_t dataBits;         //!<  5 - 6 - 7 - 8
 	serial::parity_t parity;             //!<  None, Even, Odd, Mark, Space 
@@ -258,7 +259,7 @@ struct pr_params {
 				p_on_lAs(190), p_off_lAs(21), v_switch_lAs(-115), v_recirc_lAs(-115),
 				p_on_lAr(190), p_off_lAr(21), v_switch_lAr(-115), v_recirc_lAr(-115),
 				base_ds_increment(10), base_fs_increment(5), base_v_increment(5),
-		        verboseOut(true), useDefValSetPoint(true), enableFilter(true), filterSize (20), waitSyncTimeout(60)
+		        verboseOut(true), useDefValSetPoint(true), enableFilter(true), filterSize (20), waitSyncTimeout(60), TTLpulsePeriod(100)
 	{   // default values
 	}
 
@@ -340,6 +341,7 @@ struct pr_params {
 	bool enableFilter;           //!< Enable data filtering
 	int	filterSize;              //!< Filter window size
 	int waitSyncTimeout;         //!< Timeout in seconds for the waitSync function, default value 60 sec
+	int TTLpulsePeriod;          //!< Period for TTL pulses in msec, default value 100 msec
 
 
 }; // END pr_params struct
@@ -440,7 +442,9 @@ struct protocolCommands {
 		solution4,
 		solution5,
 		solution6,
+		sendPulses,
 		waitSync,
+		setSyncTimeout,
 		syncOut,
 		comment,
 		ask,
@@ -467,7 +471,9 @@ struct protocolCommands {
 		case setPoff: return "setPoff";
 		case setVrecirc: return "setVrecirc";
 		case setVswitch: return "setVswitch";
+		case sendPulses: return "sendPulses";
 		case waitSync: return "waitSync";
+		case setSyncTimeout: return "setSyncTimeout";
 		case syncOut: return "syncOut";
 		case showPopUp: return "showPopUp";
 		case ask: return "ask";

@@ -237,7 +237,7 @@ QPushButton:disabled{ background-color: #CCCCCC; }
        <number>0</number>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_0">
        <property name="styleSheet">
@@ -886,6 +886,26 @@ QPushButton:disabled{ background-color: #CCCCCC; }
              </property>
              <property name="value">
               <number>10</number>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QSpinBox" name="TTLpulsePeriod_spinBox">
+             <property name="minimum">
+              <number>20</number>
+             </property>
+             <property name="maximum">
+              <number>1000</number>
+             </property>
+             <property name="value">
+              <number>100</number>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="2">
+            <widget class="QLabel" name="label_55">
+             <property name="text">
+              <string>TTL pulse period (msec)</string>
              </property>
             </widget>
            </item>

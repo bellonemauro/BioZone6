@@ -18,6 +18,8 @@ endif ( ENABLE_verbose )
 
 #cmake tweaks
 if(COMMAND cmake_policy) #return true if the COMMAND cmake_policy exist - this allows compatibility with older versions
+	
+	message(STATUS " Setting cmake policy ... " )
 	# We don't want to mix relative and absolute paths in linker lib lists.
 	cmake_policy(SET CMP0003 NEW) # Required by CMake 2.7+
 	
@@ -40,6 +42,8 @@ if(COMMAND cmake_policy) #return true if the COMMAND cmake_policy exist - this a
 	#if(NOT "${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 3.0)
 	cmake_policy(SET CMP0026 NEW)
 	#endif(NOT "${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 3.0)
+	
+	cmake_policy(SET CMP0177 NEW)
 		
 endif(COMMAND cmake_policy)
 

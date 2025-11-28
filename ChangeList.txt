@@ -1,3 +1,9 @@
+V.1.1.18
+Added two more commands in the protocol editor
+Fix automatic com port detection
+Added waitsync management
+Additional tools settings
+
 V.1.1.9 
 Chart visualization improved
 Bug solved 

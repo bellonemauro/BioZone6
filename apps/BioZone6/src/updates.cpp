@@ -1076,8 +1076,8 @@ void BioZone6_GUI::updateMacroStatusMessage(const QString &_message) {
 void BioZone6_GUI::updateWaitAsk(const int _sec, const QString& _message) {
 
 	std::cout << HERE << " wait " << _sec << " seconds, with message " << _message.toStdString() << std::endl;
-	if (m_shitty_multiple_call_detector == 0) {
-		m_shitty_multiple_call_detector = 1;
+	if (m_multiple_call_detector == 0) {
+		m_multiple_call_detector = 1;
 
 		double duration = m_ppc1->protocolDuration(*m_protocol);
 		int remaining_time_sec = duration - m_current_protocol_time_status * duration / 100;
@@ -1088,15 +1088,15 @@ void BioZone6_GUI::updateWaitAsk(const int _sec, const QString& _message) {
 
 		if (!visualizeProgressMessage(message_duration, _message)) {
 			this->runProtocol(); //this will actually stop the protocol (if the process is running)
-			m_shitty_multiple_call_detector = 0;
+			m_multiple_call_detector = 0;
 			return;
 		}
-		m_shitty_multiple_call_detector = 0;
+		m_multiple_call_detector = 0;
 		return;
 	}
 	else
 	{
-		std::cout << HERE << " multiple shitty call "  << std::endl;
+		std::cout << HERE << " multiple call "  << std::endl;
 
 	}
 }
@@ -1294,7 +1294,7 @@ void BioZone6_GUI::updateTimingSliders()
 		double rest = solution_release_time - m_time_multipilcator;
 		QThread::msleep(rest * 1000);
 		// TODO: here we wait the remaining time for the last digit
-		//       however, this is a shitty solution and it must be
+		//       however, this is a bad solution and it must be
 		//       changed to a proper timer and interrupt architecture
 
 		m_update_flowing_sliders->stop();

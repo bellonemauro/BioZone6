@@ -1229,7 +1229,7 @@ private:
   QGroupBox * m_g_spacer;
   QAction *m_a_spacer;
 
-  int m_shitty_multiple_call_detector;
+  int m_multiple_call_detector;
 
   const QString display_e = "E";
 };

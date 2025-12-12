@@ -151,8 +151,8 @@ void BioZone6_GUI::runProtocolFile(QString _protocol_path) {
 		connect(m_macroRunner_thread,
 			&BioZone6_protocolRunner::sendWaitAsk, this,
 			&BioZone6_GUI::updateWaitAsk);
-#pragma message ("TODO: solve this shit multiple call stuff")
-		m_shitty_multiple_call_detector = 0; //
+#pragma message ("TODO: solve this ** multiple call stuff")
+		m_multiple_call_detector = 0; //
 
 		connect(m_macroRunner_thread,
 			&BioZone6_protocolRunner::timeStatus, this,

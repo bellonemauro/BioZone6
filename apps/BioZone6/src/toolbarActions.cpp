@@ -570,7 +570,7 @@ void BioZone6_GUI::closeOpenDockTools() {
 		int app_width = rec.width();
 
 
-		//TODO: this is a really shitty method
+		//TODO: this is a really bad method
 		int spacer = ui->toolBar->width() +
 			ui->toolBar_2->width() +
 			ui->toolBar_2->iconSize().width() + 16; //12px is to avoid the widget to go to a new line
@@ -595,7 +595,7 @@ void BioZone6_GUI::resizeToolbar()
 		int app_height = rec_app.height();
 		int app_width = rec_app.width();
 
-		//TODO: this is a really shitty method
+		//TODO: this is a really bad method
 		int spacer = ui->toolBar->width() +
 				10 * ui->toolBar_2->iconSize().width(); //10 is the number of icons 
 	
